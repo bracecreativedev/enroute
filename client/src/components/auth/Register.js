@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { loginUser } from '../../actions/authActions';
+import { registerUser } from '../../actions/authActions';
 import TextFieldGroup from '../common/TextFieldGroup';
-import { Link } from 'react-router-dom';
 
-class Login extends Component {
+class Register extends Component {
   constructor() {
     super();
+
     this.state = {
       email: '',
       password: '',
+      password2: '',
+      name: '',
       errors: {}
     };
 
@@ -20,33 +23,32 @@ class Login extends Component {
 
   componentDidMount() {
     if (this.props.auth.isAuthenticated) {
-      this.props.history.push('/dashboard');
+      // if logged in, redirect
+      this.props.histroy.push('/login');
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.auth.isAuthenticated) {
-      this.props.history.push('/dashboard');
-    }
-
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
     }
   }
 
+  onChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+
   onSubmit(e) {
     e.preventDefault();
 
-    const userData = {
+    const newUser = {
+      name: this.state.name,
       email: this.state.email,
-      password: this.state.password
+      password: this.state.password,
+      password2: this.state.password2
     };
 
-    this.props.loginUser(userData);
-  }
-
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+    this.props.registerUser(newUser, this.props.history);
   }
 
   render() {
@@ -55,14 +57,22 @@ class Login extends Component {
     return (
       <div className="container">
         <div className="col-md-6 m-auto">
-          <div className="login p-3 mt-3">
-            <h1 className="text-center font-weight-bold text-neon">LOG IN</h1>
-            <p className="text-center">Sign in to your En Route account.</p>
-            <form onSubmit={this.onSubmit}>
+          <div className="login p-3 rounded mt-3 box-shadow">
+            <h1 className="font-weight-bold text-center">REGISTER</h1>
+            <p className="text-center">Create your En Route account</p>
+            <form noValidate onSubmit={this.onSubmit}>
+              <TextFieldGroup
+                placeholder="Name"
+                name="name"
+                customClass="post-form"
+                value={this.state.name}
+                onChange={this.onChange}
+                error={errors.name}
+              />
+
               <TextFieldGroup
                 placeholder="Email"
                 name="email"
-                type="text"
                 customClass="post-form"
                 value={this.state.email}
                 onChange={this.onChange}
@@ -78,16 +88,24 @@ class Login extends Component {
                 onChange={this.onChange}
                 error={errors.password}
               />
+
+              <TextFieldGroup
+                placeholder="Confirm Password"
+                name="password2"
+                type="password"
+                customClass="post-form"
+                value={this.state.password2}
+                onChange={this.onChange}
+                error={errors.password2}
+              />
+
               <button
                 type="submit"
                 className="btn btn-outline-neon btn-lg btn-block mt-4"
               >
-                LOG IN
+                REGISTER
               </button>
             </form>
-            <p className="text-center p-0 m-0 mt-3">
-              Not got an account? <Link to="/register">Register Here</Link>
-            </p>
           </div>
           <p className="mt-3 mb-3 text-center">&copy; En Route</p>
         </div>
@@ -96,8 +114,8 @@ class Login extends Component {
   }
 }
 
-Login.propTypes = {
-  loginUser: PropTypes.func.isRequired,
+Register.propTypes = {
+  registerUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 };
@@ -109,5 +127,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { loginUser }
-)(Login);
+  { registerUser }
+)(withRouter(Register));

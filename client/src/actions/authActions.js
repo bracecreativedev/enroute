@@ -7,7 +7,7 @@ import { GET_ERRORS, SET_CURRENT_USER } from './types';
 // Register User
 export const registerUser = (userData, history) => dispatch => {
   axios
-    .post('/api/users/register', userData)
+    .post('/api/auth/register', userData)
     .then(res => history.push('/register-login'))
     .catch(err =>
       dispatch({

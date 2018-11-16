@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
-import logo from './logo.svg';
 import { setCurrentUser } from './actions/authActions';
 import './App.css';
 
@@ -10,8 +9,13 @@ import './App.css';
 import { Provider } from 'react-redux';
 import store from './store';
 
-// Import components
+// import routes
+import PrivateRoute from './components/common/PrivateRoute';
+
+// import components
 import Login from './components/auth/Login';
+import Register from './components/auth/Register';
+import Dashboard from './components/dashboard/Dashboard';
 
 // Check for token
 if (localStorage.jwtToken) {
@@ -41,6 +45,10 @@ class App extends Component {
         <Router>
           <div className="App">
             <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
+            <Switch>
+              <PrivateRoute path="/dashboard" component={Dashboard} />
+            </Switch>
           </div>
         </Router>
       </Provider>
