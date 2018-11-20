@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import { GET_ERRORS, GET_PROFILE, PROFILE_LOADING } from './types';
+
 // create profile
 export const createProfile = (profileData, history) => dispatch => {
   axios
@@ -11,4 +13,31 @@ export const createProfile = (profileData, history) => dispatch => {
         payload: err.response.data
       })
     );
+};
+
+// get profile
+export const getCurrentProfile = () => dispatch => {
+  dispatch(setProfileLoading());
+
+  axios
+    .get('/api/profile')
+    .then(res =>
+      dispatch({
+        type: GET_PROFILE,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_PROFILE,
+        payload: {}
+      })
+    );
+};
+
+// profile loading
+export const setProfileLoading = () => {
+  return {
+    type: PROFILE_LOADING
+  };
 };
