@@ -1,55 +1,82 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import GoogleMap from 'google-map-react';
-
-const AnyReactComponent = ({ text }) => (
-  <div
-    style={{
-      color: 'white',
-      background: 'grey',
-      padding: '15px 10px',
-      display: 'inline-flex',
-      textAlign: 'center',
-      alignItems: 'center',
-      justifyContent: 'center',
-      borderRadius: '100%',
-      transform: 'translate(-50%, -50%)'
-    }}
-  >
-    {text}
-  </div>
-);
+import { getLocations } from '../../actions/locationActions';
+import Pin from './Pin';
+import { MapStyles } from './MapStyles';
+import isEmpty from '../../validation/is-empty';
 
 class Map extends Component {
-  static defaultProps = {
-    center: {
-      lat: 51.764129,
-      lng: -2.334386
-    },
-    zoom: 9
-  };
+  constructor(props) {
+    super(props);
 
-  componentDidMount() {
-    console.log(process.env.REACT_APP_GOOGLE_KEY);
+    this.state = {
+      center: {
+        lat: 51.764129,
+        lng: -2.334386
+      },
+      zoom: 9
+    };
   }
 
+  componentDidMount() {
+    this.props.getLocations();
+  }
+
+  onClick = (key, childProps) => {
+    this.setState({
+      center: { lat: childProps.lat, lng: childProps.lng },
+      zoom: 12
+    });
+
+    console.log(this.state.zoom);
+  };
+
   render() {
+    const { locations, featuredLocation } = this.props.locations;
+    const { center, zoom } = this.state;
+
     return (
       // Important! Always set the container height explicitly
-      <div style={{ height: '100vh', width: '100%' }}>
+      <div style={{ height: '80vh', width: '100%' }}>
         <GoogleMap
           bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_KEY }}
-          defaultCenter={this.props.center}
-          defaultZoom={this.props.zoom}
+          center={center}
+          zoom={zoom}
+          options={MapStyles}
+          onChildClick={this.onClick}
         >
-          <AnyReactComponent
-            lat={51.764129}
-            lng={-2.334386}
-            text={'Fromebridge Mill'}
-          />
+          {locations.map(location => (
+            <Pin
+              lat={location.location.lat}
+              lng={location.location.lng}
+              location={location}
+              key={location._id}
+            />
+          ))}
         </GoogleMap>
+
+        {!isEmpty(featuredLocation) ? (
+          <div>
+            <h1>
+              <strong>{featuredLocation.name}</strong>
+            </h1>
+            <p class="mb-0">{featuredLocation.location.street}</p>
+            <p class="mb-0">{featuredLocation.location.postcode}</p>
+          </div>
+        ) : null}
       </div>
     );
   }
 }
 
-export default Map;
+const mapStateToProps = state => ({
+  locations: state.locations,
+  errors: state.errors
+});
+
+export default connect(
+  mapStateToProps,
+  { getLocations }
+)(Map);

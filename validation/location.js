@@ -9,7 +9,7 @@ module.exports = function validateLocationInput(data) {
   data.name = !isEmpty(data.name) ? data.name : '';
   data.street = !isEmpty(data.street) ? data.street : '';
   data.postcode = !isEmpty(data.postcode) ? data.postcode : '';
-  data.long = !isEmpty(data.long) ? data.long : '';
+  data.lng = !isEmpty(data.lng) ? data.lng : '';
   data.lat = !isEmpty(data.lat) ? data.lat : '';
 
   if (Validator.isEmpty(data.name)) {
@@ -23,10 +23,10 @@ module.exports = function validateLocationInput(data) {
   if (Validator.isEmpty(data.postcode)) {
     errors.postcode = 'Location postcode is required.';
   }
-  if (Validator.isEmpty(data.long)) {
-    errors.long = 'Location longitudinal value is required.';
-  } else if (!Validator.isNumeric(data.long)) {
-    errors.long = 'Location longitudinal value must be a number.';
+  if (Validator.isEmpty(data.lng)) {
+    errors.lng = 'Location longitudinal value is required.';
+  } else if (!Validator.isNumeric(data.lng)) {
+    errors.lng = 'Location longitudinal value must be a number.';
   }
 
   if (Validator.isEmpty(data.lat)) {

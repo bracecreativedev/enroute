@@ -42,8 +42,8 @@ router.post(
         location: {
           street: req.body.street,
           postcode: req.body.postcode,
-          long: req.body.long,
-          lat: req.body.lat
+          lat: req.body.lat,
+          lng: req.body.lng
         }
       });
 
