@@ -28,12 +28,16 @@ class Map extends Component {
     zoom: 9
   };
 
+  componentDidMount() {
+    console.log(process.env.REACT_APP_GOOGLE_KEY);
+  }
+
   render() {
     return (
       // Important! Always set the container height explicitly
       <div style={{ height: '100vh', width: '100%' }}>
         <GoogleMap
-          bootstrapURLKeys={{ key: 'AIzaSyAS5BxkWOQsvH_feYdDpdOH7vwQAopdj4c' }}
+          bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_KEY }}
           defaultCenter={this.props.center}
           defaultZoom={this.props.zoom}
         >
