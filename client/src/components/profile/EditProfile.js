@@ -56,16 +56,14 @@ class EditProfile extends Component {
       profile.colour = !isEmpty(profile.vehicle.colour)
         ? profile.vehicle.colour
         : '';
-      profile.street = !isEmpty(profile.address.street)
-        ? profile.address.street
-        : '';
-      profile.postcode = !isEmpty(profile.address.postcode)
+      profile.street = !isEmpty(profile.address) ? profile.address.street : '';
+      profile.postcode = !isEmpty(profile.address)
         ? profile.address.postcode
         : '';
-      profile.companyName = !isEmpty(profile.company.name)
+      profile.companyName = !isEmpty(profile.company)
         ? profile.company.name
         : '';
-      profile.companyPostcode = !isEmpty(profile.company.postcode)
+      profile.companyPostcode = !isEmpty(profile.company)
         ? profile.company.postcode
         : '';
 

@@ -35,6 +35,12 @@ const ProfileSchema = new Schema({
     },
     postcode: {
       type: String
+    },
+    lat: {
+      type: Number
+    },
+    lng: {
+      type: Number
     }
   },
   company: {
@@ -43,6 +49,12 @@ const ProfileSchema = new Schema({
     },
     postcode: {
       type: String
+    },
+    lat: {
+      type: Number
+    },
+    lng: {
+      type: Number
     }
   },
   occupation: {

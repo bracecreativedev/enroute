@@ -52,7 +52,7 @@ const PinContainer = styled.div`
   }
 `;
 
-class Pin extends Component {
+class UserPin extends Component {
   constructor(props) {
     super(props);
 
@@ -79,7 +79,7 @@ class Pin extends Component {
 
   render() {
     const { location, featuredLocation } = this.props;
-    const { active } = this.state;
+    const { profile } = this.props;
 
     const pinStyle = {
       width: '50px',
@@ -108,10 +108,10 @@ class Pin extends Component {
         >
           <PinHover>
             <p>
-              <strong>{location.name}</strong>
+              <strong>Your Home Address</strong>
             </p>
-            <p>{location.location.street}</p>
-            <p>{location.location.postcode}</p>
+            <p>{profile.address.street}</p>
+            <p>{profile.address.postcode}</p>
           </PinHover>
 
           {pinImage}
@@ -121,11 +121,9 @@ class Pin extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  profile: state.profile
-});
+const mapStateToProps = state => ({});
 
 export default connect(
   mapStateToProps,
   { setFeaturedLocation }
-)(Pin);
+)(UserPin);

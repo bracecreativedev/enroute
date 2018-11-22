@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const passport = require('passport');
+const axios = require('axios');
+const keys = require('../../config/keys');
+const isEmpty = require('../../validation/is-empty');
 
 // Load Validation
 const validateProfileInput = require('../../validation/profile');
@@ -53,19 +56,58 @@ router.post(
     if (req.body.companyPostcode)
       profileFields.company.postcode = req.body.companyPostcode;
 
-    Profile.findOne({ user: req.user.id }).then(profile => {
-      if (profile) {
-        // update
-        Profile.findOneAndUpdate(
-          { user: req.user.id },
-          { $set: profileFields, lastUpdated: new Date() },
-          { new: true }
-        ).then(profile => res.json(profile));
-      } else {
-        // create new profile
-        new Profile(profileFields).save().then(profile => res.json(profile));
-      }
-    });
+    // get geocode location of users address
+    if (!isEmpty(req.body.street) || !isEmpty(req.body.postcode)) {
+      axios
+        .get(
+          `https://maps.googleapis.com/maps/api/geocode/json?address=${req.body
+            .street +
+            ', ' +
+            req.body.postcode}&key=${keys.geocode}`
+        )
+        .then(geocode => {
+          // if empty, set profile fields to nothing
+          if (isEmpty(geocode.data.results)) {
+            profileFields.address.lat = '';
+            profileFields.address.lng = '';
+          } else {
+            const location = geocode.data.results[0].geometry.location;
+
+            profileFields.address.lat = location.lat;
+            profileFields.address.lng = location.lng;
+          }
+
+          Profile.findOne({ user: req.user.id }).then(profile => {
+            if (profile) {
+              // update
+              Profile.findOneAndUpdate(
+                { user: req.user.id },
+                { $set: profileFields, lastUpdated: new Date() },
+                { new: true }
+              ).then(profile => res.json(profile));
+            } else {
+              // create new profile
+              new Profile(profileFields)
+                .save()
+                .then(profile => res.json(profile));
+            }
+          });
+        });
+    } else {
+      Profile.findOne({ user: req.user.id }).then(profile => {
+        if (profile) {
+          // update
+          Profile.findOneAndUpdate(
+            { user: req.user.id },
+            { $set: profileFields, lastUpdated: new Date() },
+            { new: true }
+          ).then(profile => res.json(profile));
+        } else {
+          // create new profile
+          new Profile(profileFields).save().then(profile => res.json(profile));
+        }
+      });
+    }
   }
 );
 
@@ -91,5 +133,25 @@ router.get(
       .catch(errr => res.status(404).json(err));
   }
 );
+
+// @route   GET api/profile/geocode
+// @desc    Test google maps geocoding
+// @access  Private
+router.get('/geocode/:address', (req, res) => {
+  axios
+    .get(
+      `https://maps.googleapis.com/maps/api/geocode/json?address=${
+        req.params.address
+      }&key=${keys.geocode}`
+    )
+    .then(geocode => {
+      if (isEmpty(geocode.data.results)) {
+        res.json({ results: 'No results' });
+      } else {
+        const location = geocode.data.results[0].geometry.location;
+        res.json(location);
+      }
+    });
+});
 
 module.exports = router;
