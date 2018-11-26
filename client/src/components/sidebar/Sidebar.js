@@ -39,10 +39,10 @@ class Sidebar extends Component {
 
           <ParkingFeed>
             {locations.map(parking => (
-              <a
+              <button
                 onClick={e => this.cardOnClick(e, parking)}
-                href="#"
                 key={parking._id}
+                style={{ width: '100%' }}
               >
                 <ParkingCard>
                   <div className="header">
@@ -57,7 +57,7 @@ class Sidebar extends Component {
                     </p>
                   </div>
                 </ParkingCard>
-              </a>
+              </button>
             ))}
           </ParkingFeed>
         </LocationList>

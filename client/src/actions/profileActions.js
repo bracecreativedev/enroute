@@ -1,12 +1,17 @@
 import axios from 'axios';
 
-import { GET_ERRORS, GET_PROFILE, PROFILE_LOADING } from './types';
+import {
+  GET_ERRORS,
+  GET_PROFILE,
+  PROFILE_LOADING,
+  CLEAR_CURRENT_PROFILE
+} from './types';
 
 // create profile
 export const createProfile = (profileData, history) => dispatch => {
   axios
     .post('/api/profile', profileData)
-    .then(res => history.push('/dashboard'))
+    .then(res => history.push('/'))
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
@@ -39,5 +44,12 @@ export const getCurrentProfile = () => dispatch => {
 export const setProfileLoading = () => {
   return {
     type: PROFILE_LOADING
+  };
+};
+
+// Clear profile
+export const clearCurrentProfile = () => {
+  return {
+    type: CLEAR_CURRENT_PROFILE
   };
 };

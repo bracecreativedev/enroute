@@ -3,8 +3,8 @@ export const SidebarContainer = styled.div`
   width: 400px;
   background: #f1f1f1;
   position: fixed;
-  top: 0;
-  right: 0;
+  top: 70px;
+  left: 0;
   bottom: 0;
   height: 100%;
 `;
@@ -105,5 +105,16 @@ export const FeaturedContentContainer = styled.div`
   .content {
     padding: 10px;
     padding-top: 48px;
+
+    .submit-btn {
+      background: #5bc6f2;
+      padding: 10px 20px;
+      color: #fff;
+      border-radius: 5px;
+
+      &:hover {
+        opacity: 0.7;
+      }
+    }
   }
 `;

@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 import {
-  GET_ERRORS,
   GET_LOCATIONS,
   LOCATIONS_LOADING,
   SET_FEATURED_LOCATION

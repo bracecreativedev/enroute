@@ -1,32 +1,34 @@
 import {
-  GET_PROFILE,
-  PROFILE_LOADING,
-  CLEAR_CURRENT_PROFILE
+  SET_BOOKING_DATA,
+  GET_BOOKINGS,
+  BOOKINGS_LOADING
 } from '../actions/types';
 
 const initialState = {
-  profile: null,
+  bookings: [],
+  bookingData: {},
   loading: false
 };
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case PROFILE_LOADING:
+    case SET_BOOKING_DATA:
+      return {
+        ...state,
+        bookingData: action.payload
+      };
+    case GET_BOOKINGS:
+      return {
+        ...state,
+        bookings: action.payload,
+        loading: false
+      };
+    case BOOKINGS_LOADING: {
       return {
         ...state,
         loading: true
       };
-    case GET_PROFILE:
-      return {
-        ...state,
-        profile: action.payload,
-        loading: false
-      };
-    case CLEAR_CURRENT_PROFILE:
-      return {
-        ...state,
-        profile: null
-      };
+    }
     default:
       return state;
   }

@@ -9,6 +9,7 @@ import UserPin from './UserPin';
 import { MapStyles } from './MapStyles';
 import isEmpty from '../../validation/is-empty';
 import Sidebar from '../sidebar/Sidebar';
+import Spinner from '../common/Spinner';
 
 class Map extends Component {
   constructor(props) {
@@ -25,6 +26,7 @@ class Map extends Component {
 
   componentDidMount() {
     const { isAuthenticated } = this.props.auth;
+
     this.props.getLocations();
 
     if (isAuthenticated) {
@@ -42,7 +44,8 @@ class Map extends Component {
 
   render() {
     const { locations, featuredLocation } = this.props.locations;
-    const { profile } = this.props.profile;
+    const { profile, loading } = this.props.profile;
+    const { user, isAuthenticated } = this.props.auth;
     const { center, zoom } = this.state;
 
     let profilePins;
@@ -61,44 +64,99 @@ class Map extends Component {
       );
     }
 
-    return (
-      <div>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          {/* // Important! Always set the container height explicitly */}
-          <div
-            style={{
-              height: '100vh',
-              position: 'fixed',
-              left: '0',
-              right: '400px'
-            }}
-          >
-            <GoogleMap
-              bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_KEY }}
-              center={center}
-              zoom={zoom}
-              options={MapStyles}
-              onChildClick={this.onClick}
-            >
-              {locations.map(location => (
-                <Pin
-                  lat={location.location.lat}
-                  lng={location.location.lng}
-                  location={location}
-                  featuredLocation={featuredLocation}
-                  key={location._id}
-                />
-              ))}
+    let dashboardContent;
+    if (isAuthenticated) {
+      if (profile === null || loading) {
+        dashboardContent = <Spinner />;
+      } else {
+        // Check if logged in user has profile data
+        if (Object.keys(profile).length > 0) {
+          dashboardContent = (
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Sidebar />
+                {/* // Important! Always set the container height explicitly */}
+                <div
+                  style={{
+                    height: '100vh',
+                    position: 'fixed',
+                    right: '0',
+                    left: '400px'
+                  }}
+                >
+                  <GoogleMap
+                    bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_KEY }}
+                    center={center}
+                    zoom={zoom}
+                    options={MapStyles}
+                    onChildClick={this.onClick}
+                  >
+                    {locations.map(location => (
+                      <Pin
+                        lat={location.location.lat}
+                        lng={location.location.lng}
+                        location={location}
+                        featuredLocation={featuredLocation}
+                        key={location._id}
+                      />
+                    ))}
 
-              {profilePins}
-            </GoogleMap>
+                    {profilePins}
+                  </GoogleMap>
+                </div>
+              </div>
+            </div>
+          );
+        } else {
+          this.props.history.push('/create-profile');
+        }
+      }
+    } else {
+      dashboardContent = (
+        <div>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Sidebar />
+            {/* // Important! Always set the container height explicitly */}
+            <div
+              style={{
+                height: '100vh',
+                position: 'fixed',
+                right: '0',
+                left: '400px'
+              }}
+            >
+              <GoogleMap
+                bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_KEY }}
+                center={center}
+                zoom={zoom}
+                options={MapStyles}
+                onChildClick={this.onClick}
+              >
+                {locations.map(location => (
+                  <Pin
+                    lat={location.location.lat}
+                    lng={location.location.lng}
+                    location={location}
+                    featuredLocation={featuredLocation}
+                    key={location._id}
+                  />
+                ))}
+
+                {profilePins}
+              </GoogleMap>
+            </div>
           </div>
-          <Sidebar />
         </div>
-      </div>
-    );
+      );
+    }
+
+    return <div>{dashboardContent}</div>;
   }
 }
+
+Map.propTypes = {
+  locations: PropTypes.object.isRequired
+};
 
 const mapStateToProps = state => ({
   locations: state.locations,

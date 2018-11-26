@@ -24,7 +24,7 @@ class Register extends Component {
   componentDidMount() {
     if (this.props.auth.isAuthenticated) {
       // if logged in, redirect
-      this.props.histroy.push('/login');
+      this.props.history.push('/login');
     }
   }
 
@@ -101,7 +101,7 @@ class Register extends Component {
 
               <button
                 type="submit"
-                className="btn btn-outline-neon btn-lg btn-block mt-4"
+                className="btn btn-success btn-lg btn-block mt-4"
               >
                 REGISTER
               </button>

@@ -37,7 +37,7 @@ const PinContainer = styled.div`
 
       ${PinHover} {
         opacity: 1;
-        z-index: 5;
+        z-index: 20;
       }
     }
 
@@ -57,7 +57,6 @@ class Pin extends Component {
     super(props);
 
     this.state = {
-      active: false,
       pinClass: ''
     };
   }
@@ -79,7 +78,6 @@ class Pin extends Component {
 
   render() {
     const { location, featuredLocation } = this.props;
-    const { active } = this.state;
 
     const pinStyle = {
       width: '50px',
@@ -94,7 +92,7 @@ class Pin extends Component {
 
     // if pin is active, change the pin styles!
     let pinImage;
-    if (!isEmpty(featuredLocation) && featuredLocation._id == location._id) {
+    if (!isEmpty(featuredLocation) && featuredLocation._id === location._id) {
       pinImage = <img src={pin} alt="" style={pinStyleActive} />;
     } else {
       pinImage = <img src={pin} alt="" style={pinStyle} />;

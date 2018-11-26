@@ -94,7 +94,7 @@ class UserPin extends Component {
 
     // if pin is active, change the pin styles!
     let pinImage;
-    if (!isEmpty(featuredLocation) && featuredLocation._id == location._id) {
+    if (!isEmpty(featuredLocation) && featuredLocation._id === location._id) {
       pinImage = <img src={pin} alt="" style={pinStyleActive} />;
     } else {
       pinImage = <img src={pin} alt="" style={pinStyle} />;

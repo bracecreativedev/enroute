@@ -24,10 +24,13 @@ const LocationSchema = new Schema({
       type: Number,
       required: true
     }
+  },
+  spaces: {
+    type: Number
+  },
+  price: {
+    type: Number
   }
-  // spaces: {
-  //   type: Number
-  // },
   // enrouteRoads: {
   //   type: String
   // },
