@@ -4,15 +4,6 @@ import { setFeaturedLocation } from '../../actions/locationActions';
 import isEmpty from '../../validation/is-empty';
 import FeaturedContent from './FeaturedContent';
 
-// import styles
-import {
-  SidebarContainer,
-  Header,
-  ParkingFeed,
-  ParkingCard,
-  LocationList
-} from './styled';
-
 class Sidebar extends Component {
   constructor() {
     super();
@@ -27,41 +18,61 @@ class Sidebar extends Component {
 
   render() {
     const { locations, featuredLocation } = this.props.locations;
-
     return (
-      <SidebarContainer>
+      <div className="sidebar">
         {!isEmpty(featuredLocation) ? <FeaturedContent /> : null}
 
-        <LocationList>
-          <Header>
-            <h3>Parking Locations</h3>
-          </Header>
+        <div className="header">Hello world</div>
 
-          <ParkingFeed>
-            {locations.map(parking => (
-              <button
-                onClick={e => this.cardOnClick(e, parking)}
-                key={parking._id}
-                style={{ width: '100%' }}
-              >
-                <ParkingCard>
-                  <div className="header">
-                    <h5>{parking.name}</h5>
+        <div className="location-list">
+          {locations.map(parking => (
+            <button
+              onClick={e => this.cardOnClick(e, parking)}
+              key={parking._id}
+              style={{ width: '100%' }}
+            >
+              <div className="single-location">
+                <div className="single-header">
+                  <h3 className="heading">{parking.name}</h3>
+                  <h4 className="address">
+                    {parking.location.street}, {parking.location.postcode}
+                  </h4>
+                </div>
+
+                <div className="main-content">
+                  <div className="meta-data">
+                    <div className="service roads">
+                      <i className="fas fa-road" />
+                      <h5>{parking.roads}</h5>
+                    </div>
+
+                    <div className="service times">
+                      <i className="fas fa-clock" />
+                      <h5>{parking.accessTimes}</h5>
+                    </div>
                   </div>
-                  <div className="content">
-                    <strong className="text-muted">ADDRESS</strong>
-                    <p className="mb-0">
-                      {parking.location.street}
-                      <br />
-                      {parking.location.postcode}
-                    </p>
+
+                  <div className="booking-data">
+                    <div className="spaces">
+                      <i className="fas fa-car" />
+                      <h5>
+                        <span>{parking.spaces}</span> spaces
+                      </h5>
+                    </div>
+
+                    <div className="pricing">
+                      <h4>
+                        <span>£</span>
+                        {(parking.price / 100).toFixed(2)}
+                      </h4>
+                    </div>
                   </div>
-                </ParkingCard>
-              </button>
-            ))}
-          </ParkingFeed>
-        </LocationList>
-      </SidebarContainer>
+                </div>
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
     );
   }
 }

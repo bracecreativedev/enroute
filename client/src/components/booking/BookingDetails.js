@@ -10,14 +10,17 @@ class BookingDetails extends Component {
     super(props);
 
     this.state = {
-      date: '',
+      bookingDates: [],
       parkingLocation: {}
     };
   }
+
   componentDidMount() {
     // grab parameters
-    const values = queryString.parse(this.props.location.search);
-    this.setState({ date: values.date });
+    const dates = queryString.parse(this.props.location.search).dates;
+    let bookingDates = dates.split(',');
+
+    this.setState({ bookingDates: bookingDates });
 
     const locationID = this.props.match.params.id;
 
@@ -27,7 +30,7 @@ class BookingDetails extends Component {
   }
 
   render() {
-    const { parkingLocation, date } = this.state;
+    const { parkingLocation, bookingDates } = this.state;
 
     return (
       <StripeProvider apiKey={process.env.REACT_APP_STRIPE_KEY}>
@@ -35,10 +38,22 @@ class BookingDetails extends Component {
           <div className="example">
             <h1>Book your parking</h1>
             <p>Location: {parkingLocation.name}</p>
-            <p>Date: {date}</p>
-            <p>Price: £{(parkingLocation.price / 100).toFixed(2)}</p>
+            <p>Date: </p>
+            <ul>
+              {bookingDates.map(date => (
+                <li key={date}>{date}</li>
+              ))}
+            </ul>
+
+            <p>
+              Price: £
+              {((parkingLocation.price / 100) * bookingDates.length).toFixed(2)}
+            </p>
             <Elements>
-              <CheckoutForm parkingLocation={parkingLocation} date={date} />
+              <CheckoutForm
+                parkingLocation={parkingLocation}
+                bookingDates={bookingDates}
+              />
             </Elements>
           </div>
         </div>

@@ -1,0 +1,53 @@
+// base
+@import 'base/colors';
+@import 'base/fonts';
+
+// components
+@import 'layout/header';
+@import 'map/map';
+@import 'map/sidebar';
+@import 'pages/login';
+
+// global styles
+body,
+html {
+  font-family: 'Montserrat', sans-serif;
+  color: $dark;
+}
+
+.btn.btn-green {
+  background: linear-gradient(90deg, #96c236 0%, #4da534 100%);
+  color: $light;
+  border: 1px solid $light;
+  border-radius: 0;
+  text-transform: uppercase;
+  padding: 15px 30px;
+  transition: all 0.5s ease;
+
+  &:hover {
+    background: $light;
+    color: $green;
+    border-color: $green;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+}
+
+// button reset
+button {
+  border: none;
+  padding: 0;
+  background: none;
+  margin: 0;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+}

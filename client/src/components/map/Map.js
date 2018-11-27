@@ -45,7 +45,7 @@ class Map extends Component {
   render() {
     const { locations, featuredLocation } = this.props.locations;
     const { profile, loading } = this.props.profile;
-    const { user, isAuthenticated } = this.props.auth;
+    const { isAuthenticated } = this.props.auth;
     const { center, zoom } = this.state;
 
     let profilePins;
@@ -65,6 +65,7 @@ class Map extends Component {
     }
 
     let dashboardContent;
+
     if (isAuthenticated) {
       if (profile === null || loading) {
         dashboardContent = <Spinner />;
@@ -73,37 +74,28 @@ class Map extends Component {
         if (Object.keys(profile).length > 0) {
           dashboardContent = (
             <div>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Sidebar />
-                {/* // Important! Always set the container height explicitly */}
-                <div
-                  style={{
-                    height: '100vh',
-                    position: 'fixed',
-                    right: '0',
-                    left: '400px'
-                  }}
+              <Sidebar />
+              {/* // Important! Always set the container height explicitly */}
+              <div className="map-container">
+                <GoogleMap
+                  bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_KEY }}
+                  center={center}
+                  zoom={zoom}
+                  options={MapStyles}
+                  onChildClick={this.onClick}
                 >
-                  <GoogleMap
-                    bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_KEY }}
-                    center={center}
-                    zoom={zoom}
-                    options={MapStyles}
-                    onChildClick={this.onClick}
-                  >
-                    {locations.map(location => (
-                      <Pin
-                        lat={location.location.lat}
-                        lng={location.location.lng}
-                        location={location}
-                        featuredLocation={featuredLocation}
-                        key={location._id}
-                      />
-                    ))}
+                  {locations.map(location => (
+                    <Pin
+                      lat={location.location.lat}
+                      lng={location.location.lng}
+                      location={location}
+                      featuredLocation={featuredLocation}
+                      key={location._id}
+                    />
+                  ))}
 
-                    {profilePins}
-                  </GoogleMap>
-                </div>
+                  {profilePins}
+                </GoogleMap>
               </div>
             </div>
           );
@@ -114,43 +106,34 @@ class Map extends Component {
     } else {
       dashboardContent = (
         <div>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Sidebar />
-            {/* // Important! Always set the container height explicitly */}
-            <div
-              style={{
-                height: '100vh',
-                position: 'fixed',
-                right: '0',
-                left: '400px'
-              }}
+          <Sidebar />
+          {/* // Important! Always set the container height explicitly */}
+          <div className="map-container">
+            <GoogleMap
+              bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_KEY }}
+              center={center}
+              zoom={zoom}
+              options={MapStyles}
+              onChildClick={this.onClick}
             >
-              <GoogleMap
-                bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_KEY }}
-                center={center}
-                zoom={zoom}
-                options={MapStyles}
-                onChildClick={this.onClick}
-              >
-                {locations.map(location => (
-                  <Pin
-                    lat={location.location.lat}
-                    lng={location.location.lng}
-                    location={location}
-                    featuredLocation={featuredLocation}
-                    key={location._id}
-                  />
-                ))}
+              {locations.map(location => (
+                <Pin
+                  lat={location.location.lat}
+                  lng={location.location.lng}
+                  location={location}
+                  featuredLocation={featuredLocation}
+                  key={location._id}
+                />
+              ))}
 
-                {profilePins}
-              </GoogleMap>
-            </div>
+              {profilePins}
+            </GoogleMap>
           </div>
         </div>
       );
     }
 
-    return <div>{dashboardContent}</div>;
+    return <main className="main-container">{dashboardContent}</main>;
   }
 }
 

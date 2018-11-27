@@ -8,6 +8,7 @@ const auth = require('./routes/api/auth');
 const profile = require('./routes/api/profile');
 const locations = require('./routes/api/locations');
 const bookings = require('./routes/api/bookings');
+const payments = require('./routes/api/payments');
 
 // Initiate express app
 const app = express();
@@ -39,6 +40,7 @@ app.use('/api/auth', auth);
 app.use('/api/profile', profile);
 app.use('/api/locations', locations);
 app.use('/api/bookings', bookings);
+app.use('/api/payments', payments);
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {

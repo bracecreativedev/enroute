@@ -1,0 +1,42 @@
+// header styling
+header {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  background: $light;
+  z-index: 100;
+
+  .navbar {
+    padding-top: 0;
+    padding-bottom: 0;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+
+    .navbar-brand {
+      padding: 0;
+
+      img {
+        max-height: 80px;
+      }
+    }
+
+    .navbar-nav {
+      .nav-item {
+        margin: auto 15px;
+
+        .nav-link {
+          font-weight: $f-semi-bold;
+          color: #666;
+        }
+      }
+
+      .dropdown-menu {
+        border-radius: 0;
+
+        .dropdown-item {
+          font-weight: $f-semi-bold;
+          color: #666;
+        }
+      }
+    }
+  }
+}

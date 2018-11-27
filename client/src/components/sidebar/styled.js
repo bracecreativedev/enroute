@@ -78,6 +78,7 @@ export const FeaturedContentContainer = styled.div`
   position: relative;
   z-index: 5;
   height: 100%;
+  background: #fff;
 
   ${Header} {
     display: flex;

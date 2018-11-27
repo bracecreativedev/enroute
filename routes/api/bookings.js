@@ -4,10 +4,12 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const keys = require('../../config/keys');
 const stripe = require('stripe')(keys.stripe);
+const moment = require('moment');
 
 // load required models
 const Booking = require('../../models/Booking');
 const User = require('../../models/User');
+const Location = require('../../models/Location');
 
 router.post('/charge', async (req, res) => {
   const token = req.body.token;
@@ -80,5 +82,39 @@ router.get(
       .then(bookings => res.json(bookings));
   }
 );
+
+// @route   GET api/bookings/availability/:locationID
+// @desc    Check the availability of a location
+// @access  Private
+router.get('/availability/:locationID', (req, res) => {
+  Booking.find({
+    location: req.params.locationID
+  }).then(bookings => {
+    // create a set of unique dates
+    let uniqueSet = new Set();
+
+    // map bookings and add unique dates to set
+    bookings.map(booking => {
+      const { bookingDate } = booking;
+      // turn to string and add to sets
+      uniqueSet.add(moment(bookingDate).format('MM/DD/YYYY'));
+    });
+
+    // create an array of unique dates
+    let uniqueDates = [...uniqueSet];
+
+    let fullyBookedDates = [];
+
+    const requests = uniqueDates.map(uniqueDate => {
+      return Booking.find({ bookingDate: uniqueDate }).then(total => {
+        if (total.length >= 2) {
+          fullyBookedDates.push(new Date(uniqueDate));
+        }
+      });
+    });
+
+    Promise.all(requests).then(() => res.json(fullyBookedDates));
+  });
+});
 
 module.exports = router;

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 // create schema
-const BookingSchema = new Schema({
+const PaymentSchema = new Schema({
   location: {
     type: Schema.Types.ObjectId,
     ref: 'locations'
@@ -11,9 +11,7 @@ const BookingSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'users'
   },
-  bookingDate: {
-    type: Date
-  },
+  bookingDates: [],
   price: {
     type: Number
   },
@@ -23,4 +21,4 @@ const BookingSchema = new Schema({
   }
 });
 
-module.exports = Booking = mongoose.model('bookings', BookingSchema);
+module.exports = Payment = mongoose.model('payments', PaymentSchema);

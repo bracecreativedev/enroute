@@ -4,7 +4,7 @@ import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
 import { setCurrentUser, logoutUser } from './actions/authActions';
 import { clearCurrentProfile } from './actions/profileActions';
-import './App.css';
+import './css/main.min.css';
 
 // import provider and store
 import { Provider } from 'react-redux';
@@ -21,7 +21,6 @@ import Dashboard from './components/dashboard/Dashboard';
 import CreateProfile from './components/profile/CreateProfile';
 import EditProfile from './components/profile/EditProfile';
 import Map from './components/map/Map';
-import Checkout from './components/checkout/Checkout';
 import BookingDetails from './components/booking/BookingDetails';
 import Bookings from './components/bookings/Bookings';
 
@@ -56,7 +55,6 @@ class App extends Component {
             <Route exact path="/" component={Map} />
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
-            <Route path="/checkout" component={Checkout} />
             <Switch>
               <PrivateRoute
                 exact

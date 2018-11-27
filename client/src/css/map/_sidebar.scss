@@ -1,0 +1,138 @@
+.main-container {
+  .sidebar {
+    width: 100%;
+    bottom: unset;
+    height: 100vh;
+    padding-top: 80px;
+    position: relative;
+    max-width: 400px;
+    bottom: 0;
+    box-shadow: 4px 0px 10px rgba(0, 0, 0, 0.05);
+    z-index: 5;
+
+    .header {
+      background: $green;
+      color: $light;
+      position: relative;
+      z-index: 10;
+      text-align: left;
+    }
+
+    .location-list {
+      width: 100%;
+      bottom: unset;
+      overflow-y: scroll;
+      position: absolute;
+      top: 0;
+      padding-top: 104px;
+      height: 100%;
+
+      .single-location {
+        padding: 20px;
+        border-bottom: 1px solid;
+        border-color: rgba(0, 0, 0, 0.1);
+
+        &:hover {
+          background: rgba(93, 198, 242, 0.1);
+        }
+
+        .single-header {
+          text-align: left;
+
+          .heading {
+            font-size: 20px;
+            font-weight: $f-bold;
+          }
+
+          .address {
+            color: $muted;
+            font-size: 16px;
+            font-weight: $f-light;
+          }
+        }
+
+        .main-content {
+          .meta-data {
+            margin: 20px 0;
+
+            .service {
+              display: flex;
+              align-items: center;
+
+              &:not(:last-child) {
+                margin-bottom: 10px;
+              }
+
+              h5 {
+                margin-bottom: 0;
+                font-size: 12px;
+                font-weight: $f-light;
+              }
+            }
+
+            i {
+              font-size: 20px;
+              margin-right: 10px;
+            }
+          }
+
+          .booking-data {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid;
+            border-bottom: 1px solid;
+            border-color: rgba(0, 0, 0, 0.05);
+            padding: 10px 0;
+
+            .spaces {
+              display: flex;
+              align-items: center;
+
+              i {
+                font-size: 20px;
+                margin-right: 10px;
+              }
+
+              h5 {
+                margin-bottom: 0;
+
+                span {
+                  font-weight: $f-bold;
+                }
+
+                font-size: 12px;
+                text-transform: uppercase;
+                font-weight: $f-light;
+              }
+            }
+
+            .pricing {
+              background: linear-gradient(90deg, #96c236 0%, #4da534 100%);
+              color: $light;
+              display: inline-block;
+
+              h4 {
+                margin-bottom: 0;
+                padding: 5px;
+                font-size: 20px;
+                font-weight: $f-medium;
+
+                span {
+                  font-weight: $f-regular;
+                  margin-right: 2px;
+                  font-size: 16px;
+                }
+              }
+            }
+          }
+
+          i {
+            color: $muted;
+            opacity: 0.7;
+          }
+        }
+      }
+    }
+  }
+}
