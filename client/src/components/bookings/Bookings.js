@@ -29,28 +29,40 @@ class Bookings extends Component {
       } else {
         bookingsContent = (
           <div>
-            {bookings.map(booking => (
-              <div className="card my-3" key={booking._id}>
-                <h1>{booking.location.name}</h1>
-                <p>
-                  <strong>Date:</strong>{' '}
-                  <Moment format="ddd MMMM Do YYYY">
-                    {booking.bookingDate}
-                  </Moment>
-                </p>
-                <p>
-                  <strong>Purchased:</strong>{' '}
-                  <Moment format="ddd MMMM Do YYYY">{booking.date}</Moment>
-                </p>
-              </div>
-            ))}
+            <table style={{ width: '100%' }}>
+              <tbody>
+                <tr>
+                  <th>LOCATION</th>
+                  <th>DATE</th>
+                  <th>PURCHASE DATE</th>
+                  <th>PRICE</th>
+                  <th>PAYMENT REF</th>
+                </tr>
+
+                {bookings.map(booking => (
+                  <tr key={booking._id}>
+                    <td>{booking.location.name}</td>
+                    <td>
+                      <Moment format="ddd Do MMM YYYY">
+                        {booking.bookingDate}
+                      </Moment>
+                    </td>
+                    <td>
+                      <Moment format="ddd Do MMM YYYY">{booking.date}</Moment>
+                    </td>
+                    <td>£{(booking.price / 100).toFixed(2)}</td>
+                    <td>{booking.paymentRef ? booking.paymentRef : '-'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         );
       }
     }
 
     return (
-      <div>
+      <div className="page-container">
         <div className="container">
           <div className="text-center">{bookingsContent}</div>
         </div>

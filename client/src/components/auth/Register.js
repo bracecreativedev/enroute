@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { registerUser } from '../../actions/authActions';
-import TextFieldGroup from '../common/TextFieldGroup';
+import TextFieldGroupHover from '../common/TextFieldGroupHover';
 
 class Register extends Component {
   constructor() {
@@ -55,61 +56,70 @@ class Register extends Component {
     const { errors } = this.state;
 
     return (
-      <div className="container">
-        <div className="col-md-6 m-auto">
-          <div className="login p-3 rounded mt-3 box-shadow">
-            <h1 className="font-weight-bold text-center">REGISTER</h1>
-            <p className="text-center">Create your En Route account</p>
-            <form noValidate onSubmit={this.onSubmit}>
-              <TextFieldGroup
-                placeholder="Name"
-                name="name"
-                customClass="post-form"
-                value={this.state.name}
-                onChange={this.onChange}
-                error={errors.name}
-              />
+      <main className="page-container">
+        <div className="container">
+          <div className="register-box">
+            <div className="content">
+              <div className="header">
+                <h1 className="heading">Register</h1>
+                <p>Join the parking revolution today!</p>
+              </div>
 
-              <TextFieldGroup
-                placeholder="Email"
-                name="email"
-                customClass="post-form"
-                value={this.state.email}
-                onChange={this.onChange}
-                error={errors.email}
-              />
-
-              <TextFieldGroup
-                placeholder="Password"
-                name="password"
-                type="password"
-                customClass="post-form"
-                value={this.state.password}
-                onChange={this.onChange}
-                error={errors.password}
-              />
-
-              <TextFieldGroup
-                placeholder="Confirm Password"
-                name="password2"
-                type="password"
-                customClass="post-form"
-                value={this.state.password2}
-                onChange={this.onChange}
-                error={errors.password2}
-              />
-
-              <button
-                type="submit"
-                className="btn btn-success btn-lg btn-block mt-4"
+              <form
+                className="form-label form-css-label"
+                noValidate
+                onSubmit={this.onSubmit}
               >
-                REGISTER
-              </button>
-            </form>
+                <TextFieldGroupHover
+                  label="Your full name"
+                  name="name"
+                  type="text"
+                  value={this.state.name}
+                  onChange={this.onChange}
+                  error={errors.name}
+                />
+
+                <TextFieldGroupHover
+                  label="Your email address"
+                  name="email"
+                  type="text"
+                  value={this.state.email}
+                  onChange={this.onChange}
+                  error={errors.email}
+                />
+
+                <TextFieldGroupHover
+                  label="Your password"
+                  name="password"
+                  type="password"
+                  value={this.state.password}
+                  onChange={this.onChange}
+                  error={errors.password}
+                />
+
+                <TextFieldGroupHover
+                  label="Confirm your password"
+                  name="password2"
+                  type="password"
+                  value={this.state.password2}
+                  onChange={this.onChange}
+                  error={errors.password2}
+                />
+
+                <button type="submit" className="btn btn-green w-100">
+                  Register
+                </button>
+              </form>
+            </div>
+
+            <div className="footer">
+              <h3 className="heading">
+                Already have an account? <Link to="/login">Login</Link>
+              </h3>
+            </div>
           </div>
-          <p className="mt-3 mb-3 text-center">&copy; En Route</p>
         </div>
-      </div>
+      </main>
     );
   }
 }

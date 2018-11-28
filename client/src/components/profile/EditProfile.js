@@ -114,7 +114,7 @@ class EditProfile extends Component {
     const { errors } = this.state;
 
     return (
-      <div>
+      <div className="page-container">
         <div className="create-profile">
           <div className="container">
             <div className="row">

@@ -42,7 +42,9 @@ router.post(
     const newBooking = new Booking({
       location: req.body.location,
       user: req.user.id,
-      bookingDate: req.body.bookingDate
+      bookingDate: req.body.bookingDate,
+      price: req.body.price,
+      paymentRef: req.body.paymentRef
     });
 
     newBooking.save().then(booking => res.json(booking));
@@ -77,7 +79,7 @@ router.get(
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Booking.find({ user: req.user.id })
-      .sort({ date: -1 })
+      .sort({ bookingDate: 1 })
       .populate('location', ['name'])
       .then(bookings => res.json(bookings));
   }
@@ -103,17 +105,25 @@ router.get('/availability/:locationID', (req, res) => {
     // create an array of unique dates
     let uniqueDates = [...uniqueSet];
 
+    // initiate array for storing fully booked dates
     let fullyBookedDates = [];
 
+    // map through each unique date
     const requests = uniqueDates.map(uniqueDate => {
-      return Booking.find({ bookingDate: uniqueDate }).then(total => {
-        if (total.length >= 2) {
-          fullyBookedDates.push(new Date(uniqueDate));
-        }
-      });
+      return Booking.find({ bookingDate: uniqueDate })
+        .populate('location', ['spaces'])
+        .then(total => {
+          // if the total number of bookings exceeds the spaces total,#
+          // add to fully booked array
+          if (total.length >= total[0].location.spaces) {
+            fullyBookedDates.push(new Date(uniqueDate));
+          }
+        });
     });
 
-    Promise.all(requests).then(() => res.json(fullyBookedDates));
+    Promise.all(requests).then(() =>
+      res.json({ unavailable: fullyBookedDates })
+    );
   });
 });
 

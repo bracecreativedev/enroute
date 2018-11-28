@@ -63,7 +63,7 @@ class CreateProfile extends Component {
     const { errors } = this.state;
 
     return (
-      <div className="create-profile">
+      <div className="create-profile page-container">
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">

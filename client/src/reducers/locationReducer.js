@@ -21,12 +21,13 @@ export default function(state = initialState, action) {
       return {
         ...state,
         locations: action.payload,
-        loading: true
+        loading: false
       };
     case SET_FEATURED_LOCATION:
       return {
         ...state,
-        featuredLocation: action.payload
+        featuredLocation: { ...action.payload },
+        loading: false
       };
     default:
       return state;

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { CardElement, injectStripe } from 'react-stripe-elements';
 import axios from 'axios';
+import { setFeaturedLocation } from '../../actions/locationActions';
 import { createBooking } from '../../actions/bookingActions';
 import isEmpty from '../../validation/is-empty';
 import moment from 'moment';
@@ -52,17 +53,13 @@ class CheckoutForm extends Component {
             // add each date as an individual booking
             bookingDates.map(singleDate => {
               // add booking to the db
-              this.props.createBooking({
+              return this.props.createBooking({
                 user: user.id,
                 location: parkingLocation._id,
                 bookingDate: moment(singleDate, 'DD-MM-YY').toISOString(),
-                price: parkingLocation.price
+                price: parkingLocation.price,
+                paymentRef: res.data._id
               });
-
-              console.log(
-                'Booking added with date: ' +
-                  moment(singleDate, 'DD-MM-YY').toISOString()
-              );
             });
           });
 
@@ -70,6 +67,9 @@ class CheckoutForm extends Component {
           this.setState({ complete: true });
         }
       });
+
+    // setFeaturedLocation to empty (this is so it updates unavailble dates)
+    this.props.setFeaturedLocation();
   }
 
   render() {
@@ -95,5 +95,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { createBooking }
+  { createBooking, setFeaturedLocation }
 )(injectStripe(CheckoutForm));

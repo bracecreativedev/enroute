@@ -28,11 +28,21 @@ export const getLocations = () => dispatch => {
 
 // set featured location
 export const setFeaturedLocation = location => dispatch => {
-  // TODO
-  dispatch({
-    type: SET_FEATURED_LOCATION,
-    payload: location
-  });
+  dispatch(setLocationLoading());
+
+  if (location) {
+    axios.get(`/api/bookings/availability/${location._id}`).then(res => {
+      dispatch({
+        type: SET_FEATURED_LOCATION,
+        payload: { location, disabledDays: res.data.unavailable }
+      });
+    });
+  } else {
+    dispatch({
+      type: SET_FEATURED_LOCATION,
+      payload: location
+    });
+  }
 };
 
 // locations loading

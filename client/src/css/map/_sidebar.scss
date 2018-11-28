@@ -41,6 +41,7 @@
 
           .heading {
             font-size: 20px;
+            color: $dark;
             font-weight: $f-bold;
           }
 
@@ -132,6 +133,207 @@
             opacity: 0.7;
           }
         }
+      }
+    }
+  }
+}
+
+// featured content
+.main-container {
+  .featured-content {
+    background: $light;
+    position: absolute;
+    left: 400px;
+    width: 400px;
+    margin-top: 100px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    top: 0;
+    bottom: 0;
+    z-index: 20;
+    border-radius: 0px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+    // border: 1px solid rgba(102, 102, 102, 0.2);
+    overflow-y: hidden;
+
+    .header {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      position: relative;
+      z-index: 1;
+
+      .top-content {
+        color: $light;
+        background: linear-gradient(90deg, #96c236 0%, #4da534 100%);
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+
+        .heading {
+          font-size: 24px;
+          font-weight: 600;
+          margin-bottom: 0;
+        }
+
+        .close-featured {
+          background: none;
+          border: none;
+          margin: 0;
+          margin-top: 3px;
+          margin-left: 10px;
+
+          i {
+            font-size: 24px;
+            color: $light;
+          }
+
+          &:hover {
+            opacity: 0.7;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+
+    .booking-data {
+      display: flex;
+      background: #fff;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid;
+      border-bottom: 1px solid;
+      border-color: rgba(0, 0, 0, 0.05);
+      padding: 10px 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      z-index: 2;
+
+      .spaces {
+        display: flex;
+        align-items: center;
+
+        i {
+          font-size: 20px;
+          margin-right: 10px;
+        }
+
+        h5 {
+          margin-bottom: 0;
+
+          span {
+            font-weight: $f-bold;
+          }
+
+          font-size: 12px;
+          text-transform: uppercase;
+          font-weight: $f-light;
+        }
+      }
+
+      .pricing {
+        background: linear-gradient(90deg, #96c236 0%, #4da534 100%);
+        color: $light;
+        display: inline-block;
+
+        h4 {
+          margin-bottom: 0;
+          padding: 5px;
+          font-size: 20px;
+          font-weight: $f-medium;
+
+          span {
+            font-weight: $f-regular;
+            margin-right: 2px;
+            font-size: 16px;
+          }
+        }
+      }
+    }
+
+    .content {
+      height: 100%;
+      overflow-y: scroll;
+      position: absolute;
+      padding-top: 120px;
+      bottom: 0;
+
+      .inner-content {
+        padding: 20px;
+
+        .meta-data {
+          .data {
+            &:not(:last-child) {
+              margin-bottom: 10px;
+            }
+
+            label {
+              margin-bottom: 0;
+              text-transform: uppercase;
+              font-weight: 700;
+              font-size: 14px;
+              color: $green;
+            }
+
+            p {
+              margin-bottom: 0;
+              font-size: 18px;
+              color: $muted;
+              font-weight: $f-light;
+            }
+          }
+        }
+
+        .date-picker {
+          border-top: 1px solid rgba(0, 0, 0, 0.1);
+          border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+          margin-top: 20px;
+          padding-bottom: 20px;
+          text-align: center;
+
+          .section-header {
+            text-align: left;
+            margin: 20px 0;
+
+            .heading {
+              color: $green;
+              text-transform: uppercase;
+              font-weight: 700;
+              font-size: 18px;
+              margin-bottom: 10px;
+            }
+
+            p {
+              margin-bottom: 0;
+              font-size: 16px;
+              color: $muted;
+            }
+          }
+
+          .DayPicker {
+            &:focus {
+              outline: none !important;
+            }
+
+            .DayPicker-wrapper:focus {
+              outline: none;
+            }
+
+            .DayPicker-Month {
+              margin: 0;
+            }
+
+            .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
+              background: $green;
+            }
+          }
+        }
+      }
+    }
+
+    .featured-img {
+      position: relative;
+      img {
+        max-width: 100%;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
       }
     }
   }

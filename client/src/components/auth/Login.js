@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { loginUser } from '../../actions/authActions';
-import TextFieldGroup from '../common/TextFieldGroup';
+import TextFieldGroupHover from '../common/TextFieldGroupHover';
 import { Link } from 'react-router-dom';
 
 class Login extends Component {
@@ -53,45 +53,51 @@ class Login extends Component {
     const { errors } = this.state;
 
     return (
-      <div className="container">
-        <div className="col-md-6 m-auto">
-          <div className="login p-3 mt-3">
-            <h1 className="text-center font-weight-bold text-neon">LOG IN</h1>
-            <p className="text-center">Sign in to your En Route account.</p>
-            <form onSubmit={this.onSubmit}>
-              <TextFieldGroup
-                placeholder="Email"
-                name="email"
-                type="text"
-                customClass="post-form"
-                value={this.state.email}
-                onChange={this.onChange}
-                error={errors.email}
-              />
+      <main className="page-container">
+        <div className="container">
+          <div className="login-box">
+            <div className="content">
+              <div className="header">
+                <h1 className="heading">Welcome back!</h1>
+                <p>Login to your En Route Parking account!</p>
+              </div>
 
-              <TextFieldGroup
-                placeholder="Password"
-                name="password"
-                type="password"
-                customClass="post-form"
-                value={this.state.password}
-                onChange={this.onChange}
-                error={errors.password}
-              />
-              <button
-                type="submit"
-                className="btn btn-outline-neon btn-lg btn-block mt-4"
+              <form
+                className="form-label form-css-label"
+                onSubmit={this.onSubmit}
               >
-                LOG IN
-              </button>
-            </form>
-            <p className="text-center p-0 m-0 mt-3">
-              Not got an account? <Link to="/register">Register Here</Link>
-            </p>
+                <TextFieldGroupHover
+                  label="Email"
+                  name="email"
+                  type="text"
+                  value={this.state.email}
+                  onChange={this.onChange}
+                  error={errors.email}
+                />
+
+                <TextFieldGroupHover
+                  label="Password"
+                  name="password"
+                  type="password"
+                  value={this.state.password}
+                  onChange={this.onChange}
+                  error={errors.password}
+                />
+
+                <button type="submit" className="btn btn-green w-100">
+                  Submit
+                </button>
+              </form>
+            </div>
+
+            <div className="footer">
+              <h3 className="heading">
+                Don't have an account? <Link to="/register">Register</Link>
+              </h3>
+            </div>
           </div>
-          <p className="mt-3 mb-3 text-center">&copy; En Route</p>
         </div>
-      </div>
+      </main>
     );
   }
 }

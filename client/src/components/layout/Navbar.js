@@ -8,7 +8,7 @@ import Logo from './logo.png';
 class Navbar extends Component {
   onLogoutClick(e) {
     e.preventDefault();
-    console.log('logout');
+
     this.props.clearCurrentProfile();
     this.props.logoutUser();
   }
@@ -24,17 +24,16 @@ class Navbar extends Component {
           </Link>
         </li>
         <li className="nav-item dropdown my-auto">
-          <a
+          <button
             className="nav-link dropdown-toggle"
             href="#"
             id="navbarDropdown"
-            role="button"
             data-toggle="dropdown"
             aria-haspopup="true"
             aria-expanded="false"
           >
             {user.name}
-          </a>
+          </button>
           <div
             className="dropdown-menu dropdown-menu-right"
             aria-labelledby="navbarDropdown"
@@ -43,13 +42,13 @@ class Navbar extends Component {
               Profile
             </Link>
             <div className="dropdown-divider" />
-            <a
+            <button
               className="dropdown-item"
               onClick={this.onLogoutClick.bind(this)}
               href="#"
             >
               Logout
-            </a>
+            </button>
           </div>
         </li>
       </ul>

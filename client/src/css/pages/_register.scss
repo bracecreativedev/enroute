@@ -2,7 +2,7 @@
   top: 80px;
   position: relative;
 
-  .login-box {
+  .register-box {
     text-align: center;
     margin: auto auto;
     margin-top: 30px;
@@ -28,9 +28,20 @@
         }
       }
 
-      fieldset {
+      input {
         margin-bottom: 20px;
       }
+
+      // input {
+      //   border: 1px solid $green;
+      //   border-radius: 0;
+      //   padding: 20px 10px;
+      //   margin-bottom: 20px;
+
+      //   &:focus {
+      //     box-shadow: 0 0 0 0.2rem rgba(150, 194, 54, 0.15);
+      //   }
+      // }
     }
 
     .footer {

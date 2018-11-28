@@ -68,7 +68,11 @@ class Map extends Component {
 
     if (isAuthenticated) {
       if (profile === null || loading) {
-        dashboardContent = <Spinner />;
+        dashboardContent = (
+          <div className="page-container">
+            <Spinner />
+          </div>
+        );
       } else {
         // Check if logged in user has profile data
         if (Object.keys(profile).length > 0) {

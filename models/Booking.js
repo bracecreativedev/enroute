@@ -11,6 +11,10 @@ const BookingSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'users'
   },
+  paymentRef: {
+    type: Schema.Types.ObjectId,
+    ref: 'payments'
+  },
   bookingDate: {
     type: Date
   },
