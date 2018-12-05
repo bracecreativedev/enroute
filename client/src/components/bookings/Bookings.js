@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { getBookings } from '../../actions/bookingActions';
 import Spinner from '../common/Spinner';
 import isEmpty from '../../validation/is-empty';
@@ -51,7 +52,19 @@ class Bookings extends Component {
                       <Moment format="ddd Do MMM YYYY">{booking.date}</Moment>
                     </td>
                     <td>£{(booking.price / 100).toFixed(2)}</td>
-                    <td>{booking.paymentRef ? booking.paymentRef : '-'}</td>
+                    <td>
+                      {booking.paymentRef ? (
+                        <Link
+                          to={{
+                            pathname: `/confirmation/${booking.paymentRef}`
+                          }}
+                        >
+                          {booking.paymentRef}
+                        </Link>
+                      ) : (
+                        '-'
+                      )}
+                    </td>
                   </tr>
                 ))}
               </tbody>
