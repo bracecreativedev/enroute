@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { loginUser } from '../../actions/authActions';
+import { setFeaturedLocation } from '../../actions/locationActions';
 import TextFieldGroupHover from '../common/TextFieldGroupHover';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 class Login extends Component {
   constructor() {
@@ -18,22 +19,6 @@ class Login extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  componentDidMount() {
-    if (this.props.auth.isAuthenticated) {
-      this.props.history.push('/');
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.auth.isAuthenticated) {
-      this.props.history.push('/');
-    }
-
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
-    }
-  }
-
   onSubmit(e) {
     e.preventDefault();
 
@@ -43,6 +28,8 @@ class Login extends Component {
     };
 
     this.props.loginUser(userData);
+    // reset featured location data
+    this.props.setFeaturedLocation();
   }
 
   onChange(e) {
@@ -50,7 +37,14 @@ class Login extends Component {
   }
 
   render() {
-    const { errors } = this.state;
+    const { errors } = this.props;
+    const { isAuthenticated } = this.props.auth;
+    const { from } = this.props.location.state || { from: { pathname: '/' } };
+
+    // if authenticated, redirect to previous path
+    if (isAuthenticated) {
+      return <Redirect to={from} />;
+    }
 
     return (
       <main className="page-container">
@@ -85,7 +79,7 @@ class Login extends Component {
                 />
 
                 <button type="submit" className="btn btn-green w-100">
-                  Submit
+                  Login
                 </button>
               </form>
             </div>
@@ -104,6 +98,7 @@ class Login extends Component {
 
 Login.propTypes = {
   loginUser: PropTypes.func.isRequired,
+  setFeaturedLocation: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 };
@@ -115,5 +110,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { loginUser }
+  { loginUser, setFeaturedLocation }
 )(Login);

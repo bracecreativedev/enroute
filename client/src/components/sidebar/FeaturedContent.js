@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { setFeaturedLocation } from '../../actions/locationActions';
 import { createBooking, setBookingData } from '../../actions/bookingActions';
+import isEmpty from '../../validation/is-empty';
 import moment from 'moment';
 import DayPicker, { DateUtils } from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
@@ -47,7 +48,10 @@ class FeaturedContent extends Component {
 
   render() {
     const featuredLocation = this.props.locations.featuredLocation.location;
-    const { disabledDays } = this.props.locations.featuredLocation;
+    const {
+      disabledDays,
+      alreadyBooked
+    } = this.props.locations.featuredLocation;
     const { selectedDays } = this.state;
     const today = new Date();
 
@@ -55,6 +59,11 @@ class FeaturedContent extends Component {
     const formattedDates = [];
     // map through unavailable dates and add them to an array
     disabledDays.map(date => formattedDates.push(new Date(date)));
+    if (!isEmpty(alreadyBooked)) {
+      alreadyBooked.map(bookedDate =>
+        formattedDates.push(new Date(bookedDate))
+      );
+    }
     // formatted dates ready for putting into day picker
     formattedDates.push({ before: today });
 
@@ -155,7 +164,8 @@ class FeaturedContent extends Component {
 }
 
 const mapStateToProps = state => ({
-  locations: state.locations
+  locations: state.locations,
+  auth: state.auth
 });
 
 export default connect(

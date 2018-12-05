@@ -35,6 +35,17 @@ header {
         .dropdown-item {
           font-weight: $f-semi-bold;
           color: #666;
+
+          i {
+            color: $muted;
+            opacity: 0.7;
+            margin-right: 10px;
+          }
+
+          &:active {
+            background: $green;
+            color: $light;
+          }
         }
       }
     }

@@ -1,0 +1,73 @@
+.page-container {
+  .profile-box {
+    margin: 30px 0;
+    background: $light;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+    border-top: 10px solid $green;
+
+    .content {
+      padding: 30px;
+
+      .header {
+        padding-bottom: 30px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+
+        p {
+          color: $muted;
+          font-weight: $f-light;
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+
+      .profile-section {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+        padding: 20px 0;
+
+        .section-header {
+          margin-bottom: 20px;
+
+          .heading {
+            font-size: 20px;
+          }
+
+          p {
+            font-size: 14px;
+            color: $muted;
+            font-weight: $f-light;
+
+            &:last-child {
+              margin-bottom: 0;
+            }
+          }
+        }
+
+        .section-forms {
+          fieldset {
+            margin-bottom: 15px;
+          }
+        }
+      }
+
+      .submit-footer {
+        text-align: right;
+        margin-top: 30px;
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .page-container {
+    .profile-box {
+      .content {
+        .profile-section {
+          .section-header {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+  }
+}

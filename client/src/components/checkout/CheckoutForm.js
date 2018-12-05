@@ -6,11 +6,17 @@ import { setFeaturedLocation } from '../../actions/locationActions';
 import { createBooking } from '../../actions/bookingActions';
 import isEmpty from '../../validation/is-empty';
 import moment from 'moment';
+import { Redirect } from 'react-router-dom';
 
 class CheckoutForm extends Component {
   constructor(props) {
     super(props);
-    this.state = { complete: false, error: '' };
+    this.state = {
+      complete: false,
+      paymentID: '',
+      error: ''
+    };
+
     this.submit = this.submit.bind(this);
   }
 
@@ -61,10 +67,10 @@ class CheckoutForm extends Component {
                 paymentRef: res.data._id
               });
             });
-          });
 
-          // set state to complete
-          this.setState({ complete: true });
+            // set state to complete
+            this.setState({ complete: true, paymentID: res.data._id });
+          });
         }
       });
 
@@ -75,15 +81,25 @@ class CheckoutForm extends Component {
   render() {
     const { error } = this.state;
 
-    if (this.state.complete) return <h1>Purchase Complete</h1>;
+    if (this.state.complete)
+      return (
+        <Redirect to={{ pathname: `/confirmation/${this.state.paymentID}` }} />
+      );
 
     return (
-      <div className="checkout">
-        <p>Would you like to complete the purchase?</p>
+      <div className="checkout-box">
+        <p className="mb-1">Enter card details</p>
         <CardElement />
         {!isEmpty(error) ? <p>{error}</p> : null}
+        <p className="stripe-text">
+          Payments processed by <strong>Stripe</strong>
+        </p>
 
-        <button onClick={this.submit}>Send</button>
+        <div className="text-right">
+          <button className="btn btn-white" onClick={this.submit}>
+            Confirm Payment
+          </button>
+        </div>
       </div>
     );
   }

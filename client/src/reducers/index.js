@@ -4,6 +4,7 @@ import errorReducer from './errorReducer';
 import profileReducer from './profileReducer';
 import locationReducer from './locationReducer';
 import bookingReducer from './bookingReducer';
+import paymentReducer from './paymentReducer';
 
 // combine all reducers
 export default combineReducers({
@@ -11,5 +12,6 @@ export default combineReducers({
   errors: errorReducer,
   profile: profileReducer,
   locations: locationReducer,
-  bookings: bookingReducer
+  bookings: bookingReducer,
+  payments: paymentReducer
 });

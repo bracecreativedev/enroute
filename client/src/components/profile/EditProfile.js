@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { createProfile, getCurrentProfile } from '../../actions/profileActions';
-import TextFieldGroup from '../common/TextFieldGroup';
 import isEmpty from '../../validation/is-empty';
+import Spinner from '../../components/common/Spinner';
+import TextFieldGroupHover from '../common/TextFieldGroupHover';
+import TextAreaFieldGroupHover from '../common/TextAreaFieldGroupHover';
 
 class EditProfile extends Component {
   constructor(props) {
@@ -86,8 +88,6 @@ class EditProfile extends Component {
   }
 
   onSubmit(e) {
-    e.preventDefault();
-
     const profileData = {
       phone: this.state.phone,
       occupation: this.state.occupation,
@@ -111,118 +111,258 @@ class EditProfile extends Component {
   }
 
   render() {
-    const { errors } = this.state;
+    const { errors } = this.props;
+    const { profile, loading } = this.props.profile;
 
-    return (
-      <div className="page-container">
-        <div className="create-profile">
-          <div className="container">
-            <div className="row">
-              <div className="col-md-8 m-auto">
-                <h1 className="display-4 text-center">
-                  Edit your profile info
-                </h1>
-                <p className="lead text-center">
-                  Let's get some information so that you can start using En
-                  Route Parking!
+    let ProfileContent;
+
+    if (profile === null || loading) {
+      ProfileContent = (
+        <div className="page-container">
+          <Spinner />
+        </div>
+      );
+    } else if (!Object.keys(profile).length > 0) {
+      // check if profile is empty
+      this.props.history.push('/create-profile');
+    } else {
+      ProfileContent = (
+        <div className="container">
+          <div className="profile-box">
+            <div className="content">
+              <div className="header">
+                <h1 className="heading">Edit your profile</h1>
+                <p>
+                  Fill out your En Route profile! We promise to never hand out
+                  your info to any other companies, it's used solely to provide
+                  a better experience on our website!
                 </p>
-                <small className="d-block pb-3">* = required fields</small>
+              </div>
 
-                <form onSubmit={this.onSubmit} className="text-left">
-                  <label>Phone Number *</label>
-                  <TextFieldGroup
-                    placeholder="Phone Number"
-                    name="phone"
-                    value={this.state.phone}
-                    onChange={this.onChange}
-                    error={errors.phone}
-                    info="Your phone number in case we ever have to get in contact with you for emergency purposes"
-                  />
+              <div className="profile-section">
+                <div className="row">
+                  <div className="col-md-4">
+                    <div className="section-header">
+                      <h2 className="heading">Contact Info</h2>
+                      <p>
+                        Your contact information is required in case we need to
+                        get hold of you whilst your car is parked at an En Route
+                        location. It's never used outside of this reason!
+                      </p>
+                    </div>
+                  </div>
 
-                  <label>Vehicle Registration *</label>
-                  <TextFieldGroup
-                    placeholder="Vehicle Registration"
-                    name="reg"
-                    value={this.state.reg}
-                    onChange={this.onChange}
-                    error={errors.reg}
-                  />
+                  <div className="col-md-8">
+                    <div className="section-forms">
+                      <form className="form-label form-css-label">
+                        <div className="row">
+                          <div className="col-md-6">
+                            <fieldset>
+                              <TextFieldGroupHover
+                                label="Your phone number *"
+                                name="phone"
+                                type="text"
+                                value={this.state.phone}
+                                onChange={this.onChange}
+                                error={errors.phone}
+                              />
+                            </fieldset>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-                  <label>Vehicle Make *</label>
-                  <TextFieldGroup
-                    placeholder="Vehicle Make"
-                    name="make"
-                    value={this.state.make}
-                    onChange={this.onChange}
-                    error={errors.make}
-                  />
+              <div className="profile-section">
+                <div className="row">
+                  <div className="col-md-4">
+                    <div className="section-header">
+                      <h2 className="heading">Vehicle Info</h2>
+                      <p>
+                        Your vehicle info is required so that we can monitor
+                        your vehicle in our En Route Parkings locations. It will
+                        never be used outside of this!
+                      </p>
+                    </div>
+                  </div>
 
-                  <label>Vehicle Model *</label>
-                  <TextFieldGroup
-                    placeholder="Vehicle Model"
-                    name="model"
-                    value={this.state.model}
-                    onChange={this.onChange}
-                    error={errors.model}
-                  />
+                  <div className="col-md-8">
+                    <div className="section-forms">
+                      <form className="form-label form-css-label">
+                        <div className="row">
+                          <div className="col-md-6">
+                            <fieldset>
+                              <TextFieldGroupHover
+                                label="Vehicle reg *"
+                                name="reg"
+                                type="text"
+                                value={this.state.reg}
+                                onChange={this.onChange}
+                                error={errors.reg}
+                              />
+                            </fieldset>
+                          </div>
 
-                  <label>Vehicle Colour *</label>
-                  <TextFieldGroup
-                    placeholder="Vehicle Colour"
-                    name="colour"
-                    value={this.state.colour}
-                    onChange={this.onChange}
-                    error={errors.colour}
-                  />
+                          <div className="col-md-6">
+                            <fieldset>
+                              <TextFieldGroupHover
+                                label="Vehicle make"
+                                name="make"
+                                type="text"
+                                value={this.state.make}
+                                onChange={this.onChange}
+                                error={errors.make}
+                              />
+                            </fieldset>
+                          </div>
 
-                  <label>Your Address</label>
-                  <TextFieldGroup
-                    placeholder="Your Address"
-                    name="street"
-                    value={this.state.street}
-                    onChange={this.onChange}
-                    error={errors.street}
-                  />
+                          <div className="col-md-6">
+                            <fieldset>
+                              <TextFieldGroupHover
+                                label="Vehicle model"
+                                name="model"
+                                type="text"
+                                value={this.state.model}
+                                onChange={this.onChange}
+                                error={errors.model}
+                              />
+                            </fieldset>
+                          </div>
 
-                  <label>Your Postcode</label>
-                  <TextFieldGroup
-                    placeholder="Your Postcode"
-                    name="postcode"
-                    value={this.state.postcode}
-                    onChange={this.onChange}
-                    error={errors.postcode}
-                  />
+                          <div className="col-md-6">
+                            <fieldset>
+                              <TextFieldGroupHover
+                                label="Vehicle colour"
+                                name="colour"
+                                type="text"
+                                value={this.state.colour}
+                                onChange={this.onChange}
+                                error={errors.colour}
+                              />
+                            </fieldset>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-                  <label>Company Name</label>
-                  <TextFieldGroup
-                    placeholder="Company Name"
-                    name="companyName"
-                    value={this.state.companyName}
-                    onChange={this.onChange}
-                    error={errors.companyName}
-                  />
+              <div className="profile-section">
+                <div className="row">
+                  <div className="col-md-4">
+                    <div className="section-header">
+                      <h2 className="heading">Home Address</h2>
+                      <p>
+                        Your home address is used to set a map marker so that
+                        you can check the proximity of En Route Parking
+                        locations to your home.
+                      </p>
+                    </div>
+                  </div>
 
-                  <label>Company Postcode</label>
-                  <TextFieldGroup
-                    placeholder="Company Postcode"
-                    name="companyPostcode"
-                    value={this.state.companyPostcode}
-                    onChange={this.onChange}
-                    error={errors.companyPostcode}
-                  />
+                  <div className="col-md-8">
+                    <div className="section-forms">
+                      <form className="form-label form-css-label">
+                        <div className="row">
+                          <div className="col-md-12">
+                            <fieldset>
+                              <TextAreaFieldGroupHover
+                                label="Your address"
+                                name="street"
+                                type="text"
+                                value={this.state.street}
+                                onChange={this.onChange}
+                                error={errors.street}
+                              />
+                            </fieldset>
+                          </div>
 
-                  <input
-                    type="submit"
-                    value="Submit"
-                    className="btn btn-info btn-block mt-4"
-                  />
-                </form>
+                          <div className="col-md-6">
+                            <fieldset>
+                              <TextFieldGroupHover
+                                label="Your postcode"
+                                name="postcode"
+                                type="text"
+                                value={this.state.postcode}
+                                onChange={this.onChange}
+                                error={errors.postcode}
+                              />
+                            </fieldset>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="profile-section">
+                <div className="row">
+                  <div className="col-md-4">
+                    <div className="section-header">
+                      <h2 className="heading">Company Info</h2>
+                      <p>
+                        Your home address is used to set a map marker so that
+                        you can check the proximity of En Route Parking
+                        locations to your company offices.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="col-md-8">
+                    <div className="section-forms">
+                      <form className="form-label form-css-label">
+                        <div className="row">
+                          <div className="col-md-6">
+                            <fieldset>
+                              <TextFieldGroupHover
+                                label="Company name"
+                                name="companyName"
+                                type="text"
+                                value={this.state.companyName}
+                                onChange={this.onChange}
+                                error={errors.companyName}
+                              />
+                            </fieldset>
+                          </div>
+
+                          <div className="col-md-6">
+                            <fieldset>
+                              <TextFieldGroupHover
+                                label="Company postcode"
+                                name="companyPostcode"
+                                type="text"
+                                value={this.state.companyPostcode}
+                                onChange={this.onChange}
+                                error={errors.companyPostcode}
+                              />
+                            </fieldset>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="submit-footer">
+                <a
+                  href="#top"
+                  onClick={this.onSubmit}
+                  className="btn btn-green"
+                >
+                  Submit
+                </a>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    }
+
+    return <div className="page-container">{ProfileContent}</div>;
   }
 }
 

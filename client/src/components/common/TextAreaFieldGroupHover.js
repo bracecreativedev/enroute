@@ -2,7 +2,7 @@ import React from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
-const TextFieldGroupHover = ({
+const TextAreaFieldGroupHover = ({
   name,
   value,
   label,
@@ -16,7 +16,7 @@ const TextFieldGroupHover = ({
 }) => {
   return (
     <fieldset>
-      <input
+      <textarea
         id={name}
         name={name}
         value={value}
@@ -39,7 +39,7 @@ const TextFieldGroupHover = ({
   );
 };
 
-TextFieldGroupHover.propTypes = {
+TextAreaFieldGroupHover.propTypes = {
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   value: PropTypes.string.isRequired,
@@ -51,8 +51,8 @@ TextFieldGroupHover.propTypes = {
   disabled: PropTypes.string
 };
 
-TextFieldGroupHover.defaultProps = {
+TextAreaFieldGroupHover.defaultProps = {
   type: 'text'
 };
 
-export default TextFieldGroupHover;
+export default TextAreaFieldGroupHover;

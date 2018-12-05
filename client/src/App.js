@@ -23,6 +23,8 @@ import EditProfile from './components/profile/EditProfile';
 import Map from './components/map/Map';
 import BookingDetails from './components/booking/BookingDetails';
 import Bookings from './components/bookings/Bookings';
+import Confirmation from './components/confirmation/Confirmation';
+import NoMatch from './components/nomatch/NoMatch';
 
 // Check for token
 if (localStorage.jwtToken) {
@@ -52,27 +54,31 @@ class App extends Component {
         <Router>
           <div className="App">
             <Navbar />
-            <Route exact path="/" component={Map} />
-            <Route path="/login" component={Login} />
-            <Route path="/register" component={Register} />
             <Switch>
+              <Route exact path="/" component={Map} />
+              <Route path="/login" component={Login} />
+              <Route path="/register" component={Register} />
               <PrivateRoute
                 exact
                 path="/booking/:id"
                 component={BookingDetails}
               />
-            </Switch>
-            <Switch>
+              {/* </Switch>
+            <Switch> */}
               <PrivateRoute path="/bookings" component={Bookings} />
-            </Switch>
-            <Switch>
+              {/* </Switch>
+            <Switch> */}
               <PrivateRoute path="/dashboard" component={Dashboard} />
-            </Switch>
-            <Switch>
+              {/* </Switch>
+            <Switch> */}
               <PrivateRoute path="/create-profile" component={CreateProfile} />
-            </Switch>
-            <Switch>
+              {/* </Switch>
+            <Switch> */}
               <PrivateRoute path="/edit-profile" component={EditProfile} />
+              {/* </Switch>
+            <Switch> */}
+              <PrivateRoute path="/confirmation/:id" component={Confirmation} />
+              <Route component={NoMatch} />
             </Switch>
           </div>
         </Router>

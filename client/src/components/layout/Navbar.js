@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { clearCurrentProfile } from '../../actions/profileActions';
 import { logoutUser } from '../../actions/authActions';
+import { setFeaturedLocation } from '../../actions/locationActions';
 import Logo from './logo.png';
 
 class Navbar extends Component {
@@ -11,6 +12,7 @@ class Navbar extends Component {
 
     this.props.clearCurrentProfile();
     this.props.logoutUser();
+    this.props.setFeaturedLocation();
   }
 
   render() {
@@ -39,7 +41,7 @@ class Navbar extends Component {
             aria-labelledby="navbarDropdown"
           >
             <Link className="dropdown-item" to="/edit-profile">
-              Profile
+              <i className="fas fa-user-circle" /> Edit Profile
             </Link>
             <div className="dropdown-divider" />
             <button
@@ -47,7 +49,7 @@ class Navbar extends Component {
               onClick={this.onLogoutClick.bind(this)}
               href="#"
             >
-              Logout
+              <i className="fas fa-sign-out-alt" /> Logout
             </button>
           </div>
         </li>
@@ -102,5 +104,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { logoutUser, clearCurrentProfile }
+  { logoutUser, clearCurrentProfile, setFeaturedLocation }
 )(Navbar);

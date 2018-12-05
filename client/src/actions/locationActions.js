@@ -27,20 +27,38 @@ export const getLocations = () => dispatch => {
 };
 
 // set featured location
-export const setFeaturedLocation = location => dispatch => {
+export const setFeaturedLocation = (location, isAuthenticated) => dispatch => {
   dispatch(setLocationLoading());
 
   if (location) {
     axios.get(`/api/bookings/availability/${location._id}`).then(res => {
-      dispatch({
-        type: SET_FEATURED_LOCATION,
-        payload: { location, disabledDays: res.data.unavailable }
-      });
+      if (isAuthenticated) {
+        axios
+          .get(`/api/bookings/availability/${location._id}/user`)
+          .then(alreadyBooked => {
+            dispatch({
+              type: SET_FEATURED_LOCATION,
+              payload: {
+                location,
+                disabledDays: res.data.unavailable,
+                alreadyBooked: alreadyBooked.data.unavailable
+              }
+            });
+          });
+      } else {
+        dispatch({
+          type: SET_FEATURED_LOCATION,
+          payload: {
+            location,
+            disabledDays: res.data.unavailable
+          }
+        });
+      }
     });
   } else {
     dispatch({
       type: SET_FEATURED_LOCATION,
-      payload: location
+      payload: {}
     });
   }
 };

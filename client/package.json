@@ -15,6 +15,7 @@
     "react-dom": "^16.6.3",
     "react-moment": "^0.8.4",
     "react-multiple-datepicker": "^0.1.0",
+    "react-notifications": "^1.4.3",
     "react-redux": "^5.1.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.1",

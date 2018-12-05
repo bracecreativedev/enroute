@@ -8,6 +8,9 @@
 @import 'map/sidebar';
 @import 'pages/login';
 @import 'pages/register';
+@import 'pages/profile';
+@import 'pages/checkout';
+@import 'pages/confirmation';
 
 // global styles
 body,
@@ -29,6 +32,25 @@ html {
     background: $light;
     color: $green;
     border-color: $green;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+}
+
+.btn.btn-white {
+  border: 2px solid $light;
+  border-radius: 0;
+  color: $light;
+  text-transform: uppercase;
+  font-weight: $f-semi-bold;
+  font-size: 16px;
+
+  &:hover {
+    background: $light;
+    color: $green;
   }
 
   &:focus {
@@ -78,6 +100,13 @@ input {
   border-bottom: 1px solid $green !important;
 }
 
+textarea {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid $green;
+  padding: 16px 8px;
+}
+
 .form-label {
   fieldset {
     position: relative;
@@ -97,7 +126,8 @@ input {
 
 // Animation on <label>
 .form-css-label {
-  input {
+  input,
+  textarea {
     &[data-empty='false'],
     &:valid,
     &:focus {
@@ -121,7 +151,8 @@ input {
 }
 
 .form-js-label {
-  input {
+  input,
+  textarea {
     &[data-empty='false'],
     &:focus {
       padding: 22px 8px 10px;

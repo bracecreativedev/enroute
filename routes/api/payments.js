@@ -38,7 +38,7 @@ router.get(
   (req, res) => {
     Payment.findById(req.params.id)
       .populate('user', ['name', 'email'])
-      .populate('location', ['name'])
+      .populate('location', ['name', 'location'])
       .then(payment => {
         // check that logged in user is owner of payment
         if (payment.user._id == req.user.id) {
@@ -46,6 +46,9 @@ router.get(
         } else {
           return res.status(401).send('Unauthorized');
         }
+      })
+      .catch(err => {
+        return res.status(404).send({ notfound: 'No payment found' });
       });
   }
 );

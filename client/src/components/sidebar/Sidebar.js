@@ -13,8 +13,10 @@ class Sidebar extends Component {
   }
 
   cardOnClick = (e, parking) => {
+    const { isAuthenticated } = this.props.auth;
+
     e.preventDefault();
-    this.props.setFeaturedLocation(parking);
+    this.props.setFeaturedLocation(parking, isAuthenticated);
   };
 
   render() {
@@ -92,6 +94,7 @@ class Sidebar extends Component {
 }
 
 const mapStateToProps = state => ({
+  auth: state.auth,
   locations: state.locations
 });
 

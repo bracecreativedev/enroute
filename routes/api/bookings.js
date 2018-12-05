@@ -14,6 +14,7 @@ const Location = require('../../models/Location');
 router.post('/charge', async (req, res) => {
   const token = req.body.token;
 
+  // TODO: send location id and then do a DB look up to get the price!
   stripe.charges.create(
     {
       amount: req.body.price,
@@ -87,7 +88,7 @@ router.get(
 
 // @route   GET api/bookings/availability/:locationID
 // @desc    Check the availability of a location
-// @access  Private
+// @access  Public
 router.get('/availability/:locationID', (req, res) => {
   Booking.find({
     location: req.params.locationID
@@ -126,5 +127,27 @@ router.get('/availability/:locationID', (req, res) => {
     );
   });
 });
+
+// @route   GET api/bookings/availability/:locationID/user
+// @desc    Blocks out dates for the current logged in user
+// @access  Private
+router.get(
+  '/availability/:locationID/user',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    Booking.find({ user: req.user.id, location: req.params.locationID })
+      .sort({ bookingDate: 1 })
+      .populate('location', ['name'])
+      .then(bookings => {
+        let bookedDates = [];
+
+        bookings.map(booking => {
+          bookedDates.push(booking.bookingDate);
+        });
+
+        res.json({ unavailable: bookedDates });
+      });
+  }
+);
 
 module.exports = router;

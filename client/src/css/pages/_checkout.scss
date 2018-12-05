@@ -1,0 +1,185 @@
+.checkout {
+  margin: 30px 0;
+  background: $light;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  border-top: 5px solid $green;
+  border-bottom: 5px solid $green;
+
+  .left-sidebar {
+    background: $green;
+    color: #fff;
+    padding: 20px 30px;
+    height: 100%;
+
+    .header {
+      h5 {
+        font-weight: $f-bold;
+        text-transform: uppercase;
+        // margin-bottom: 0;
+        font-size: 16px;
+      }
+
+      .heading {
+        margin-bottom: 0;
+        font-size: 32px;
+      }
+
+      .address {
+        margin-bottom: 0;
+        font-size: 18px;
+        font-weight: $f-light;
+      }
+    }
+
+    .location-content {
+      margin-top: 30px;
+
+      .meta-data {
+        display: flex;
+        align-items: flex-start;
+        font-weight: $f-light;
+        margin-bottom: 10px;
+
+        i {
+          margin-right: 5px;
+        }
+
+        p {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+
+  .main-content {
+    padding: 20px 30px;
+    position: relative;
+    height: 100%;
+    min-height: 400px;
+    text-align: center;
+
+    .dates {
+      margin-bottom: 30px;
+
+      .header {
+        margin-bottom: 20px;
+
+        .heading {
+          font-size: 16px;
+          text-transform: uppercase;
+          font-weight: $f-bold;
+          margin-bottom: 0;
+        }
+      }
+
+      .content {
+        position: absolute;
+        top: 60px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        overflow-y: scroll;
+        box-sizing: content-box;
+        padding-right: 15px;
+        padding-left: 30px;
+        padding-bottom: 30px;
+
+        .single-date {
+          text-align: center;
+          border-radius: 5px;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+          background: $green;
+          color: $light;
+          margin: 5px;
+
+          overflow: hidden;
+
+          .date {
+            padding: 5px;
+
+            p {
+              margin-bottom: 0;
+              text-transform: uppercase;
+              font-weight: $f-semi-bold;
+            }
+          }
+
+          .footer {
+            background: $light;
+            color: $muted;
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 10px;
+
+            p {
+              margin-bottom: 0;
+              text-transform: uppercase;
+
+              &:first-child {
+                font-weight: $f-semi-bold;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .right-sidebar {
+    background: $green;
+    padding: 20px 30px;
+    height: 100%;
+    color: $light;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .header {
+      text-align: right;
+
+      .heading {
+        font-weight: $f-bold;
+        text-transform: uppercase;
+        font-size: 16px;
+      }
+
+      .price {
+        font-size: 50px;
+        font-weight: $f-semi-bold;
+
+        span {
+          font-weight: $f-light;
+          font-size: 30px;
+        }
+      }
+    }
+
+    .footer {
+      text-align: left;
+    }
+  }
+}
+
+.checkout-box {
+  .stripe-text {
+    text-align: right;
+    font-size: 14px;
+    margin: 5px 0 20px 0;
+  }
+
+  input,
+  .StripeElement {
+    display: block;
+
+    max-width: 500px;
+    padding: 10px 14px;
+    font-size: 1em;
+    font-family: 'Source Code Pro', monospace;
+    box-shadow: rgba(50, 50, 93, 0.14902) 0px 1px 3px,
+      rgba(0, 0, 0, 0.0196078) 0px 1px 0px;
+    border: 0;
+    outline: 0;
+    border-radius: 4px;
+    background: white;
+  }
+}

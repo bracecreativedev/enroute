@@ -17,16 +17,13 @@ const ProfileSchema = new Schema({
       required: true
     },
     make: {
-      type: String,
-      required: true
+      type: String
     },
     model: {
-      type: String,
-      required: true
+      type: String
     },
     colour: {
-      type: String,
-      required: true
+      type: String
     }
   },
   address: {
