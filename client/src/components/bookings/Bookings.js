@@ -29,46 +29,72 @@ class Bookings extends Component {
         );
       } else {
         bookingsContent = (
-          <div>
-            <table style={{ width: '100%' }}>
-              <tbody>
-                <tr>
-                  <th>LOCATION</th>
-                  <th>DATE</th>
-                  <th>PURCHASE DATE</th>
-                  <th>PRICE</th>
-                  <th>PAYMENT REF</th>
-                </tr>
+          <div className="bookings-box">
+            <div className="main-content">
+              <div className="header">
+                <h1 className="heading mb-3 mb-sm-0">Bookings</h1>
+                <a href="#" className="btn btn-green">
+                  View Invoices
+                </a>
+              </div>
 
-                {bookings.map(booking => (
-                  <tr key={booking._id}>
-                    <td>{booking.location.name}</td>
-                    <td>
-                      <Moment format="ddd Do MMM YYYY">
-                        {booking.bookingDate}
-                      </Moment>
-                    </td>
-                    <td>
-                      <Moment format="ddd Do MMM YYYY">{booking.date}</Moment>
-                    </td>
-                    <td>£{(booking.price / 100).toFixed(2)}</td>
-                    <td>
-                      {booking.paymentRef ? (
-                        <Link
-                          to={{
-                            pathname: `/confirmation/${booking.paymentRef}`
-                          }}
-                        >
-                          {booking.paymentRef}
-                        </Link>
-                      ) : (
-                        '-'
-                      )}
-                    </td>
+              <table>
+                <tbody>
+                  <tr className="table-header">
+                    <th>Location</th>
+                    <th>Booking Date</th>
+                    <th>Purchase Date</th>
+                    <th>Reg</th>
+                    <th>Invoice</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                  {bookings.map(booking => (
+                    <tr key={booking._id}>
+                      <td>{booking.location.name}</td>
+                      <td>
+                        <span className="d-md-none">
+                          <Moment format="DD-MM-YY">
+                            {booking.bookingDate}
+                          </Moment>
+                        </span>
+                        <span className="d-none d-md-block">
+                          <Moment format="ddd Do MMM YYYY">
+                            {booking.bookingDate}
+                          </Moment>
+                        </span>
+                      </td>
+                      <td>
+                        <Moment format="ddd Do MMM YYYY">{booking.date}</Moment>
+                      </td>
+                      <td>£{(booking.price / 100).toFixed(2)}</td>
+                      <td>
+                        {booking.paymentRef ? (
+                          <Link
+                            to={{
+                              pathname: `/confirmation/${booking.paymentRef}`
+                            }}
+                          >
+                            <span className="badge badge-green">
+                              View{' '}
+                              <span className="d-none d-md-inline-block">
+                                Payment
+                              </span>
+                            </span>
+                          </Link>
+                        ) : (
+                          '-'
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              <div className="footer text-right">
+                <a href="#" className="btn btn-green">
+                  View Invoices
+                </a>
+              </div>
+            </div>
           </div>
         );
       }
@@ -76,9 +102,7 @@ class Bookings extends Component {
 
     return (
       <div className="page-container">
-        <div className="container">
-          <div className="text-center">{bookingsContent}</div>
-        </div>
+        <div className="container">{bookingsContent}</div>
       </div>
     );
   }

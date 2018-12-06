@@ -11,6 +11,7 @@
 @import 'pages/profile';
 @import 'pages/checkout';
 @import 'pages/confirmation';
+@import 'pages/bookings';
 
 // global styles
 body,
@@ -56,6 +57,16 @@ html {
   &:focus {
     outline: none;
     box-shadow: none;
+  }
+}
+
+.badge {
+  padding: 0.4em 0.9em;
+  border-radius: 10px;
+
+  &.badge-green {
+    background: #d7f5ea;
+    color: #1a5742;
   }
 }
 

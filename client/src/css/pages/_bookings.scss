@@ -1,0 +1,148 @@
+.bookings-box {
+  margin-top: 30px;
+  border-top: 10px solid $green;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+
+  .main-content {
+    .header {
+      padding: 30px;
+
+      justify-content: space-between;
+
+      .heading {
+        margin-bottom: 0;
+      }
+    }
+
+    table {
+      width: 100%;
+
+      tr {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+
+        &:hover {
+          background-color: #f2f5f770;
+        }
+
+        th {
+          text-transform: uppercase;
+          font-size: 12px;
+          text-align: center;
+        }
+
+        &.table-header {
+          background-color: #f2f5f7;
+
+          th {
+            color: #566778;
+            padding: 10px;
+          }
+        }
+
+        td {
+          padding: 10px;
+          font-size: 12px;
+          color: $muted;
+          text-align: center;
+
+          &:first-child {
+            font-weight: $f-semi-bold;
+          }
+        }
+      }
+    }
+  }
+
+  .footer {
+    padding: 30px;
+  }
+}
+
+@media (min-width: 568px) {
+  .bookings-box {
+    .main-content {
+      .header {
+        display: flex;
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .bookings-box {
+    .main-content {
+      table {
+        tr {
+          th {
+            font-size: 14px;
+          }
+
+          td {
+            font-size: 13px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 992px) {
+  .bookings-box {
+    .main-content {
+      table {
+        tr {
+          th {
+            font-size: 16px;
+            text-align: left;
+          }
+
+          td {
+            font-size: 14px;
+            text-align: left;
+          }
+        }
+      }
+    }
+  }
+}
+
+// hidden rows
+.bookings-box {
+  .main-content {
+    table {
+      tr {
+        th,
+        td {
+          &:nth-child(3) {
+            display: none;
+          }
+
+          &:nth-child(4) {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .bookings-box {
+    .main-content {
+      table {
+        tr {
+          th,
+          td {
+            &:nth-child(3) {
+              display: table-cell;
+            }
+
+            &:nth-child(4) {
+              display: table-cell;
+            }
+          }
+        }
+      }
+    }
+  }
+}
