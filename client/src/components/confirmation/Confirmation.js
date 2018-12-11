@@ -42,21 +42,21 @@ class Confirmation extends Component {
       );
     } else {
       confirmationContent = (
-        <div class="confirmation-box">
-          <div class="main-content">
-            <div class="header">
-              <h1 class="heading">Thank you for your payment!</h1>
+        <div className="confirmation-box">
+          <div className="main-content">
+            <div className="header">
+              <h1 className="heading">Thank you for your payment!</h1>
               <p>The following is your payment and booking confirmation.</p>
             </div>
 
-            <div class="payment-details">
-              <div class="meta-section">
+            <div className="payment-details">
+              <div className="meta-section">
                 <h2>Payment Reference</h2>
                 <p>{payment._id}</p>
               </div>
-              <div class="meta-section">
+              <div className="meta-section">
                 <h2>Parking Location</h2>
-                <p class="mb-0">
+                <p className="mb-0">
                   <strong>{payment.location.name}</strong>
                 </p>
                 <p>
@@ -65,7 +65,7 @@ class Confirmation extends Component {
                 </p>
               </div>
 
-              <div class="meta-section">
+              <div className="meta-section">
                 <h2>Dates</h2>
                 <ul>
                   {payment.bookingDates.map(date => (
@@ -78,18 +78,18 @@ class Confirmation extends Component {
                 </ul>
               </div>
 
-              <div class="meta-section">
+              <div className="meta-section">
                 <h2>Total Paid</h2>
                 <p>£{(payment.price / 100).toFixed(2)}</p>
               </div>
             </div>
           </div>
 
-          <div class="footer">
-            <Link to="/" class="btn btn-green">
+          <div className="footer">
+            <Link to="/" className="btn btn-green">
               &larr; Home
             </Link>
-            <Link to="/bookings" class="btn btn-green">
+            <Link to="/bookings" className="btn btn-green">
               View your bookings
             </Link>
           </div>

@@ -21,10 +21,11 @@ import Dashboard from './components/dashboard/Dashboard';
 import CreateProfile from './components/profile/CreateProfile';
 import EditProfile from './components/profile/EditProfile';
 import Map from './components/map/Map';
-import BookingDetails from './components/booking/BookingDetails';
+import CheckoutDetails from './components/checkout/CheckoutDetails';
 import Bookings from './components/bookings/Bookings';
 import Confirmation from './components/confirmation/Confirmation';
 import NoMatch from './components/nomatch/NoMatch';
+import Payments from './components/payments/Payments';
 
 // Check for token
 if (localStorage.jwtToken) {
@@ -60,24 +61,15 @@ class App extends Component {
               <Route path="/register" component={Register} />
               <PrivateRoute
                 exact
-                path="/booking/:id"
-                component={BookingDetails}
+                path="/checkout/:id"
+                component={CheckoutDetails}
               />
-              {/* </Switch>
-            <Switch> */}
               <PrivateRoute path="/bookings" component={Bookings} />
-              {/* </Switch>
-            <Switch> */}
               <PrivateRoute path="/dashboard" component={Dashboard} />
-              {/* </Switch>
-            <Switch> */}
               <PrivateRoute path="/create-profile" component={CreateProfile} />
-              {/* </Switch>
-            <Switch> */}
               <PrivateRoute path="/edit-profile" component={EditProfile} />
-              {/* </Switch>
-            <Switch> */}
               <PrivateRoute path="/confirmation/:id" component={Confirmation} />
+              <PrivateRoute path="/payments" component={Payments} />
               <Route component={NoMatch} />
             </Switch>
           </div>

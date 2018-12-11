@@ -15,6 +15,20 @@ const PaymentSchema = new Schema({
   price: {
     type: Number
   },
+  vehicle: {
+    reg: {
+      type: String
+    },
+    make: {
+      type: String
+    },
+    model: {
+      type: String
+    },
+    colour: {
+      type: String
+    }
+  },
   date: {
     type: Date,
     default: Date.now

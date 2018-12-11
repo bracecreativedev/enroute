@@ -484,6 +484,23 @@ header {
           font-size: 30px; }
     .checkout .right-sidebar .footer {
       text-align: left; }
+      .checkout .right-sidebar .footer .vehicle-info {
+        text-align: right;
+        margin-bottom: 40px; }
+        .checkout .right-sidebar .footer .vehicle-info .heading {
+          text-transform: uppercase;
+          font-size: 16px;
+          font-weight: 700; }
+        .checkout .right-sidebar .footer .vehicle-info p {
+          margin-bottom: 0; }
+          .checkout .right-sidebar .footer .vehicle-info p span {
+            font-weight: 600; }
+          .checkout .right-sidebar .footer .vehicle-info p.edit-profile {
+            font-size: 14px; }
+            .checkout .right-sidebar .footer .vehicle-info p.edit-profile a {
+              color: #fff;
+              text-decoration: underline;
+              font-weight: 600; }
 
 .checkout-box .stripe-text {
   text-align: right;
@@ -531,7 +548,7 @@ header {
     justify-content: space-between; }
 
 .bookings-box {
-  margin-top: 30px;
+  margin: 30px 0;
   border-top: 10px solid #96c236;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); }
   .bookings-box .main-content .header {
@@ -561,7 +578,16 @@ header {
         text-align: center; }
         .bookings-box .main-content table tr td:first-child {
           font-weight: 600; }
+  .bookings-box .pagination {
+    margin: 20px 0; }
+    .bookings-box .pagination p {
+      margin-bottom: 0; }
+    .bookings-box .pagination a {
+      transition: all 0.3s ease; }
+      .bookings-box .pagination a:hover {
+        opacity: 0.7; }
   .bookings-box .footer {
+    background: #d9e3e8;
     padding: 30px; }
 
 @media (min-width: 568px) {
@@ -593,6 +619,74 @@ header {
   .bookings-box .main-content table tr th:nth-child(4),
   .bookings-box .main-content table tr td:nth-child(4) {
     display: table-cell; } }
+.payments-box {
+  border-top: 10px solid #96c236;
+  margin: 30px 0;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); }
+  .payments-box .header {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 30px; }
+    .payments-box .header .heading {
+      margin-bottom: 0; }
+    .payments-box .header .btn {
+      margin-top: 20px; }
+  .payments-box .main-content {
+    padding: 0 30px; }
+    .payments-box .main-content .payment-card {
+      border-radius: 5px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+      margin-bottom: 30px; }
+      .payments-box .main-content .payment-card .payment-header {
+        padding: 20px 20px 10px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center; }
+        .payments-box .main-content .payment-card .payment-header .date {
+          text-transform: uppercase;
+          font-size: 14px;
+          font-weight: 400;
+          margin-bottom: 0; }
+      .payments-box .main-content .payment-card .payment-content {
+        padding: 0 20px 20px 20px; }
+        .payments-box .main-content .payment-card .payment-content .location {
+          font-size: 24px;
+          margin-bottom: 0;
+          font-weight: 600;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis; }
+        .payments-box .main-content .payment-card .payment-content .price p {
+          font-size: 32px;
+          color: #96c236;
+          font-weight: 600;
+          margin-bottom: 0; }
+        .payments-box .main-content .payment-card .payment-content .dates p {
+          font-weight: 300;
+          margin-bottom: 0; }
+      .payments-box .main-content .payment-card .footer {
+        text-align: center;
+        padding: 20px;
+        background: #d9e3e8; }
+        .payments-box .main-content .payment-card .footer a {
+          text-decoration: none;
+          margin-bottom: 0;
+          color: #6b6b6b;
+          transition: all 0.3s ease; }
+          .payments-box .main-content .payment-card .footer a span {
+            display: inline-block;
+            transition: all 0.3s ease; }
+          .payments-box .main-content .payment-card .footer a:hover span {
+            transform: translateX(3px); }
+  .payments-box .footer {
+    text-align: right;
+    padding: 30px;
+    background: #d9e3e8; }
+
+@media (min-width: 768px) {
+  .payments-box .header .btn {
+    margin: 0; } }
 body,
 html {
   font-family: 'Montserrat', sans-serif;

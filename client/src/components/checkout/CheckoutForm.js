@@ -5,8 +5,8 @@ import axios from 'axios';
 import { setFeaturedLocation } from '../../actions/locationActions';
 import { createBooking } from '../../actions/bookingActions';
 import isEmpty from '../../validation/is-empty';
-import moment from 'moment';
 import { Redirect } from 'react-router-dom';
+import SpinnerLight from '../../components/common/SpinnerLight';
 
 class CheckoutForm extends Component {
   constructor(props) {
@@ -14,6 +14,7 @@ class CheckoutForm extends Component {
     this.state = {
       complete: false,
       paymentID: '',
+      paymentLoading: '',
       error: ''
     };
 
@@ -33,44 +34,29 @@ class CheckoutForm extends Component {
         if (error) {
           // if there's an erorr, display error!
           this.setState({ error: error.message });
+          console.log(this.state.paymentLoading);
         } else {
-          // create payment data
+          this.setState({ paymentLoading: true });
+
           const paymentData = {
-            // attach the parking location
-            location: parkingLocation._id,
-            // attach the users id
-            user: user.id,
-            // array of booking dates
             bookingDates: bookingDates,
-            // price is the amount of booking days * location price
-            price: bookingDates.length * parkingLocation.price
+            token: token.id
           };
 
-          axios.post('/api/payments', paymentData).then(res => {
-            const chargeData = {
-              token: token.id,
-              price: bookingDates.length * parkingLocation.price,
-              description: res.data._id
-            };
-
-            // charge account
-            axios.post('/api/bookings/charge', chargeData);
-
-            // add each date as an individual booking
-            bookingDates.map(singleDate => {
-              // add booking to the db
-              return this.props.createBooking({
-                user: user.id,
-                location: parkingLocation._id,
-                bookingDate: moment(singleDate, 'DD-MM-YY').toISOString(),
-                price: parkingLocation.price,
-                paymentRef: res.data._id
+          axios
+            .post(`/api/payments/new/${parkingLocation._id}`, paymentData)
+            .then(res => {
+              console.log('payment success');
+              this.setState({
+                complete: true,
+                paymentID: res.data._id,
+                paymentLoading: false
               });
+            })
+            .catch(err => {
+              this.setState({ error: err, paymentLoading: false });
+              console.log(this.state.error);
             });
-
-            // set state to complete
-            this.setState({ complete: true, paymentID: res.data._id });
-          });
         }
       });
 
@@ -79,29 +65,41 @@ class CheckoutForm extends Component {
   }
 
   render() {
-    const { error } = this.state;
+    const { error, paymentLoading } = this.state;
 
     if (this.state.complete)
       return (
         <Redirect to={{ pathname: `/confirmation/${this.state.paymentID}` }} />
       );
 
-    return (
-      <div className="checkout-box">
-        <p className="mb-1">Enter card details</p>
-        <CardElement />
-        {!isEmpty(error) ? <p>{error}</p> : null}
-        <p className="stripe-text">
-          Payments processed by <strong>Stripe</strong>
-        </p>
+    let checkoutFormContent;
 
-        <div className="text-right">
-          <button className="btn btn-white" onClick={this.submit}>
-            Confirm Payment
-          </button>
+    if (paymentLoading) {
+      checkoutFormContent = (
+        <div className="checkout-box">
+          <SpinnerLight />
         </div>
-      </div>
-    );
+      );
+    } else {
+      checkoutFormContent = (
+        <div className="checkout-box">
+          <p className="mb-1">Enter card details</p>
+          <CardElement />
+          {!isEmpty(error) ? <p>{error}</p> : null}
+          <p className="stripe-text">
+            Payments processed by <strong>Stripe</strong>
+          </p>
+
+          <div className="text-right">
+            <button className="btn btn-white" onClick={this.submit}>
+              Confirm Payment
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    return <span>{checkoutFormContent}</span>;
   }
 }
 

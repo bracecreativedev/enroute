@@ -40,8 +40,20 @@ class Navbar extends Component {
             className="dropdown-menu dropdown-menu-right"
             aria-labelledby="navbarDropdown"
           >
+            <Link className="dropdown-item" to="/bookings">
+              <i class="fas fa-ticket-alt" /> Bookings
+            </Link>
+
+            <Link className="dropdown-item" to="/payments">
+              <i class="fas fa-credit-card" /> Payments
+            </Link>
+            <div className="dropdown-divider" />
             <Link className="dropdown-item" to="/edit-profile">
               <i className="fas fa-user-circle" /> Edit Profile
+            </Link>
+
+            <Link className="dropdown-item" to="/edit-profile">
+              <i class="fas fa-key" /> TODO: Account
             </Link>
             <div className="dropdown-divider" />
             <button

@@ -151,7 +151,7 @@ class FeaturedContent extends Component {
               <br />
               <Link
                 className="btn btn-green"
-                to={`/booking/${featuredLocation._id}/?dates=${csvDays}`}
+                to={`/checkout/${featuredLocation._id}?dates=${csvDays}`}
               >
                 BOOK NOW
               </Link>

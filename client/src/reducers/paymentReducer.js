@@ -1,7 +1,8 @@
-import { GET_PAYMENT, PAYMENT_LOADING } from '../actions/types';
+import { GET_PAYMENT, PAYMENT_LOADING, GET_PAYMENTS } from '../actions/types';
 
 const initialState = {
   payment: {},
+  payments: [],
   loading: true
 };
 
@@ -11,6 +12,12 @@ export default function(state = initialState, action) {
       return {
         ...state,
         payment: action.payload,
+        loading: false
+      };
+    case GET_PAYMENTS:
+      return {
+        ...state,
+        payments: action.payload,
         loading: false
       };
     case PAYMENT_LOADING:

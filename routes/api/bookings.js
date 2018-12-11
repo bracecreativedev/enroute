@@ -79,10 +79,31 @@ router.get(
   '/',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
+    let pageOptions = {
+      page: parseInt(req.query.page) || 1,
+      limit: parseInt(req.query.limit) || 10
+    };
+
+    let totalCount;
+
+    Booking.find({ user: req.user.id }).then(
+      allBookings => (totalCount = allBookings.length)
+    );
+
     Booking.find({ user: req.user.id })
       .sort({ bookingDate: 1 })
       .populate('location', ['name'])
-      .then(bookings => res.json(bookings));
+      .limit(pageOptions.limit)
+      .skip(pageOptions.limit * (pageOptions.page - 1))
+      .then(bookings =>
+        res.json({
+          totalBookings: totalCount,
+          page: pageOptions.page,
+          totalPages: Math.ceil(totalCount / pageOptions.limit),
+          limit: pageOptions.limit,
+          docs: bookings
+        })
+      );
   }
 );
 
@@ -91,7 +112,8 @@ router.get(
 // @access  Public
 router.get('/availability/:locationID', (req, res) => {
   Booking.find({
-    location: req.params.locationID
+    location: req.params.locationID,
+    bookingDate: { $gte: new Date() }
   }).then(bookings => {
     // create a set of unique dates
     let uniqueSet = new Set();
@@ -128,16 +150,15 @@ router.get('/availability/:locationID', (req, res) => {
   });
 });
 
-// @route   GET api/bookings/availability/:locationID/user
+// @route   GET api/bookings/user/availability
 // @desc    Blocks out dates for the current logged in user
 // @access  Private
 router.get(
-  '/availability/:locationID/user',
+  '/user/availability',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    Booking.find({ user: req.user.id, location: req.params.locationID })
+    Booking.find({ user: req.user.id, bookingDate: { $gte: new Date() } })
       .sort({ bookingDate: 1 })
-      .populate('location', ['name'])
       .then(bookings => {
         let bookedDates = [];
 

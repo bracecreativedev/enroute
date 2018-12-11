@@ -33,18 +33,16 @@ export const setFeaturedLocation = (location, isAuthenticated) => dispatch => {
   if (location) {
     axios.get(`/api/bookings/availability/${location._id}`).then(res => {
       if (isAuthenticated) {
-        axios
-          .get(`/api/bookings/availability/${location._id}/user`)
-          .then(alreadyBooked => {
-            dispatch({
-              type: SET_FEATURED_LOCATION,
-              payload: {
-                location,
-                disabledDays: res.data.unavailable,
-                alreadyBooked: alreadyBooked.data.unavailable
-              }
-            });
+        axios.get(`/api/bookings/user/availability`).then(alreadyBooked => {
+          dispatch({
+            type: SET_FEATURED_LOCATION,
+            payload: {
+              location,
+              disabledDays: res.data.unavailable,
+              alreadyBooked: alreadyBooked.data.unavailable
+            }
           });
+        });
       } else {
         dispatch({
           type: SET_FEATURED_LOCATION,

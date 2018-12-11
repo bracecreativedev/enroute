@@ -13,11 +13,12 @@ export const LOCATIONS_LOADING = 'LOCATIONS_LOADING';
 export const GET_LOCATIONS = 'GET_LOCATIONS';
 export const SET_FEATURED_LOCATION = 'SET_FEATURED_LOCATION';
 
-// bookingS
+// bookings
 export const SET_BOOKING_DATA = 'SET_BOOKING_DATA';
 export const GET_BOOKINGS = 'GET_BOOKINGS';
 export const BOOKINGS_LOADING = 'BOOKINGS_LOADING';
 
-// paymentes
+// payments
 export const GET_PAYMENT = 'GET_PAYMENT';
+export const GET_PAYMENTS = 'GET_PAYMENTS';
 export const PAYMENT_LOADING = 'PAYMENT_LOADING';

@@ -29,11 +29,11 @@ export const setBookingData = data => dispatch => {
 };
 
 // get users bookings
-export const getBookings = () => dispatch => {
+export const getBookings = page => dispatch => {
   dispatch(setBookingsLoading());
 
   axios
-    .get('/api/bookings')
+    .get(`/api/bookings?page=${page}`)
     .then(res =>
       dispatch({
         type: GET_BOOKINGS,

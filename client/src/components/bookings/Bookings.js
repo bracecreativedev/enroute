@@ -2,29 +2,56 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getBookings } from '../../actions/bookingActions';
+import queryString from 'query-string';
 import Spinner from '../common/Spinner';
 import isEmpty from '../../validation/is-empty';
 import Moment from 'react-moment';
 
 class Bookings extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      page: parseInt(queryString.parse(this.props.location.search).page || 1)
+    };
+  }
+
   componentDidMount() {
-    this.props.getBookings();
+    this.props.getBookings(this.state.page);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.location.state === 'desiredState') {
+      console.log('y9');
+    }
   }
 
   render() {
-    const { bookings, loading } = this.props.bookings;
+    const { loading, bookings } = this.props.bookings;
+    const { page } = this.state;
 
     let bookingsContent;
 
-    if (bookings == null || loading) {
+    if (bookings.docs == null || loading) {
       bookingsContent = <Spinner />;
     } else {
-      if (isEmpty(bookings)) {
+      if (isEmpty(bookings.docs)) {
         bookingsContent = (
-          <div>
-            <h1>
-              You have no past bookings, all future bookings will appear here!
-            </h1>
+          <div className="bookings-box">
+            <div className="main-content">
+              <div className="header">
+                <h1 className="heading mb-3 mb-sm-0">
+                  You have no past bookings, all future bookings will appear
+                  here!
+                </h1>
+              </div>
+
+              <div className="footer">
+                <Link to="/" className="btn btn-green">
+                  &larr; Home
+                </Link>
+              </div>
+            </div>
           </div>
         );
       } else {
@@ -32,10 +59,10 @@ class Bookings extends Component {
           <div className="bookings-box">
             <div className="main-content">
               <div className="header">
-                <h1 className="heading mb-3 mb-sm-0">Bookings</h1>
-                <a href="#" className="btn btn-green">
-                  View Invoices
-                </a>
+                <h1 className="heading mb-3 mb-sm-0">Your bookings</h1>
+                <Link to="/payments" className="btn btn-green">
+                  View Payments
+                </Link>
               </div>
 
               <table>
@@ -45,9 +72,9 @@ class Bookings extends Component {
                     <th>Booking Date</th>
                     <th>Purchase Date</th>
                     <th>Reg</th>
-                    <th>Invoice</th>
+                    <th>Payment Ref</th>
                   </tr>
-                  {bookings.map(booking => (
+                  {bookings.docs.map(booking => (
                     <tr key={booking._id}>
                       <td>{booking.location.name}</td>
                       <td>
@@ -65,7 +92,7 @@ class Bookings extends Component {
                       <td>
                         <Moment format="ddd Do MMM YYYY">{booking.date}</Moment>
                       </td>
-                      <td>£{(booking.price / 100).toFixed(2)}</td>
+                      <td>{booking.vehicle ? booking.vehicle.reg : '-'}</td>
                       <td>
                         {booking.paymentRef ? (
                           <Link
@@ -89,9 +116,43 @@ class Bookings extends Component {
                 </tbody>
               </table>
 
+              {bookings.totalPages === 1 ? null : (
+                <div className="pagination">
+                  <p className="w-100 text-center">
+                    {page > 1 ? (
+                      <Link
+                        style={{ marginRight: '10px' }}
+                        onClick={this.forceUpdate}
+                        to={{
+                          pathname: `/bookings?page=${page - 1}`
+                        }}
+                      >
+                        <span className="badge badge-green">
+                          &larr; Prev Page
+                        </span>
+                      </Link>
+                    ) : null}
+                    Page {page}
+                    {page < bookings.totalPages ? (
+                      <Link
+                        style={{ marginLeft: '10px' }}
+                        onClick={this.forceUpdate}
+                        to={{
+                          pathname: `/bookings?page=${page + 1}`
+                        }}
+                      >
+                        <span className="badge badge-green">
+                          Next Page &rarr;
+                        </span>
+                      </Link>
+                    ) : null}
+                  </p>
+                </div>
+              )}
+
               <div className="footer text-right">
                 <a href="#" className="btn btn-green">
-                  View Invoices
+                  View Payments
                 </a>
               </div>
             </div>
