@@ -41,11 +41,11 @@ class Navbar extends Component {
             aria-labelledby="navbarDropdown"
           >
             <Link className="dropdown-item" to="/bookings">
-              <i class="fas fa-ticket-alt" /> Bookings
+              <i className="fas fa-ticket-alt" /> Bookings
             </Link>
 
             <Link className="dropdown-item" to="/payments">
-              <i class="fas fa-credit-card" /> Payments
+              <i className="fas fa-credit-card" /> Payments
             </Link>
             <div className="dropdown-divider" />
             <Link className="dropdown-item" to="/edit-profile">
@@ -53,7 +53,7 @@ class Navbar extends Component {
             </Link>
 
             <Link className="dropdown-item" to="/edit-profile">
-              <i class="fas fa-key" /> TODO: Account
+              <i className="fas fa-key" /> TODO: Account
             </Link>
             <div className="dropdown-divider" />
             <button

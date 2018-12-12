@@ -35,8 +35,8 @@ class Payments extends Component {
             <div className="main-content">
               <div className="row">
                 {payments.map(payment => (
-                  <div className="col-md-4">
-                    <PaymentCard key={payment._id} payment={payment} />
+                  <div className="col-md-6 col-lg-4" key={payment._id}>
+                    <PaymentCard payment={payment} />
                   </div>
                 ))}
               </div>

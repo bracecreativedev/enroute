@@ -275,6 +275,63 @@ header {
       max-width: 100%;
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); }
 
+.pin-container {
+  position: relative;
+  transform: translate(-50%, -50%);
+  z-index: 1; }
+  .pin-container button {
+    transform: translate(-60%, -50%);
+    position: relative;
+    z-index: -1; }
+    .pin-container button img {
+      position: relative;
+      z-index: 1; }
+  .pin-container .pin-hover {
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    background: linear-gradient(90deg, #96c236 0, #4da534 100%);
+    text-align: center;
+    color: white;
+    top: -30px;
+    transform: translate(-50%, -100%);
+    width: 200px;
+    border-radius: 4px;
+    text-align: left;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    z-index: 10;
+    overflow: hidden; }
+    .pin-container .pin-hover .content {
+      padding: 10px; }
+      .pin-container .pin-hover .content p {
+        margin-bottom: 0;
+        font-size: 20px;
+        text-align: center;
+        font-weight: 500; }
+    .pin-container .pin-hover .footer {
+      background: #fff;
+      display: flex;
+      justify-content: space-between;
+      color: #96c236;
+      padding: 10px; }
+      .pin-container .pin-hover .footer p {
+        margin-bottom: 0;
+        font-size: 16px;
+        text-transform: uppercase;
+        font-weight: 600; }
+        .pin-container .pin-hover .footer p.price {
+          font-weight: 400; }
+  .pin-container:hover {
+    z-index: 30; }
+    .pin-container:hover .pin-hover {
+      opacity: 1; }
+  .pin-container.active {
+    z-index: 20; }
+    .pin-container.active .pin-hover {
+      opacity: 1;
+      top: -40px; }
+
 .page-container {
   top: 80px;
   position: relative; }
@@ -541,6 +598,16 @@ header {
           margin-bottom: 0; }
         .confirmation-box .main-content .payment-details .meta-section:last-child {
           margin-bottom: 0; }
+      .confirmation-box .main-content .payment-details ul {
+        list-style-type: none;
+        padding: 0; }
+        .confirmation-box .main-content .payment-details ul li {
+          display: flex;
+          align-items: center;
+          flex-wrap: wrap;
+          margin-bottom: 5px; }
+          .confirmation-box .main-content .payment-details ul li i {
+            color: #96c236; }
   .confirmation-box .footer {
     background: #d9e3e8;
     padding: 30px;

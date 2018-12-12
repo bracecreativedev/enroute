@@ -70,6 +70,10 @@ class Confirmation extends Component {
                 <ul>
                   {payment.bookingDates.map(date => (
                     <li key={date}>
+                      <span className="fa-stack">
+                        <i className="far fa-circle fa-stack-2x" />
+                        <i className="fas fa-car fa-stack-1x fa-inverse" />
+                      </span>{' '}
                       <Moment format="dddd Do MMMM YY">
                         {moment(date, 'DD-MM-YY')}
                       </Moment>

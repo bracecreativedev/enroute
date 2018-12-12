@@ -1,0 +1,81 @@
+.pin-container {
+  position: relative;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+
+  button {
+    transform: translate(-60%, -50%);
+    position: relative;
+    z-index: -1;
+
+    img {
+      position: relative;
+      z-index: 1;
+    }
+  }
+
+  .pin-hover {
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    background: linear-gradient(90deg, #96c236 0, #4da534 100%);
+    text-align: center;
+    color: white;
+    top: -30px;
+    transform: translate(-50%, -100%);
+    width: 200px;
+    border-radius: 4px;
+    text-align: left;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    z-index: 10;
+    overflow: hidden;
+
+    .content {
+      padding: 10px;
+
+      p {
+        margin-bottom: 0;
+        font-size: 20px;
+        text-align: center;
+        font-weight: $f-medium;
+      }
+    }
+
+    .footer {
+      background: $light;
+      display: flex;
+      justify-content: space-between;
+      color: $green;
+      padding: 10px;
+
+      p {
+        margin-bottom: 0;
+        font-size: 16px;
+        text-transform: uppercase;
+        font-weight: $f-semi-bold;
+
+        &.price {
+          font-weight: $f-regular;
+        }
+      }
+    }
+  }
+
+  &:hover {
+    z-index: 30;
+
+    .pin-hover {
+      opacity: 1;
+    }
+  }
+
+  &.active {
+    z-index: 20;
+
+    .pin-hover {
+      opacity: 1;
+      top: -40px;
+    }
+  }
+}

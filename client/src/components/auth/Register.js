@@ -5,10 +5,11 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { registerUser } from '../../actions/authActions';
 import TextFieldGroupHover from '../common/TextFieldGroupHover';
+import RegistrationComplete from '../auth/RegistrationComplete';
 
 class Register extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       email: '',
@@ -49,76 +50,92 @@ class Register extends Component {
       password2: this.state.password2
     };
 
-    this.props.registerUser(newUser, this.props.history);
+    this.props.registerUser(newUser);
   }
 
   render() {
     const { errors } = this.state;
+    const { registrationComplete } = this.props.auth;
+
+    let registrationContent;
+
+    if (!registrationComplete) {
+      registrationContent = (
+        <div className="register-box">
+          <div className="content">
+            <div className="header">
+              <h1 className="heading">Register</h1>
+              <p>Join the parking revolution today!</p>
+            </div>
+
+            <form
+              className="form-label form-css-label"
+              noValidate
+              onSubmit={this.onSubmit}
+            >
+              <TextFieldGroupHover
+                label="Your full name"
+                name="name"
+                type="text"
+                value={this.state.name}
+                onChange={this.onChange}
+                error={errors.name}
+              />
+
+              <TextFieldGroupHover
+                label="Your email address"
+                name="email"
+                type="text"
+                value={this.state.email}
+                onChange={this.onChange}
+                error={errors.email}
+              />
+
+              <TextFieldGroupHover
+                label="Your password"
+                name="password"
+                type="password"
+                value={this.state.password}
+                onChange={this.onChange}
+                error={errors.password}
+              />
+
+              <TextFieldGroupHover
+                label="Confirm your password"
+                name="password2"
+                type="password"
+                value={this.state.password2}
+                onChange={this.onChange}
+                error={errors.password2}
+              />
+
+              <button type="submit" className="btn btn-green w-100">
+                Register
+              </button>
+            </form>
+          </div>
+
+          <div className="footer">
+            <h3 className="heading">
+              Already have an account? <Link to="/login">Login</Link>
+            </h3>
+          </div>
+        </div>
+      );
+    } else {
+      registrationContent = (
+        <div>
+          <RegistrationComplete
+            name={this.state.name}
+            email={this.state.email}
+          />
+        </div>
+      );
+    }
 
     return (
       <main className="page-container">
-        <div className="container">
-          <div className="register-box">
-            <div className="content">
-              <div className="header">
-                <h1 className="heading">Register</h1>
-                <p>Join the parking revolution today!</p>
-              </div>
-
-              <form
-                className="form-label form-css-label"
-                noValidate
-                onSubmit={this.onSubmit}
-              >
-                <TextFieldGroupHover
-                  label="Your full name"
-                  name="name"
-                  type="text"
-                  value={this.state.name}
-                  onChange={this.onChange}
-                  error={errors.name}
-                />
-
-                <TextFieldGroupHover
-                  label="Your email address"
-                  name="email"
-                  type="text"
-                  value={this.state.email}
-                  onChange={this.onChange}
-                  error={errors.email}
-                />
-
-                <TextFieldGroupHover
-                  label="Your password"
-                  name="password"
-                  type="password"
-                  value={this.state.password}
-                  onChange={this.onChange}
-                  error={errors.password}
-                />
-
-                <TextFieldGroupHover
-                  label="Confirm your password"
-                  name="password2"
-                  type="password"
-                  value={this.state.password2}
-                  onChange={this.onChange}
-                  error={errors.password2}
-                />
-
-                <button type="submit" className="btn btn-green w-100">
-                  Register
-                </button>
-              </form>
-            </div>
-
-            <div className="footer">
-              <h3 className="heading">
-                Already have an account? <Link to="/login">Login</Link>
-              </h3>
-            </div>
-          </div>
-        </div>
+        <div className="container">{registrationContent}</div>
       </main>
     );
   }

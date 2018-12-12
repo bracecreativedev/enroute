@@ -23,7 +23,7 @@ router.get('/test', (req, res) => res.json({ msg: 'Auth Route Works' }));
 router.post('/register', (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body);
 
-  // check the validation for erros
+  // check the validation for errors
   if (!isValid) {
     return res.status(400).json(errors);
   }

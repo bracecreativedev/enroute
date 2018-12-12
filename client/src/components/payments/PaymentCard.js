@@ -4,26 +4,26 @@ import Moment from 'react-moment';
 
 const PaymentCard = ({ payment }) => {
   return (
-    <div class="payment-card">
+    <div className="payment-card">
       {/* <!-- card header --> */}
-      <div class="payment-header">
-        <h3 class="date">
+      <div className="payment-header">
+        <h3 className="date">
           <Moment format="Do MMM YYYY">{payment.date}</Moment>
         </h3>
-        <div class="status">
-          <span class="badge badge-green">Paid</span>
+        <div className="status">
+          <span className="badge badge-green">Paid</span>
         </div>
       </div>
 
       {/* <!-- card main content --> */}
-      <div class="payment-content">
-        <h2 class="location" title={payment.location.name}>
+      <div className="payment-content">
+        <h2 className="location" title={payment.location.name}>
           {payment.location.name}
         </h2>
-        <div class="price">
+        <div className="price">
           <p>GBP £{(payment.price / 100).toFixed(2)}</p>
         </div>
-        <div class="dates">
+        <div className="dates">
           {payment.bookingDates.length > 1 ? (
             <p>{payment.bookingDates.length} dates booked.</p>
           ) : (
@@ -33,7 +33,7 @@ const PaymentCard = ({ payment }) => {
       </div>
 
       {/* <!-- card footer --> */}
-      <div class="footer">
+      <div className="footer">
         <Link to={{ pathname: `/confirmation/${payment._id}` }}>
           View Payment <span>&rarr;</span>
         </Link>

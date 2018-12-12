@@ -20,12 +20,6 @@ class Bookings extends Component {
     this.props.getBookings(this.state.page);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.location.state === 'desiredState') {
-      console.log('y9');
-    }
-  }
-
   render() {
     const { loading, bookings } = this.props.bookings;
     const { page } = this.state;
@@ -151,9 +145,9 @@ class Bookings extends Component {
               )}
 
               <div className="footer text-right">
-                <a href="#" className="btn btn-green">
+                <Link to="/payments" className="btn btn-green">
                   View Payments
-                </a>
+                </Link>
               </div>
             </div>
           </div>

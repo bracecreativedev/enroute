@@ -1,56 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import pin from './enroute-pin.png';
-import styled from 'styled-components';
 import { setFeaturedLocation } from '../../actions/locationActions';
 import isEmpty from '../../validation/is-empty';
-
-const PinHover = styled.div`
-  opacity: 0;
-  pointer-events: none;
-  position: absolute;
-  background: #5bc6f2;
-  color: white;
-  top: -5px;
-  transform: translate(-35%, -100%);
-  width: 200px;
-  border-radius: 2px;
-  padding: 10px;
-  text-align: left;
-  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.15);
-  transition: all 0.3s ease;
-
-  p {
-    margin-bottom: 0;
-  }
-`;
-
-const PinContainer = styled.div`
-  position: relative;
-  transform: translate(-50%, -50%);
-
-  button {
-    transform: translate(-60%, -50%);
-
-    &:hover {
-      cursor: pointer;
-
-      ${PinHover} {
-        opacity: 1;
-        z-index: 20;
-      }
-    }
-
-    &:focus {
-      outline: none;
-
-      ${PinHover} {
-        opacity: 1;
-        z-index: -1;
-      }
-    }
-  }
-`;
 
 class Pin extends Component {
   constructor(props) {
@@ -91,30 +43,39 @@ class Pin extends Component {
     };
 
     // if pin is active, change the pin styles!
-    let pinImage;
-    if (!isEmpty(featuredLocation) && featuredLocation._id === location._id) {
+    let pinImage, activePin;
+    if (
+      !isEmpty(featuredLocation.location) &&
+      featuredLocation.location._id === location._id
+    ) {
       pinImage = <img src={pin} alt="" style={pinStyleActive} />;
+      activePin = true;
     } else {
       pinImage = <img src={pin} alt="" style={pinStyle} />;
+      activePin = false;
     }
 
     return (
-      <PinContainer>
+      <div className={activePin ? 'pin-container active' : 'pin-container'}>
+        <div className="pin-hover">
+          <div className="content">
+            <p>
+              <strong>{location.name}</strong>
+            </p>
+          </div>
+          <div className="footer">
+            <p>Cost</p>
+            <p className="price">£{(location.price / 100).toFixed(2)}</p>
+          </div>
+        </div>
+
         <button
           style={{ background: 'none', border: 'none', padding: 'none' }}
           onClick={this.onPinClick}
         >
-          <PinHover>
-            <p>
-              <strong>{location.name}</strong>
-            </p>
-            <p>{location.location.street}</p>
-            <p>{location.location.postcode}</p>
-          </PinHover>
-
           {pinImage}
         </button>
-      </PinContainer>
+      </div>
     );
   }
 }
