@@ -107,7 +107,7 @@ router.post(
                         .sendMail({
                           to: user.email,
                           subject: 'Payment Confirmation',
-                          html: `This is a email to confirm your payment to En Route Parking. <a href="http://localhost:3000/confirmation/${
+                          html: `This is a email to confirm your payment to En Route Parking. <a href="https://shielded-mesa-88850.herokuapp.com/confirmation/${
                             payment._id
                           }">View your booking online.</a>`
                         })

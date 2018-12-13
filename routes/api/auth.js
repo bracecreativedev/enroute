@@ -87,12 +87,13 @@ router.post('/register', (req, res) => {
                 keys.EMAIL_SECRET,
                 {},
                 (err, emailToken) => {
-                  const url = `http://localhost:3000/confirm-email/${emailToken}`;
+                  const url = `https://shielded-mesa-88850.herokuapp.com/confirm-email/${emailToken}`;
 
                   transporter
                     .sendMail({
                       to: user.email,
-                      subject: 'Confirm Email',
+                      subject:
+                        'Confirm Your Email Address for En Route Parking',
                       html: `Please click this email to confirm your email: <a href="${url}">${url}</a>`
                     })
                     .then(email => console.log('Email sent'))
