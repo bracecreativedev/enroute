@@ -20,9 +20,11 @@ import Register from './components/auth/Register';
 import Dashboard from './components/dashboard/Dashboard';
 import CreateProfile from './components/profile/CreateProfile';
 import EditProfile from './components/profile/EditProfile';
+import EditAccount from './components/auth/EditAccount';
 import Map from './components/map/Map';
 import CheckoutDetails from './components/checkout/CheckoutDetails';
 import Bookings from './components/bookings/Bookings';
+import PastBookings from './components/bookings/PastBookings';
 import Confirmation from './components/confirmation/Confirmation';
 import ConfirmEmail from './components/auth/ConfirmEmail';
 import NoMatch from './components/nomatch/NoMatch';
@@ -67,9 +69,11 @@ class App extends Component {
                 component={CheckoutDetails}
               />
               <PrivateRoute path="/bookings" component={Bookings} />
+              <PrivateRoute path="/past-bookings" component={PastBookings} />
               <PrivateRoute path="/dashboard" component={Dashboard} />
               <PrivateRoute path="/create-profile" component={CreateProfile} />
               <PrivateRoute path="/edit-profile" component={EditProfile} />
+              <PrivateRoute path="/edit-account" component={EditAccount} />
               <PrivateRoute path="/confirmation/:id" component={Confirmation} />
               <PrivateRoute path="/payments" component={Payments} />
               <Route component={NoMatch} />

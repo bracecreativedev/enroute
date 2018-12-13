@@ -1,11 +1,15 @@
 import {
   SET_BOOKING_DATA,
   GET_BOOKINGS,
+  GET_UPCOMING_BOOKINGS,
+  GET_PAST_BOOKINGS,
   BOOKINGS_LOADING
 } from '../actions/types';
 
 const initialState = {
   bookings: [],
+  pastBookings: [],
+  upcomingBookings: [],
   bookingData: {},
   loading: false
 };
@@ -23,12 +27,23 @@ export default function(state = initialState, action) {
         bookings: action.payload,
         loading: false
       };
-    case BOOKINGS_LOADING: {
+    case GET_UPCOMING_BOOKINGS:
+      return {
+        ...state,
+        upcomingBookings: action.payload,
+        loading: false
+      };
+    case GET_PAST_BOOKINGS:
+      return {
+        ...state,
+        pastBookings: action.payload,
+        loading: false
+      };
+    case BOOKINGS_LOADING:
       return {
         ...state,
         loading: true
       };
-    }
     default:
       return state;
   }

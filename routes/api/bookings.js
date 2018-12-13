@@ -56,7 +56,7 @@ router.post(
 // @desc    Get a booking from ID
 // @access  Private
 router.get(
-  '/:id',
+  '/booking/:id',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Booking.findById(req.params.id)
@@ -73,7 +73,7 @@ router.get(
 );
 
 // @route   GET api/bookings/
-// @desc    Get current users *upcoming* bookings
+// @desc    Get current users bookings
 // @access  Private
 router.get(
   '/',
@@ -84,26 +84,90 @@ router.get(
       limit: parseInt(req.query.limit) || 10
     };
 
-    let totalCount;
-
-    Booking.find({ user: req.user.id }).then(
-      allBookings => (totalCount = allBookings.length)
-    );
-
     Booking.find({ user: req.user.id })
       .sort({ bookingDate: 1 })
       .populate('location', ['name'])
       .limit(pageOptions.limit)
       .skip(pageOptions.limit * (pageOptions.page - 1))
-      .then(bookings =>
+      .then(bookings => {
+        const totalCount = bookings.length;
+
         res.json({
           totalBookings: totalCount,
           page: pageOptions.page,
           totalPages: Math.ceil(totalCount / pageOptions.limit),
           limit: pageOptions.limit,
           docs: bookings
-        })
-      );
+        });
+      });
+  }
+);
+
+// @route   GET api/bookings/upcoming
+// @desc    Get current users *upcoming* bookings
+// @access  Private
+router.get(
+  '/upcoming',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    let pageOptions = {
+      page: parseInt(req.query.page) || 1,
+      limit: parseInt(req.query.limit) || 10
+    };
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    Booking.find({ user: req.user.id, bookingDate: { $gte: today } })
+      .sort({ bookingDate: 1 })
+      .populate('location', ['name'])
+      .limit(pageOptions.limit)
+      .skip(pageOptions.limit * (pageOptions.page - 1))
+      .then(bookings => {
+        const totalCount = bookings.length;
+
+        res.json({
+          totalBookings: totalCount,
+          page: pageOptions.page,
+          totalPages: Math.ceil(totalCount / pageOptions.limit),
+          limit: pageOptions.limit,
+          docs: bookings
+        });
+      });
+  }
+);
+
+// @route   GET api/bookings/past
+// @desc    Get current users *past* bookings
+// @access  Private
+router.get(
+  '/past',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    let pageOptions = {
+      page: parseInt(req.query.page) || 1,
+      limit: parseInt(req.query.limit) || 10
+    };
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    Booking.find({ user: req.user.id, bookingDate: { $lt: today } })
+      .sort({ bookingDate: -1 })
+      .populate('location', ['name'])
+      .limit(pageOptions.limit)
+      .skip(pageOptions.limit * (pageOptions.page - 1))
+      .then(bookings => {
+        const totalCount = bookings.length;
+
+        res.json({
+          totalBookings: totalCount,
+          page: pageOptions.page,
+          totalPages: Math.ceil(totalCount / pageOptions.limit),
+          limit: pageOptions.limit,
+          docs: bookings
+        });
+      });
   }
 );
 
@@ -111,9 +175,12 @@ router.get(
 // @desc    Check the availability of a location
 // @access  Public
 router.get('/availability/:locationID', (req, res) => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
   Booking.find({
     location: req.params.locationID,
-    bookingDate: { $gte: new Date() }
+    bookingDate: { $gte: today }
   }).then(bookings => {
     // create a set of unique dates
     let uniqueSet = new Set();
@@ -157,7 +224,10 @@ router.get(
   '/user/availability',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    Booking.find({ user: req.user.id, bookingDate: { $gte: new Date() } })
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    Booking.find({ user: req.user.id, bookingDate: { $gte: today } })
       .sort({ bookingDate: 1 })
       .then(bookings => {
         let bookedDates = [];

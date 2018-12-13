@@ -52,8 +52,8 @@ class Navbar extends Component {
               <i className="fas fa-user-circle" /> Edit Profile
             </Link>
 
-            <Link className="dropdown-item" to="/edit-profile">
-              <i className="fas fa-key" /> TODO: Account
+            <Link className="dropdown-item" to="/edit-account">
+              <i className="fas fa-key" /> Edit Account Details
             </Link>
             <div className="dropdown-divider" />
             <button

@@ -16,10 +16,29 @@ class Payments extends Component {
 
     let paymentsContent;
 
-    if (isEmpty(payments) || loading) {
+    if (loading) {
       paymentsContent = (
         <div>
           <Spinner />
+        </div>
+      );
+    } else if (isEmpty(payments)) {
+      paymentsContent = (
+        <div className="container">
+          <div className="payments-box">
+            <div className="header">
+              <h1 className="heading mb-3 mb-sm-0">
+                You have no past payments, every payment you make will appear
+                here in the future!
+              </h1>
+            </div>
+
+            <div className="footer text-left">
+              <Link to="/" className="btn btn-green">
+                &larr; Home
+              </Link>
+            </div>
+          </div>
         </div>
       );
     } else {

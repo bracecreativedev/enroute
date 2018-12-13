@@ -4,6 +4,8 @@ import {
   GET_ERRORS,
   SET_BOOKING_DATA,
   GET_BOOKINGS,
+  GET_UPCOMING_BOOKINGS,
+  GET_PAST_BOOKINGS,
   BOOKINGS_LOADING
 } from './types';
 
@@ -43,6 +45,46 @@ export const getBookings = page => dispatch => {
     .catch(err =>
       dispatch({
         type: GET_BOOKINGS,
+        payload: []
+      })
+    );
+};
+
+// get upcoming bookings
+export const getUpcomingBookings = page => dispatch => {
+  dispatch(setBookingsLoading());
+
+  axios
+    .get(`/api/bookings/upcoming?page=${page}`)
+    .then(res =>
+      dispatch({
+        type: GET_UPCOMING_BOOKINGS,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_UPCOMING_BOOKINGS,
+        payload: []
+      })
+    );
+};
+
+// get past bookings
+export const getPastBookings = page => dispatch => {
+  dispatch(setBookingsLoading());
+
+  axios
+    .get(`/api/bookings/past?page=${page}`)
+    .then(res => {
+      dispatch({
+        type: GET_PAST_BOOKINGS,
+        payload: res.data
+      });
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_PAST_BOOKINGS,
         payload: []
       })
     );

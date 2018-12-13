@@ -6,6 +6,8 @@ const keys = require('../../config/keys');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const transporter = require('../../config/nodemailer');
+const passport = require('passport');
+const isEmpty = require('../../validation/is-empty');
 
 // Input Validation
 const validateRegisterInput = require('../../validation/register');
@@ -165,12 +167,13 @@ router.post('/login', (req, res) => {
         // passwords matched and are correct
 
         // create JWT payload
-        const { id, name, email } = user;
+        const { id, name, email, admin } = user;
 
         const payload = {
           id,
           name,
-          email
+          email,
+          admin
         };
 
         // sign JsonWebToken
@@ -186,5 +189,114 @@ router.post('/login', (req, res) => {
     });
   });
 });
+
+// @route   POST api/auth/update-email
+// @desc    Allow a user to update their email address
+// @access  Public
+router.post(
+  '/update-email',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    if (isEmpty(req.body.email) || !validator.isEmail(req.body.email)) {
+      return res
+        .status(400)
+        .send({ email: 'This is not a valid email address' });
+    }
+
+    User.findByIdAndUpdate(
+      req.user.id,
+      { email: validator.normalizeEmail(req.body.email) },
+      { new: true }
+    )
+      .select('-password')
+      .then(user => {
+        // create JWT payload
+        const { id, name, email, admin } = user;
+
+        const payload = {
+          id,
+          name,
+          email,
+          admin
+        };
+
+        // sign JsonWebToken
+        jwt.sign(payload, keys.key, { expiresIn: '7d' }, (err, token) => {
+          res.json({
+            success: true,
+            email: user.email,
+            token: 'Bearer ' + token
+          });
+        });
+      });
+  }
+);
+
+// @route   POST api/auth/update-password
+// @desc    Allow the user to change their password
+// @access  Public
+router.post(
+  '/update-password',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    // TODO ADD FURTHER VALIDATION
+    if (isEmpty(req.body.newPassword)) {
+      return res.status(400).send({ password: 'Password cannot be empty' });
+    } else if (req.body.newPassword !== req.body.confirmPassword) {
+      return res.status(400).send({ password: 'The new passwords must match' });
+    }
+
+    User.findById(req.user.id).then(user => {
+      const { oldPassword } = req.body;
+
+      bcrypt.compare(oldPassword, user.password).then(isMatch => {
+        if (!isMatch) {
+          return res.json({ password: 'Your old password is incorrect.' });
+        } else {
+          bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(req.body.newPassword, salt, (err, hash) => {
+              const hashedPassword = hash;
+
+              User.findByIdAndUpdate(
+                req.user.id,
+                { password: hashedPassword },
+                { new: true }
+              )
+                .select('-password')
+                .then(newUser => res.json(newUser));
+            });
+          });
+        }
+      });
+    });
+
+    // User.findByIdAndUpdate(
+    //   req.user.id,
+    //   { email: validator.normalizeEmail(req.body.email) },
+    //   { new: true }
+    // )
+    //   .select('-password')
+    //   .then(user => {
+    //     // create JWT payload
+    //     const { id, name, email, admin } = user;
+
+    //     const payload = {
+    //       id,
+    //       name,
+    //       email,
+    //       admin
+    //     };
+
+    //     // sign JsonWebToken
+    //     jwt.sign(payload, keys.key, { expiresIn: '7d' }, (err, token) => {
+    //       res.json({
+    //         success: true,
+    //         email: user.email,
+    //         token: 'Bearer ' + token
+    //       });
+    //     });
+    //   });
+  }
+);
 
 module.exports = router;

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getUpcomingBookings } from '../../actions/bookingActions';
+import { getPastBookings } from '../../actions/bookingActions';
 import queryString from 'query-string';
 import Spinner from '../common/Spinner';
 import isEmpty from '../../validation/is-empty';
 import Moment from 'react-moment';
 
-class Bookings extends Component {
+class PastBookings extends Component {
   constructor(props) {
     super(props);
 
@@ -17,12 +17,12 @@ class Bookings extends Component {
   }
 
   componentDidMount() {
-    this.props.getUpcomingBookings(this.state.page);
+    this.props.getPastBookings(this.state.page);
   }
 
   render() {
     const { loading } = this.props.bookings;
-    const bookings = this.props.bookings.upcomingBookings;
+    const bookings = this.props.bookings.pastBookings;
     const { page } = this.state;
 
     let bookingsContent;
@@ -36,8 +36,8 @@ class Bookings extends Component {
             <div className="main-content">
               <div className="header">
                 <h1 className="heading mb-3 mb-sm-0">
-                  You have no upcoming bookings, all future bookings will appear
-                  here!
+                  You have no past bookings, all past bookings will appear here
+                  in the future!
                 </h1>
               </div>
 
@@ -49,9 +49,8 @@ class Bookings extends Component {
                 >
                   &larr; Home
                 </Link>
-
-                <Link to="/past-bookings" className="btn btn-green">
-                  Past Bookings
+                <Link to="/bookings" className="btn btn-green">
+                  Upcoming Bookings
                 </Link>
               </div>
             </div>
@@ -62,9 +61,9 @@ class Bookings extends Component {
           <div className="bookings-box">
             <div className="main-content">
               <div className="header">
-                <h1 className="heading mb-3 mb-sm-0">Your upcoming bookings</h1>
-                <Link to="/past-bookings" className="btn btn-green">
-                  Past Bookings
+                <h1 className="heading mb-3 mb-sm-0">Your past bookings</h1>
+                <Link to="/bookings" className="btn btn-green">
+                  Upcoming Bookings
                 </Link>
               </div>
 
@@ -178,5 +177,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getUpcomingBookings }
-)(Bookings);
+  { getPastBookings }
+)(PastBookings);
