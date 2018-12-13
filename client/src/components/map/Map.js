@@ -2,10 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import GoogleMap from 'google-map-react';
-import { getLocations } from '../../actions/locationActions';
+import {
+  getLocations,
+  setFeaturedLocation
+} from '../../actions/locationActions';
 import { getCurrentProfile } from '../../actions/profileActions';
 import Pin from './Pin';
 import UserPin from './UserPin';
+import CompanyPin from './CompanyPin';
 import { MapStyles } from './MapStyles';
 import isEmpty from '../../validation/is-empty';
 import Sidebar from '../sidebar/Sidebar';
@@ -28,6 +32,7 @@ class Map extends Component {
     const { isAuthenticated } = this.props.auth;
 
     this.props.getLocations();
+    this.props.setFeaturedLocation();
 
     if (isAuthenticated) {
       this.props.getCurrentProfile();
@@ -49,6 +54,7 @@ class Map extends Component {
     const { center, zoom } = this.state;
 
     let profilePins;
+    let companyPins;
 
     if (
       !isEmpty(profile) &&
@@ -59,6 +65,20 @@ class Map extends Component {
         <UserPin
           lat={profile.address.lat}
           lng={profile.address.lng}
+          profile={profile}
+        />
+      );
+    }
+
+    if (
+      !isEmpty(profile) &&
+      !isEmpty(profile.company) &&
+      !isEmpty(profile.company.lng)
+    ) {
+      companyPins = (
+        <CompanyPin
+          lat={profile.company.lat}
+          lng={profile.company.lng}
           profile={profile}
         />
       );
@@ -99,6 +119,7 @@ class Map extends Component {
                   ))}
 
                   {profilePins}
+                  {companyPins}
                 </GoogleMap>
               </div>
             </div>
@@ -154,5 +175,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getLocations, getCurrentProfile }
+  { getLocations, getCurrentProfile, setFeaturedLocation }
 )(Map);

@@ -7,6 +7,13 @@ const LocationSchema = new Schema({
     type: String,
     required: true
   },
+  images: [
+    {
+      imageURL: {
+        type: String
+      }
+    }
+  ],
   location: {
     street: {
       type: String,

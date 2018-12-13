@@ -46,7 +46,7 @@ class Confirmation extends Component {
           <div className="main-content">
             <div className="header">
               <h1 className="heading">Thank you for your payment!</h1>
-              <p>The following is your payment and booking confirmation.</p>
+              <p>The following is your payment confirmation.</p>
             </div>
 
             <div className="payment-details">
@@ -74,9 +74,7 @@ class Confirmation extends Component {
                         <i className="far fa-circle fa-stack-2x" />
                         <i className="fas fa-car fa-stack-1x fa-inverse" />
                       </span>{' '}
-                      <Moment format="dddd Do MMMM YY">
-                        {moment(date, 'DD-MM-YY')}
-                      </Moment>
+                      <Moment format="dddd Do MMMM YYYY">{date}</Moment>
                     </li>
                   ))}
                 </ul>

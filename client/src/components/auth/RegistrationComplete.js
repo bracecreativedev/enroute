@@ -18,7 +18,7 @@ const RegistrationComplete = ({ name, email }) => {
             <p>
               We've sent a confirmation email to{' '}
               <span className="font-weight-bold">{email}</span>, please confirm
-              your account to start using En Route Parking!
+              your email address to start using En Route Parking!
             </p>
           )}
         </div>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Elements, StripeProvider } from 'react-stripe-elements';
 import { connect } from 'react-redux';
 import { getCurrentProfile } from '../../actions/profileActions';
+import { setFeaturedLocation } from '../../actions/locationActions';
 import { Link } from 'react-router-dom';
 import Spinner from '../../components/common/Spinner';
 import CheckoutForm from '../checkout/CheckoutForm';
@@ -9,13 +10,14 @@ import axios from 'axios';
 import queryString from 'query-string';
 import Moment from 'react-moment';
 import moment from 'moment';
+import isEmpty from '../../validation/is-empty';
 
 class BookingDetails extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      bookingDates: [],
+      selectedDates: [],
       parkingLocation: {}
     };
   }
@@ -25,29 +27,97 @@ class BookingDetails extends Component {
 
     // grab parameters
     const dates = queryString.parse(this.props.location.search).dates;
-    let bookingDates = dates.split(',');
+
+    let selectedDates = [];
+
+    // check if dates are empty
+    if (!isEmpty(dates)) {
+      selectedDates = dates.split(',');
+    }
+
+    let formattedDates = [];
+
+    selectedDates.map(date => {
+      return formattedDates.push(moment(date, 'DD-MM-YY').toISOString());
+    });
 
     // get profile
     if (isAuthenticated) {
       this.props.getCurrentProfile();
     }
 
-    this.setState({ bookingDates: bookingDates });
+    this.setState({ selectedDates: formattedDates });
 
-    const locationID = this.props.match.params.id;
+    const location = {
+      _id: this.props.match.params.id
+    };
 
     axios
-      .get(`/api/locations/${locationID}`)
-      .then(data => this.setState({ parkingLocation: data.data }))
+      .get(`/api/locations/${location._id}`)
+      .then(data => {
+        this.props.setFeaturedLocation(data.data, isAuthenticated);
+        this.setState({ parkingLocation: data.data });
+      })
       .catch(err => console.log(err));
   }
 
   render() {
-    const { parkingLocation, bookingDates } = this.state;
+    const { parkingLocation, selectedDates } = this.state;
     const { isAuthenticated } = this.props.auth;
     const { profile, loading } = this.props.profile;
+    const {
+      alreadyBooked,
+      disabledDays
+    } = this.props.locations.featuredLocation;
 
     let checkoutContent;
+
+    // if any of the dates for checkout have already been booked then return error
+    if (!isEmpty(alreadyBooked)) {
+      // combine alreadyBooked and disabledDays
+      let unavailableDates = alreadyBooked.concat(disabledDays);
+
+      // check to see if this array meets the orders parameters
+      let found = selectedDates.some(date => unavailableDates.includes(date));
+      let pastDays = false;
+
+      // get today's date in ISO date form
+      let today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      selectedDates.map(date => {
+        if (today.toISOString() > date) {
+          return (pastDays = true);
+        }
+      });
+
+      if (found || pastDays || isEmpty(selectedDates)) {
+        return (checkoutContent = (
+          <div className="page-container">
+            <div className="container">
+              <div className="generic-box">
+                <div className="main-content">
+                  <div className="header">
+                    <h1 className="heading">Whoops, there's an issue here.</h1>
+                    <p className="subheading">
+                      One of the dates you've selected is not possible to book.
+                      You may already have a booking on this day, the parking
+                      location may be full or one of the days is in the past.
+                    </p>
+                  </div>
+
+                  <div className="footer">
+                    <Link to="/" className="btn btn-green">
+                      &larr; Home
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ));
+      }
+    }
 
     if (isAuthenticated) {
       if (profile === null || loading) {
@@ -111,7 +181,7 @@ class BookingDetails extends Component {
 
                             <div className="content">
                               <div className="row no-gutters">
-                                {bookingDates.map(date => (
+                                {selectedDates.map(date => (
                                   <div
                                     className="col-lg-6 col-md-12"
                                     key={date}
@@ -120,7 +190,7 @@ class BookingDetails extends Component {
                                       <div className="date">
                                         <p>
                                           <Moment format="Do MMM YY">
-                                            {moment(date, 'DD-MM-YY')}
+                                            {date}
                                           </Moment>
                                         </p>
                                       </div>
@@ -149,7 +219,7 @@ class BookingDetails extends Component {
                             <p className="price">
                               <span>£</span>
                               {(
-                                (bookingDates.length * parkingLocation.price) /
+                                (selectedDates.length * parkingLocation.price) /
                                 100
                               ).toFixed(2)}
                             </p>
@@ -192,7 +262,7 @@ class BookingDetails extends Component {
                             <Elements>
                               <CheckoutForm
                                 parkingLocation={parkingLocation}
-                                bookingDates={bookingDates}
+                                selectedDates={selectedDates}
                               />
                             </Elements>
                           </div>
@@ -223,5 +293,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getCurrentProfile }
+  { getCurrentProfile, setFeaturedLocation }
 )(BookingDetails);

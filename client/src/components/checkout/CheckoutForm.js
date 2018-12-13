@@ -22,7 +22,7 @@ class CheckoutForm extends Component {
   }
 
   async submit(ev) {
-    const { parkingLocation, bookingDates } = this.props;
+    const { parkingLocation, selectedDates } = this.props;
     const { user } = this.props.auth;
 
     ev.preventDefault();
@@ -39,7 +39,7 @@ class CheckoutForm extends Component {
           this.setState({ paymentLoading: true });
 
           const paymentData = {
-            bookingDates: bookingDates,
+            bookingDates: selectedDates,
             token: token.id
           };
 
@@ -83,7 +83,7 @@ class CheckoutForm extends Component {
     } else {
       checkoutFormContent = (
         <div className="checkout-box">
-          <p className="mb-1">Enter card details</p>
+          <p className="mb-1">Enter your card details</p>
           <CardElement />
           {!isEmpty(error) ? <p>{error}</p> : null}
           <p className="stripe-text">

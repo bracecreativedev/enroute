@@ -24,6 +24,7 @@ import Map from './components/map/Map';
 import CheckoutDetails from './components/checkout/CheckoutDetails';
 import Bookings from './components/bookings/Bookings';
 import Confirmation from './components/confirmation/Confirmation';
+import ConfirmEmail from './components/auth/ConfirmEmail';
 import NoMatch from './components/nomatch/NoMatch';
 import Payments from './components/payments/Payments';
 
@@ -59,6 +60,7 @@ class App extends Component {
               <Route exact path="/" component={Map} />
               <Route path="/login" component={Login} />
               <Route path="/register" component={Register} />
+              <Route path="/confirm-email/:token" component={ConfirmEmail} />
               <PrivateRoute
                 exact
                 path="/checkout/:id"

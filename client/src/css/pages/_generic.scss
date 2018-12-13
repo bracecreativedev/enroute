@@ -1,0 +1,36 @@
+.generic-box {
+  margin: 30px 0;
+  border-top: 10px solid $green;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+
+  .main-content {
+    .header {
+      padding: 30px;
+
+      .heading {
+      }
+
+      .subheading {
+        margin-bottom: 0;
+        color: $muted;
+      }
+    }
+
+    .footer {
+      background: hsl(200, 25%, 88%);
+      padding: 30px;
+    }
+
+    a {
+      color: $green;
+    }
+
+    .btn.btn-green {
+      color: $light;
+
+      &:hover {
+        color: $green;
+      }
+    }
+  }
+}

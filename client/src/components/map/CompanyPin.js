@@ -60,7 +60,7 @@ const PinContainer = styled.div`
   }
 `;
 
-class UserPin extends Component {
+class CompanyPin extends Component {
   constructor(props) {
     super(props);
 
@@ -116,10 +116,9 @@ class UserPin extends Component {
         >
           <PinHover>
             <p>
-              <strong>Your Home Address</strong>
+              <strong>Your Company Address</strong>
             </p>
-            <p>{profile.address.street}</p>
-            <p>{profile.address.postcode}</p>
+            <p>{profile.company.postcode}</p>
           </PinHover>
 
           {pinImage}
@@ -134,4 +133,4 @@ const mapStateToProps = state => ({});
 export default connect(
   mapStateToProps,
   { setFeaturedLocation }
-)(UserPin);
+)(CompanyPin);

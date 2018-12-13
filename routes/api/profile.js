@@ -57,13 +57,12 @@ router.post(
       profileFields.company.postcode = req.body.companyPostcode;
 
     // get geocode location of users address
-    if (!isEmpty(req.body.street) || !isEmpty(req.body.postcode)) {
+    if (!isEmpty(req.body.postcode)) {
       axios
         .get(
-          `https://maps.googleapis.com/maps/api/geocode/json?address=${req.body
-            .street +
-            ', ' +
-            req.body.postcode}&key=${keys.geocode}`
+          `https://maps.googleapis.com/maps/api/geocode/json?address=${
+            req.body.postcode
+          }&key=${keys.geocode}`
         )
         .then(geocode => {
           // if empty, set profile fields to nothing
@@ -75,6 +74,82 @@ router.post(
 
             profileFields.address.lat = location.lat;
             profileFields.address.lng = location.lng;
+          }
+
+          if (!isEmpty(req.body.companyPostcode)) {
+            axios
+              .get(
+                `https://maps.googleapis.com/maps/api/geocode/json?address=${
+                  req.body.companyPostcode
+                }&key=${keys.geocode}`
+              )
+              .then(office => {
+                // if empty, set profile fields to nothing
+                if (isEmpty(office.data.results)) {
+                  profileFields.company.lat = '';
+                  profileFields.company.lng = '';
+                } else {
+                  const officeLocation =
+                    office.data.results[0].geometry.location;
+
+                  profileFields.company.lat = officeLocation.lat;
+                  profileFields.company.lng = officeLocation.lng;
+                }
+
+                Profile.findOne({ user: req.user.id }).then(profile => {
+                  if (profile) {
+                    // update
+                    Profile.findOneAndUpdate(
+                      { user: req.user.id },
+                      { $set: profileFields, lastUpdated: new Date() },
+                      { new: true }
+                    ).then(profile => res.json(profile));
+                  } else {
+                    // create new profile
+                    new Profile(profileFields)
+                      .save()
+                      .then(profile => res.json(profile));
+                  }
+                });
+              });
+          } else {
+            Profile.findOne({ user: req.user.id }).then(profile => {
+              if (profile) {
+                // update
+                Profile.findOneAndUpdate(
+                  { user: req.user.id },
+                  { $set: profileFields, lastUpdated: new Date() },
+                  { new: true }
+                ).then(profile => res.json(profile));
+              } else {
+                // create new profile
+                new Profile(profileFields)
+                  .save()
+                  .then(profile => res.json(profile));
+              }
+            });
+          }
+        });
+    } else if (
+      isEmpty(req.body.postcode) &&
+      !isEmpty(req.body.companyPostcode)
+    ) {
+      axios
+        .get(
+          `https://maps.googleapis.com/maps/api/geocode/json?address=${
+            req.body.companyPostcode
+          }&key=${keys.geocode}`
+        )
+        .then(office => {
+          // if empty, set profile fields to nothing
+          if (isEmpty(office.data.results)) {
+            profileFields.company.lat = '';
+            profileFields.company.lng = '';
+          } else {
+            const officeLocation = office.data.results[0].geometry.location;
+
+            profileFields.company.lat = officeLocation.lat;
+            profileFields.company.lng = officeLocation.lng;
           }
 
           Profile.findOne({ user: req.user.id }).then(profile => {

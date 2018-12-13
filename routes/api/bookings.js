@@ -73,7 +73,7 @@ router.get(
 );
 
 // @route   GET api/bookings/
-// @desc    Get current users bookings
+// @desc    Get current users *upcoming* bookings
 // @access  Private
 router.get(
   '/',

@@ -4,6 +4,8 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const keys = require('../../config/keys');
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
+const transporter = require('../../config/nodemailer');
 
 // Input Validation
 const validateRegisterInput = require('../../validation/register');
@@ -16,6 +18,24 @@ const User = require('../../models/User');
 // @desc    Tests auth route
 // @access  Public
 router.get('/test', (req, res) => res.json({ msg: 'Auth Route Works' }));
+
+// @route   POST api/auth/test
+// @desc    Sends a test email
+// @access  Public
+router.post('/email-test', (req, res) => {
+  // async email
+  transporter
+    .sendMail({
+      to: req.body.email,
+      subject: 'Test Email',
+      html: `This is a test email sent from the /api/auth/email-test route.`
+    })
+    .then(email => res.json(email))
+    .catch(err => {
+      res.status(400).json({ error: 'There was an error sending the email.' });
+      console.log(err);
+    });
+});
 
 // @route   POST api/auth/register
 // @desc    Register a user
@@ -57,13 +77,57 @@ router.post('/register', (req, res) => {
           newUser
             .save()
             .then(user => {
-              res.json(user);
+              // send confirmation email
+              jwt.sign(
+                {
+                  id: user.id,
+                  name: user.name,
+                  email: user.email
+                },
+                keys.EMAIL_SECRET,
+                {},
+                (err, emailToken) => {
+                  const url = `http://localhost:3000/confirm-email/${emailToken}`;
+
+                  transporter
+                    .sendMail({
+                      to: user.email,
+                      subject: 'Confirm Email',
+                      html: `Please click this email to confirm your email: <a href="${url}">${url}</a>`
+                    })
+                    .then(email => console.log('Email sent'))
+                    .catch(err => {
+                      User.findByIdAndUpdate(
+                        user.id,
+                        { confirmed: true },
+                        { new: true }
+                      );
+
+                      console.log(
+                        'Error sending email, user has been auto-confirmed.'
+                      );
+                    });
+                }
+              );
+
+              return res.json(user);
             })
             .catch(err => console.log(err));
         });
       });
     }
   });
+});
+
+// @route   GET api/auth/confirmation/:token
+// @desc    Confirm a user email address
+// @access  Public
+router.get('/confirmation/:token', (req, res) => {
+  const user = jwt.verify(req.params.token, keys.EMAIL_SECRET);
+
+  User.findByIdAndUpdate(user.id, { confirmed: true }, { new: true }).then(
+    user => res.json(user)
+  );
 });
 
 // @route   GET api/auth/login
@@ -87,12 +151,12 @@ router.post('/login', (req, res) => {
       return res.status(400).json({ email: 'Email not found' });
     }
 
-    // TODO: check if user has confirmed their email address
-    // if (!user.confirmed) {
-    //   return res
-    //     .status(400)
-    //     .json({ email: 'Email address has not been confirmed' });
-    // }
+    // check if user has confirmed their email address
+    if (!user.confirmed) {
+      return res
+        .status(400)
+        .json({ email: 'Email address has not been confirmed' });
+    }
 
     // check password matches password in database
     bcrypt.compare(password, user.password).then(isMatch => {

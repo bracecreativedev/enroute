@@ -101,12 +101,56 @@ class FeaturedContent extends Component {
         </div>
 
         <div className="content">
-          <div className="featured-img">
-            <img
-              src="http://s0.geograph.org.uk/photos/14/66/146661_2c6e379d.jpg"
-              alt=""
-            />
-          </div>
+          {!isEmpty(featuredLocation.images) ? (
+            <div
+              id="featuredImages"
+              className="carousel slide"
+              data-ride="carousel"
+            >
+              <div className="carousel-inner">
+                {featuredLocation.images.map((image, index) => {
+                  return (
+                    <div
+                      className={
+                        index === 0 ? 'carousel-item active' : 'carousel-item'
+                      }
+                      key={image.imageURL}
+                    >
+                      <img
+                        className="d-block w-100"
+                        src={image.imageURL}
+                        alt="First slide"
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+              <a
+                className="carousel-control-prev"
+                href="#featuredImages"
+                role="button"
+                data-slide="prev"
+              >
+                <span
+                  className="carousel-control-prev-icon"
+                  aria-hidden="true"
+                />
+                <span className="sr-only">Previous</span>
+              </a>
+              <a
+                className="carousel-control-next"
+                href="#featuredImages"
+                role="button"
+                data-slide="next"
+              >
+                <span
+                  className="carousel-control-next-icon"
+                  aria-hidden="true"
+                />
+                <span className="sr-only">Next</span>
+              </a>
+            </div>
+          ) : null}
 
           <div className="inner-content">
             <div className="meta-data">

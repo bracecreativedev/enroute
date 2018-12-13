@@ -5,6 +5,8 @@ const passport = require('passport');
 const keys = require('../../config/keys');
 const stripe = require('stripe')(keys.stripe);
 const moment = require('moment');
+const nodemailer = require('nodemailer');
+const transporter = require('../../config/nodemailer');
 
 // import models
 const Payment = require('../../models/Payment');
@@ -87,10 +89,7 @@ router.post(
                       const newBooking = new Booking({
                         location: location._id,
                         user: req.user.id,
-                        bookingDate: moment(
-                          singleDate,
-                          'DD-MM-YY'
-                        ).toISOString(),
+                        bookingDate: singleDate,
                         price: location.price,
                         vehicle: {
                           reg: profile.vehicle.reg,
@@ -101,6 +100,25 @@ router.post(
                         paymentRef: payment._id
                       }).save();
                     });
+
+                    // step 6: send confirmation email
+                    User.findById(req.user.id).then(user => {
+                      transporter
+                        .sendMail({
+                          to: user.email,
+                          subject: 'Payment Confirmation',
+                          html: `This is a email to confirm your payment to En Route Parking. <a href="http://localhost:3000/confirmation/${
+                            payment._id
+                          }">View your booking online.</a>`
+                        })
+                        .then(email => console.log('Payment Email sent'))
+                        .catch(err => {
+                          console.log(
+                            'Error sending payment email, user has been auto-confirmed.'
+                          );
+                        });
+                    });
+
                     return res.json(payment);
                   })
                   .catch(err =>
