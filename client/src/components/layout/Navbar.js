@@ -17,6 +17,7 @@ class Navbar extends Component {
 
   render() {
     const { isAuthenticated, user } = this.props.auth;
+    const { admin } = this.props.auth.user;
 
     const authLinks = (
       <ul className="navbar-nav ml-auto">
@@ -55,6 +56,24 @@ class Navbar extends Component {
             <Link className="dropdown-item" to="/edit-account">
               <i className="fas fa-key" /> Edit Account Details
             </Link>
+
+            {admin ? (
+              <span>
+                <div className="dropdown-divider" />
+                <Link
+                  className="dropdown-item"
+                  to="/admin-panel"
+                  style={{ color: '#96c236' }}
+                >
+                  <i
+                    className="fas fa-unlock-alt"
+                    style={{ color: '#96c236' }}
+                  />{' '}
+                  Admin Panel
+                </Link>
+              </span>
+            ) : null}
+
             <div className="dropdown-divider" />
             <button
               className="dropdown-item"

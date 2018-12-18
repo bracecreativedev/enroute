@@ -1,26 +1,37 @@
 // map
 .main-container {
-  height: 100%;
-  overflow: hidden;
-  width: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-
   .map-container {
-    bottom: 0;
-    display: block;
-    float: left;
-    left: 400px;
-    position: absolute;
-    right: 0;
-    top: 80px;
+    height: 80vh;
+    width: 100%;
 
     iframe {
       position: relative;
       z-index: 20;
       width: 100%;
       height: 100%;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .main-container {
+    height: 100%;
+    overflow: hidden;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    .map-container {
+      bottom: 0;
+      display: block;
+      float: left;
+      left: 400px;
+      position: absolute;
+      right: 0;
+      top: 80px;
+      height: auto;
+      width: auto;
     }
   }
 }

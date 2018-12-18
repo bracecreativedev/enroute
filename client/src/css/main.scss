@@ -23,6 +23,10 @@ html {
   color: $dark;
 }
 
+.noscroll {
+  overflow-y: hidden !important;
+}
+
 .btn.btn-green {
   background: linear-gradient(90deg, #96c236 0%, #4da534 100%);
   color: $light;

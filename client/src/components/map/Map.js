@@ -40,11 +40,9 @@ class Map extends Component {
   }
 
   onClick = (key, childProps) => {
-    this.setState({
-      center: { lat: childProps.lat, lng: childProps.lng }
-    });
-
-    console.log(this.state.zoom);
+    // this.setState({
+    //   center: { lat: childProps.lat, lng: childProps.lng }
+    // });
   };
 
   render() {
@@ -98,7 +96,6 @@ class Map extends Component {
         if (Object.keys(profile).length > 0) {
           dashboardContent = (
             <div>
-              <Sidebar />
               {/* // Important! Always set the container height explicitly */}
               <div className="map-container">
                 <GoogleMap
@@ -122,6 +119,7 @@ class Map extends Component {
                   {companyPins}
                 </GoogleMap>
               </div>
+              <Sidebar />
             </div>
           );
         } else {
@@ -131,7 +129,6 @@ class Map extends Component {
     } else {
       dashboardContent = (
         <div>
-          <Sidebar />
           {/* // Important! Always set the container height explicitly */}
           <div className="map-container">
             <GoogleMap
@@ -154,6 +151,7 @@ class Map extends Component {
               {profilePins}
             </GoogleMap>
           </div>
+          <Sidebar />
         </div>
       );
     }

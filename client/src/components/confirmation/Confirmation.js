@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { getPayment } from '../../actions/paymentActions';
 import Spinner from '../common/Spinner';
 import isEmpty from '../../validation/is-empty';
-import moment from 'moment';
 import Moment from 'react-moment';
 
 class Confirmation extends Component {

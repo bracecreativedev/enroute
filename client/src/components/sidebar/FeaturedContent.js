@@ -21,12 +21,17 @@ class FeaturedContent extends Component {
   }
 
   componentDidMount() {
+    document.body.classList.add('noscroll');
     const { featuredLocation } = this.props.locations;
 
     this.props.setBookingData({
       location: featuredLocation,
       startDate: this.state.startDate
     });
+  }
+
+  componentWillUnmount() {
+    document.body.classList.remove('noscroll');
   }
 
   handleDayClick(day, { selected }) {
@@ -66,6 +71,11 @@ class FeaturedContent extends Component {
     }
     // formatted dates ready for putting into day picker
     formattedDates.push({ before: today });
+    // formattedDates.push({ from: today, to: new Date('2018-12-21') });
+    // formattedDates.push({
+    //   from: new Date('2018-12-23'),
+    //   to: new Date('2018-12-29')
+    // });
 
     // create a formatted array of selected dates for the booking url
     let urlArray = [];

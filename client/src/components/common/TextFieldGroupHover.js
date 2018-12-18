@@ -34,7 +34,7 @@ const TextFieldGroupHover = ({
       />
       <label htmlFor={name}>{label}</label>
       {info && <small className="form-text text-muted">{info}</small>}
-      {error && <div className="mt-3 text-danger">{error}</div>}
+      {error && <div className="mt-3 mb-2 text-danger">{error}</div>}
     </fieldset>
   );
 };

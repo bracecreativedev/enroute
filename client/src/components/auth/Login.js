@@ -86,6 +86,9 @@ class Login extends Component {
 
             <div className="footer">
               <h3 className="heading">
+                Forgotten your password?{' '}
+                <Link to="/forgotten-password">Reset Password</Link>
+                <br />
                 Don't have an account? <Link to="/register">Register</Link>
               </h3>
             </div>

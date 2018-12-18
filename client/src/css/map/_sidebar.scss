@@ -1,15 +1,5 @@
 .main-container {
   .sidebar {
-    width: 100%;
-    bottom: unset;
-    height: 100vh;
-    padding-top: 80px;
-    position: relative;
-    max-width: 400px;
-    bottom: 0;
-    box-shadow: 4px 0px 10px rgba(0, 0, 0, 0.05);
-    z-index: 5;
-
     .header {
       background: $green;
       color: $light;
@@ -19,14 +9,6 @@
     }
 
     .location-list {
-      width: 100%;
-      bottom: unset;
-      overflow-y: scroll;
-      position: absolute;
-      top: 0;
-      padding-top: 104px;
-      height: 100%;
-
       .single-location {
         padding: 20px;
         border-bottom: 1px solid;
@@ -138,23 +120,41 @@
   }
 }
 
+@media (min-width: 768px) {
+  .main-container {
+    .sidebar {
+      width: 100%;
+      bottom: unset;
+      height: 100vh;
+      padding-top: 80px;
+      position: relative;
+      max-width: 400px;
+      bottom: 0;
+      box-shadow: 4px 0px 10px rgba(0, 0, 0, 0.05);
+      z-index: 5;
+
+      .location-list {
+        width: 100%;
+        bottom: unset;
+        overflow-y: scroll;
+        position: absolute;
+        top: 0;
+        padding-top: 104px;
+        height: 100%;
+      }
+    }
+  }
+}
+
 // featured content
 .main-container {
   .featured-content {
     background: $light;
-    position: absolute;
-    left: 400px;
-    width: 400px;
-    margin-top: 100px;
-    margin-left: 20px;
-    margin-bottom: 20px;
-    top: 0;
-    bottom: 0;
+    position: fixed;
+    width: 100%;
+    top: 80px;
     z-index: 20;
-    border-radius: 0px;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
-    // border: 1px solid rgba(102, 102, 102, 0.2);
-    overflow-y: hidden;
+    height: 100vh;
 
     .header {
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
@@ -250,11 +250,14 @@
     }
 
     .content {
+      background: $light;
       height: 100%;
+      height: calc(100% - 80px);
       overflow-y: scroll;
       position: absolute;
       padding-top: 120px;
-      bottom: 0;
+      width: 100%;
+      top: 0;
 
       .inner-content {
         padding: 20px;
@@ -334,6 +337,36 @@
       img {
         max-width: 100%;
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .main-container {
+    .featured-content {
+      background: $light;
+      position: absolute;
+      left: 400px;
+      width: 400px;
+      margin-top: 100px;
+      margin-left: 20px;
+      margin-bottom: 20px;
+      top: 0;
+      bottom: 0;
+      z-index: 20;
+      border-radius: 0px;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+      // border: 1px solid rgba(102, 102, 102, 0.2);
+      overflow-y: hidden;
+      height: auto;
+
+      .content {
+        height: 100%;
+        overflow-y: scroll;
+        position: absolute;
+        padding-top: 120px;
+        bottom: 0;
       }
     }
   }

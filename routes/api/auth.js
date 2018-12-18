@@ -133,6 +133,87 @@ router.get('/confirmation/:token', (req, res) => {
   );
 });
 
+// @route   POST api/auth/forgotten-password
+// @desc    Send a reset password email
+// @access  Public
+router.post('/forgotten-password', (req, res) => {
+  const { email } = req.body;
+
+  User.findOne({ email: email })
+    .then(user => {
+      //
+      jwt.sign(
+        {
+          password: user.password
+        },
+        keys.EMAIL_SECRET,
+        {},
+        (err, resetToken) => {
+          const url = `https://shielded-mesa-88850.herokuapp.com/reset-password/${resetToken}`;
+
+          transporter
+            .sendMail({
+              to: user.email,
+              subject: 'Reset your En Route Parking password!',
+              html: `Please click this link to reset your En Route Parking account: <a href="${url}">${url}</a>`
+            })
+            .then(email => console.log('Reset password email sent'))
+            .catch(err => {
+              console.log('Error sending reset password email.');
+            });
+        }
+      );
+    })
+    .catch(err => res.status(404).json({ error: 'No user found!' }));
+});
+
+// @route   POST api/auth/forgotten-password
+// @desc    Send a reset password email
+// @access  Public
+router.post('/reset-password/:token', (req, res) => {
+  const jwtUser = jwt.verify(req.params.token, keys.EMAIL_SECRET);
+
+  const { newPassword, confirmPassword } = req.body;
+
+  if (
+    isEmpty(newPassword) ||
+    isEmpty(confirmPassword) ||
+    newPassword !== confirmPassword
+  ) {
+    return res.status(400).json({ newPassword: 'Issue with new passwords' });
+  } else if (newPassword.length < 6) {
+    return res
+      .status(400)
+      .json({ newPassword: 'New password must be more than 6 characters' });
+  }
+
+  User.findOne({ password: jwtUser.password }).then(user => {
+    if (!user) {
+      console.log('Password reset hash rejected');
+      return res.status(404).json({ user: 'No user found' });
+    }
+
+    const { newPassword } = req.body;
+
+    bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(req.body.newPassword, salt, (err, hash) => {
+        const hashedPassword = hash;
+
+        User.findByIdAndUpdate(
+          user.id,
+          { password: hashedPassword },
+          { new: true }
+        )
+          .select('-password')
+          .then(newUser => {
+            res.json(newUser);
+            console.log(newUser);
+          });
+      });
+    });
+  });
+});
+
 // @route   GET api/auth/login
 // @desc    Login User / Returning JWT Token
 // @access  Public
@@ -241,9 +322,19 @@ router.post(
   (req, res) => {
     // TODO ADD FURTHER VALIDATION
     if (isEmpty(req.body.newPassword)) {
-      return res.status(400).send({ password: 'Password cannot be empty' });
+      return res
+        .status(400)
+        .send({ newPassword: 'New password field cannot be empty' });
     } else if (req.body.newPassword !== req.body.confirmPassword) {
-      return res.status(400).send({ password: 'The new passwords must match' });
+      return res
+        .status(400)
+        .send({ confirmPassword: 'The new passwords must match' });
+    } else if (req.body.newPassword.length < 6) {
+      return res
+        .status(400)
+        .send({
+          newPassword: 'New password must be more than 6 characters long.'
+        });
     }
 
     User.findById(req.user.id).then(user => {
@@ -251,7 +342,9 @@ router.post(
 
       bcrypt.compare(oldPassword, user.password).then(isMatch => {
         if (!isMatch) {
-          return res.json({ password: 'Your old password is incorrect.' });
+          return res
+            .status(400)
+            .json({ oldPassword: 'Your old password is incorrect.' });
         } else {
           bcrypt.genSalt(10, (err, salt) => {
             bcrypt.hash(req.body.newPassword, salt, (err, hash) => {
@@ -269,33 +362,70 @@ router.post(
         }
       });
     });
+  }
+);
 
-    // User.findByIdAndUpdate(
-    //   req.user.id,
-    //   { email: validator.normalizeEmail(req.body.email) },
-    //   { new: true }
-    // )
-    //   .select('-password')
-    //   .then(user => {
-    //     // create JWT payload
-    //     const { id, name, email, admin } = user;
+// @route   POST api/auth/update-password/admin/:id
+// @desc    Allow the user to change their password
+// @access  Public
+// router.post(
+//   '/update-password/admin/:id',
+//   passport.authenticate('jwt', { session: false }),
+//   (req, res) => {
+//     bcrypt.genSalt(10, (err, salt) => {
+//       bcrypt.hash(req.body.newPassword, salt, (err, hash) => {
+//         const hashedPassword = hash;
 
-    //     const payload = {
-    //       id,
-    //       name,
-    //       email,
-    //       admin
-    //     };
+//         User.findByIdAndUpdate(
+//           req.params.id,
+//           { password: hashedPassword },
+//           { new: true }
+//         )
+//           .select('-password')
+//           .then(newUser => res.json(newUser));
+//       });
+//     });
+//   }
+// );
 
-    //     // sign JsonWebToken
-    //     jwt.sign(payload, keys.key, { expiresIn: '7d' }, (err, token) => {
-    //       res.json({
-    //         success: true,
-    //         email: user.email,
-    //         token: 'Bearer ' + token
-    //       });
-    //     });
-    //   });
+// @route   POST api/auth/update-name
+// @desc    Allow the user to change their account name
+// @access  Public
+router.post(
+  '/update-name',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    User.findById(req.user.id).then(user => {
+      const { newName } = req.body;
+
+      if (isEmpty(newName)) {
+        return res
+          .status(400)
+          .json({ newName: 'The name field cannot be empty' });
+      }
+
+      User.findByIdAndUpdate(req.user.id, { name: newName }, { new: true })
+        .select('-password')
+        .then(newUser => {
+          // create JWT payload
+          const { id, name, email, admin } = newUser;
+
+          const payload = {
+            id,
+            name,
+            email,
+            admin
+          };
+
+          // sign JsonWebToken
+          jwt.sign(payload, keys.key, { expiresIn: '7d' }, (err, token) => {
+            res.json({
+              success: true,
+              token: 'Bearer ' + token
+            });
+          });
+        });
+    });
   }
 );
 

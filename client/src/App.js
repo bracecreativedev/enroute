@@ -12,6 +12,7 @@ import store from './store';
 
 // import routes
 import PrivateRoute from './components/common/PrivateRoute';
+import AdminRoute from './components/common/AdminRoute';
 
 // import components
 import Navbar from './components/layout/Navbar';
@@ -29,6 +30,13 @@ import Confirmation from './components/confirmation/Confirmation';
 import ConfirmEmail from './components/auth/ConfirmEmail';
 import NoMatch from './components/nomatch/NoMatch';
 import Payments from './components/payments/Payments';
+import ForgottenPassword from './components/auth/ForgottenPassword';
+import ResetPassword from './components/auth/ResetPassword';
+
+// admin components
+import AdminPanel from './components/admin/AdminPanel';
+import AdminBookings from './components/admin/AdminBookings';
+import AdminUsers from './components/admin/AdminUsers';
 
 // Check for token
 if (localStorage.jwtToken) {
@@ -63,6 +71,8 @@ class App extends Component {
               <Route path="/login" component={Login} />
               <Route path="/register" component={Register} />
               <Route path="/confirm-email/:token" component={ConfirmEmail} />
+              <Route path="/forgotten-password" component={ForgottenPassword} />
+              <Route path="/reset-password/:token" component={ResetPassword} />
               <PrivateRoute
                 exact
                 path="/checkout/:id"
@@ -76,6 +86,13 @@ class App extends Component {
               <PrivateRoute path="/edit-account" component={EditAccount} />
               <PrivateRoute path="/confirmation/:id" component={Confirmation} />
               <PrivateRoute path="/payments" component={Payments} />
+
+              <AdminRoute exact path="/admin-panel" component={AdminPanel} />
+              <AdminRoute
+                path="/admin-panel/bookings"
+                component={AdminBookings}
+              />
+              <AdminRoute path="/admin-panel/users" component={AdminUsers} />
               <Route component={NoMatch} />
             </Switch>
           </div>

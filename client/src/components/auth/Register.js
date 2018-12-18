@@ -109,6 +109,12 @@ class Register extends Component {
                 error={errors.password2}
               />
 
+              <p className="terms">
+                By registering account on En Route Parking, you're hereby
+                agreeing to our{' '}
+                <Link to="/terms-and-conditions">Terms and Conditions</Link>.
+              </p>
+
               <button type="submit" className="btn btn-green w-100">
                 Register
               </button>

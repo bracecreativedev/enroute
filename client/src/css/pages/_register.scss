@@ -32,6 +32,22 @@
         margin-bottom: 20px;
       }
 
+      p {
+        color: $muted;
+
+        a {
+          display: inline-block;
+          color: $green;
+          text-decoration: none;
+          font-weight: $f-semi-bold;
+          transition: all 0.3s ease;
+
+          &:hover {
+            transform: translateY(-2px);
+          }
+        }
+      }
+
       // input {
       //   border: 1px solid $green;
       //   border-radius: 0;

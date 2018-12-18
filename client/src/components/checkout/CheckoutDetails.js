@@ -88,6 +88,8 @@ class BookingDetails extends Component {
       selectedDates.map(date => {
         if (today.toISOString() > date) {
           return (pastDays = true);
+        } else {
+          return (pastDays = false);
         }
       });
 

@@ -151,7 +151,7 @@ router.get(
       .populate('location', ['name', 'location'])
       .then(payment => {
         // check that logged in user is owner of payment
-        if (payment.user._id == req.user.id) {
+        if (payment.user._id == req.user.id || req.user.admin) {
           return res.json(payment);
         } else {
           return res.status(401).send('Unauthorized');

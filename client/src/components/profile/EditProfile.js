@@ -303,7 +303,7 @@ class EditProfile extends Component {
                 <div className="row">
                   <div className="col-md-4">
                     <div className="section-header">
-                      <h2 className="heading">Company Info</h2>
+                      <h2 className="heading">Company Address</h2>
                       <p>
                         Your home address is used to set a map marker so that
                         you can check the proximity of En Route Parking
