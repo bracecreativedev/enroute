@@ -360,6 +360,15 @@ header {
         font-weight: 600; }
         .pin-container .pin-hover .footer p.price {
           font-weight: 400; }
+    .pin-container .pin-hover.company {
+      background: linear-gradient(90deg, #5cc6f2 0, #4896b8 100%); }
+      .pin-container .pin-hover.company .footer {
+        color: #5cc6f2; }
+    .pin-container .pin-hover.home {
+      background: linear-gradient(90deg, #faea29 0, #d4c623 100%);
+      color: #838383; }
+      .pin-container .pin-hover.home .footer {
+        color: #838383; }
   .pin-container:hover {
     z-index: 30; }
     .pin-container:hover .pin-hover {

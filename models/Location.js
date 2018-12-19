@@ -37,7 +37,38 @@ const LocationSchema = new Schema({
   },
   price: {
     type: Number
-  }
+  },
+  roads: {
+    type: String
+  },
+  accessTimes: {
+    type: String
+  },
+  disabledAfter: {
+    type: String
+  },
+  disabledRange: [
+    {
+      disabledFrom: {
+        type: String
+      },
+      disabledTo: {
+        type: String
+      }
+    }
+  ],
+  disabledDaysOfWeek: [
+    {
+      dayNumber: Number
+    }
+  ],
+  disabledSingleDays: [
+    {
+      date: {
+        type: String
+      }
+    }
+  ]
   // enrouteRoads: {
   //   type: String
   // },

@@ -353,7 +353,10 @@ class EditProfile extends Component {
                   onClick={this.onSubmit}
                   className="btn btn-green"
                 >
-                  Submit
+                  <span className="d-md-none">Update</span>
+                  <span className="d-none d-md-inline-block">
+                    Update and Return Home
+                  </span>
                 </a>
               </div>
             </div>

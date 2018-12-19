@@ -79,7 +79,7 @@ class BookingDetails extends Component {
 
       // check to see if this array meets the orders parameters
       let found = selectedDates.some(date => unavailableDates.includes(date));
-      let pastDays = false;
+      let pastDaysPresent = false;
 
       // get today's date in ISO date form
       let today = new Date();
@@ -87,13 +87,13 @@ class BookingDetails extends Component {
 
       selectedDates.map(date => {
         if (today.toISOString() > date) {
-          return (pastDays = true);
+          return (pastDaysPresent = true);
         } else {
-          return (pastDays = false);
+          return (pastDaysPresent = false);
         }
       });
 
-      if (found || pastDays || isEmpty(selectedDates)) {
+      if (found || pastDaysPresent || isEmpty(selectedDates)) {
         return (checkoutContent = (
           <div className="page-container">
             <div className="container">

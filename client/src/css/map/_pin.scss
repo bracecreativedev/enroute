@@ -60,6 +60,23 @@
         }
       }
     }
+
+    &.company {
+      background: linear-gradient(90deg, #5cc6f2 0, #4896b8 100%);
+
+      .footer {
+        color: #5cc6f2;
+      }
+    }
+
+    &.home {
+      background: linear-gradient(90deg, #faea29 0, #d4c623 100%);
+      color: #838383;
+
+      .footer {
+        color: #838383;
+      }
+    }
   }
 
   &:hover {

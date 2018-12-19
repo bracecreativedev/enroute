@@ -34,7 +34,6 @@ class CheckoutForm extends Component {
         if (error) {
           // if there's an erorr, display error!
           this.setState({ error: error.message });
-          console.log(this.state.paymentLoading);
         } else {
           this.setState({ paymentLoading: true });
 
@@ -46,7 +45,6 @@ class CheckoutForm extends Component {
           axios
             .post(`/api/payments/new/${parkingLocation._id}`, paymentData)
             .then(res => {
-              console.log('payment success');
               this.setState({
                 complete: true,
                 paymentID: res.data._id,

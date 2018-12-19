@@ -51,7 +51,6 @@ class FeaturedContent extends Component {
     }
 
     this.setState({ selectedDays });
-    console.log(selectedDays);
   }
 
   onClose = e => {
@@ -77,12 +76,40 @@ class FeaturedContent extends Component {
       );
     }
     // formatted dates ready for putting into day picker
+
+    // block out dates before today
     formattedDates.push({ before: today });
-    // formattedDates.push({ from: today, to: new Date('2018-12-21') });
-    // formattedDates.push({
-    //   from: new Date('2018-12-23'),
-    //   to: new Date('2018-12-29')
-    // });
+
+    // disabled days after 'disabledAfter' date
+    if (!isEmpty(featuredLocation.disabledAfter)) {
+      formattedDates.push({ after: new Date(featuredLocation.disabledAfter) });
+    }
+
+    // block out dates inside the 'date-range' array
+    if (featuredLocation.disabledRange) {
+      featuredLocation.disabledRange.map(range => {
+        return formattedDates.push({
+          from: new Date(range.disabledFrom),
+          to: new Date(range.disabledTo)
+        });
+      });
+    }
+
+    // push days of week that are unavailable
+    let daysOfWeek = [];
+    if (featuredLocation.disabledDaysOfWeek) {
+      featuredLocation.disabledDaysOfWeek.map(day => {
+        return daysOfWeek.push(day.dayNumber);
+      });
+    }
+    formattedDates.push({ daysOfWeek });
+
+    // map through disabledSingleDays
+    if (featuredLocation.disabledSingleDays) {
+      featuredLocation.disabledSingleDays.map(date => {
+        return formattedDates.push(new Date(date.date));
+      });
+    }
 
     // create a formatted array of selected dates for the booking url
     let urlArray = [];

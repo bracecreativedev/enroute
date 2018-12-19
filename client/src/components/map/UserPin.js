@@ -1,64 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import pin from './home-pin.png';
-import styled from 'styled-components';
 import { setFeaturedLocation } from '../../actions/locationActions';
 import isEmpty from '../../validation/is-empty';
-
-const PinHover = styled.div`
-  opacity: 0;
-  pointer-events: none;
-  position: absolute;
-  background: #5bc6f2;
-  color: white;
-  top: -5px;
-  transform: translate(-35%, -100%);
-  width: 200px;
-  border-radius: 2px;
-  padding: 10px;
-  text-align: left;
-  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.15);
-  transition: all 0.3s ease;
-
-  p {
-    margin-bottom: 0;
-  }
-`;
-
-const PinContainer = styled.div`
-  position: relative;
-  transform: translate(-50%, -50%);
-
-  &:hover {
-    z-index: 30;
-
-    ${PinHover} {
-      z-index: 30;
-    }
-  }
-
-  button {
-    transform: translate(-60%, -50%);
-
-    &:hover {
-      cursor: pointer;
-
-      ${PinHover} {
-        opacity: 1;
-        z-index: 5;
-      }
-    }
-
-    &:focus {
-      outline: none;
-
-      ${PinHover} {
-        opacity: 1;
-        z-index: -1;
-      }
-    }
-  }
-`;
 
 class UserPin extends Component {
   constructor(props) {
@@ -109,22 +53,25 @@ class UserPin extends Component {
     }
 
     return (
-      <PinContainer>
+      <div className="pin-container">
+        <div className="pin-hover home">
+          <div className="content">
+            <p>
+              <strong>Home Address</strong>
+            </p>
+          </div>
+          <div className="footer justify-content-center">
+            <p className="price">{profile.address.postcode}</p>
+          </div>
+        </div>
+
         <button
           style={{ background: 'none', border: 'none', padding: 'none' }}
           onClick={this.onPinClick}
         >
-          <PinHover>
-            <p>
-              <strong>Your Home Address</strong>
-            </p>
-            <p>{profile.address.street}</p>
-            <p>{profile.address.postcode}</p>
-          </PinHover>
-
           {pinImage}
         </button>
-      </PinContainer>
+      </div>
     );
   }
 }
