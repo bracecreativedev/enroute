@@ -27,7 +27,7 @@ class ResetPassword extends Component {
   onSubmit(e) {
     e.preventDefault();
 
-    const { newPassword, confirmPassword, errors } = this.state;
+    const { newPassword, confirmPassword } = this.state;
 
     const passwordData = {
       newPassword,

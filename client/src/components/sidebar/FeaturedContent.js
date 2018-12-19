@@ -34,9 +34,14 @@ class FeaturedContent extends Component {
     document.body.classList.remove('noscroll');
   }
 
-  handleDayClick(day, { selected }) {
+  handleDayClick(day, modifiers = {}) {
     const { selectedDays } = this.state;
-    if (selected) {
+
+    if (modifiers.disabled) {
+      return;
+    }
+
+    if (modifiers.selected) {
       const selectedIndex = selectedDays.findIndex(selectedDay =>
         DateUtils.isSameDay(selectedDay, day)
       );
@@ -44,7 +49,9 @@ class FeaturedContent extends Component {
     } else {
       selectedDays.push(day);
     }
+
     this.setState({ selectedDays });
+    console.log(selectedDays);
   }
 
   onClose = e => {

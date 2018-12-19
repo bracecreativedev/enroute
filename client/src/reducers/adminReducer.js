@@ -1,5 +1,3 @@
-import isEmpty from '../validation/is-empty';
-
 import {
   ADMIN_GET_LOCATIONS,
   ADMIN_GET_BOOKINGS,

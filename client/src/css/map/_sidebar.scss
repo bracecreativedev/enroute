@@ -1,11 +1,19 @@
 .main-container {
   .sidebar {
     .header {
-      background: $green;
+      background: linear-gradient(90deg, #96c236 0, #4da534 100%);
       color: $light;
       position: relative;
       z-index: 10;
-      text-align: left;
+      text-align: center;
+      padding: 20px;
+
+      .heading {
+        font-size: 20px;
+        text-transform: uppercase;
+        font-weight: $f-bold;
+        margin-bottom: 0;
+      }
     }
 
     .location-list {
@@ -120,6 +128,22 @@
   }
 }
 
+@media (min-width: 768px) and (max-width: 840px) {
+  .map-container {
+    left: 320px !important;
+  }
+
+  .main-container {
+    .sidebar {
+      max-width: 320px !important;
+    }
+
+    .featured-content {
+      left: 320px !important;
+    }
+  }
+}
+
 @media (min-width: 768px) {
   .main-container {
     .sidebar {
@@ -139,7 +163,7 @@
         overflow-y: scroll;
         position: absolute;
         top: 0;
-        padding-top: 104px;
+        padding-top: 145px;
         height: 100%;
       }
     }
@@ -170,7 +194,7 @@
         align-items: flex-start;
 
         .heading {
-          font-size: 24px;
+          font-size: 20px;
           font-weight: 600;
           margin-bottom: 0;
         }
@@ -179,11 +203,10 @@
           background: none;
           border: none;
           margin: 0;
-          margin-top: 3px;
           margin-left: 10px;
 
           i {
-            font-size: 24px;
+            font-size: 20px;
             color: $light;
           }
 

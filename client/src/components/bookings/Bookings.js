@@ -35,7 +35,7 @@ class Bookings extends Component {
           <div className="bookings-box">
             <div className="main-content">
               <div className="header">
-                <h1 className="heading mb-3 mb-sm-0">
+                <h1 className="heading">
                   You have no upcoming bookings, all future bookings will appear
                   here!
                 </h1>
@@ -62,7 +62,7 @@ class Bookings extends Component {
           <div className="bookings-box">
             <div className="main-content">
               <div className="header">
-                <h1 className="heading mb-3 mb-sm-0">Your upcoming bookings</h1>
+                <h1 className="heading">Your upcoming bookings</h1>
                 <Link to="/past-bookings" className="btn btn-green">
                   Past Bookings
                 </Link>

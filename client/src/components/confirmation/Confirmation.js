@@ -73,7 +73,12 @@ class Confirmation extends Component {
                         <i className="far fa-circle fa-stack-2x" />
                         <i className="fas fa-car fa-stack-1x fa-inverse" />
                       </span>{' '}
-                      <Moment format="dddd Do MMMM YYYY">{date}</Moment>
+                      <span className="d-md-none">
+                        <Moment format="ddd Do MMM YYYY">{date}</Moment>
+                      </span>
+                      <span className="d-none d-md-inline-block">
+                        <Moment format="dddd Do MMMM YYYY">{date}</Moment>
+                      </span>
                     </li>
                   ))}
                 </ul>
@@ -91,7 +96,7 @@ class Confirmation extends Component {
               &larr; Home
             </Link>
             <Link to="/bookings" className="btn btn-green">
-              View your bookings
+              Your bookings
             </Link>
           </div>
         </div>

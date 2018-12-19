@@ -1,6 +1,5 @@
 import React from 'react';
 import classnames from 'classnames';
-import PropTypes from 'prop-types';
 
 const TextFieldGroupHover = ({
   name,
@@ -37,18 +36,6 @@ const TextFieldGroupHover = ({
       {error && <div className="mt-3 mb-2 text-danger">{error}</div>}
     </fieldset>
   );
-};
-
-TextFieldGroupHover.propTypes = {
-  name: PropTypes.string.isRequired,
-  placeholder: PropTypes.string,
-  value: PropTypes.string.isRequired,
-  info: PropTypes.string,
-  error: PropTypes.string,
-  type: PropTypes.string.isRequired,
-  customClass: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
-  disabled: PropTypes.string
 };
 
 TextFieldGroupHover.defaultProps = {

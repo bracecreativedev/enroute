@@ -33,7 +33,9 @@ class Sidebar extends Component {
       sidebarContent = (
         <div>
           <div className="sidebar">
-            <div className="header">Hello world</div>
+            <div className="header">
+              <h1 className="heading">Parking Locations</h1>
+            </div>
 
             <div className="location-list">
               {locations.map(parking => (

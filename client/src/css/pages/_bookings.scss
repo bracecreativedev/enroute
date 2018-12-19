@@ -6,11 +6,18 @@
   .main-content {
     .header {
       padding: 30px;
-
+      display: flex;
       justify-content: space-between;
+      flex-wrap: wrap;
+      margin-top: -20px;
 
       .heading {
+        margin-top: 20px;
         margin-bottom: 0;
+      }
+
+      a.btn {
+        margin-top: 20px;
       }
     }
 
@@ -71,16 +78,6 @@
   .footer {
     background: hsl(200, 25%, 88%);
     padding: 30px;
-  }
-}
-
-@media (min-width: 568px) {
-  .bookings-box {
-    .main-content {
-      .header {
-        display: flex;
-      }
-    }
   }
 }
 

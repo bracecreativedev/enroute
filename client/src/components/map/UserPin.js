@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import pin from './enroute-pin.png';
+import pin from './home-pin.png';
 import styled from 'styled-components';
 import { setFeaturedLocation } from '../../actions/locationActions';
 import isEmpty from '../../validation/is-empty';
