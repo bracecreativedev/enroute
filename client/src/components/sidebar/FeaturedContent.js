@@ -228,7 +228,7 @@ class FeaturedContent extends Component {
                 <h2 className="heading">
                   <i className="fas fa-ticket-alt" /> Book Now
                 </h2>
-                <p>Greyed out dates are unfortunately unavailable.</p>
+                <p>Select each date you'd like to book for.</p>
               </div>
               <DayPicker
                 firstDayOfWeek={1}
@@ -243,6 +243,8 @@ class FeaturedContent extends Component {
               >
                 BOOK NOW
               </Link>
+
+              <p>Greyed out dates are unfortunately unavailable.</p>
             </div>
           </div>
         </div>
