@@ -50,7 +50,7 @@ class AdminUsers extends Component {
           <div className="bookings-box">
             <div className="main-content">
               <div className="header d-block">
-                <h1 className="heading">Users</h1>
+                <h1 className="heading">Manage Users</h1>
                 <div className="filters">
                   <form
                     className="form-label form-css-label"

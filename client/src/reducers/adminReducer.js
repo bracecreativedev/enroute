@@ -1,5 +1,6 @@
 import {
   ADMIN_GET_LOCATIONS,
+  ADMIN_GET_LOCATION,
   ADMIN_GET_BOOKINGS,
   ADMIN_GET_USERS
 } from '../actions/types';
@@ -7,6 +8,7 @@ import {
 const initialState = {
   bookings: [],
   locations: [],
+  location: {},
   users: []
 };
 
@@ -16,6 +18,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         locations: action.payload
+      };
+    case ADMIN_GET_LOCATION:
+      return {
+        ...state,
+        location: action.payload
       };
     case ADMIN_GET_BOOKINGS:
       return {

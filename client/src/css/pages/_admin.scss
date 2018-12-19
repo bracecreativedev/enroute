@@ -1,0 +1,61 @@
+.admin-box {
+  border-top: 10px solid $green;
+  margin: 30px 0;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+
+  .main-content {
+    padding: 30px 30px 0 30px;
+
+    .header {
+      margin-bottom: 30px;
+      .heading {
+        margin-bottom: 0;
+      }
+    }
+
+    .panel-card {
+      border-radius: 5px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+      margin-bottom: 30px;
+      text-align: center;
+
+      .card-content {
+        padding: 30px;
+        .icon {
+          i {
+            font-size: 70px;
+            color: $green;
+          }
+        }
+
+        .heading {
+          margin-top: 20px;
+          font-weight: $f-semi-bold;
+          margin-bottom: 0;
+        }
+      }
+
+      .footer-link {
+        text-decoration: none;
+        transition: all 0.3s ease;
+
+        .footer {
+          padding: 30px;
+          background: hsl(200, 25%, 88%);
+          color: hsl(200, 0%, 42%);
+          transition: all 0.3s ease;
+
+          p {
+            margin-bottom: 0;
+          }
+        }
+
+        &:hover {
+          .footer {
+            opacity: 0.7;
+          }
+        }
+      }
+    }
+  }
+}

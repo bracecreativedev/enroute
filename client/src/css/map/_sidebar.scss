@@ -180,6 +180,10 @@
     z-index: 20;
     height: 100vh;
 
+    p {
+      color: $muted;
+    }
+
     .header {
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
       position: relative;

@@ -37,6 +37,8 @@ import ResetPassword from './components/auth/ResetPassword';
 import AdminPanel from './components/admin/AdminPanel';
 import AdminBookings from './components/admin/AdminBookings';
 import AdminUsers from './components/admin/AdminUsers';
+import AdminLocations from './components/admin/AdminLocations';
+import AdminEditLocation from './components/admin/AdminEditLocation';
 
 // Check for token
 if (localStorage.jwtToken) {
@@ -93,6 +95,14 @@ class App extends Component {
                 component={AdminBookings}
               />
               <AdminRoute path="/admin-panel/users" component={AdminUsers} />
+              <AdminRoute
+                path="/admin-panel/locations"
+                component={AdminLocations}
+              />
+              <AdminRoute
+                path="/admin-panel/location/:id"
+                component={AdminEditLocation}
+              />
               <Route component={NoMatch} />
             </Switch>
           </div>

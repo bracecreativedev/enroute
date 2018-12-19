@@ -81,16 +81,18 @@ class Login extends Component {
                 <button type="submit" className="btn btn-green w-100">
                   Login
                 </button>
+                <p className="mt-2 mb-0">
+                  Forgotten your password?{' '}
+                  <Link to="/forgotten-password">Reset Password</Link>
+                </p>
               </form>
             </div>
 
             <div className="footer">
-              <h3 className="heading">
-                Forgotten your password?{' '}
-                <Link to="/forgotten-password">Reset Password</Link>
-                <br />
-                Don't have an account? <Link to="/register">Register</Link>
-              </h3>
+              <h3 className="heading">Don't have an account?</h3>
+              <Link className="btn btn-green d-block" to="/register">
+                Register
+              </Link>
             </div>
           </div>
         </div>

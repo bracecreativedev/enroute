@@ -8,24 +8,9 @@ const Booking = require('../../models/Booking');
 const Location = require('../../models/Location');
 const User = require('../../models/User');
 
-// @route   GET api/admin/locations
-// @desc    Get all locations
-// @access  Public
-router.get(
-  '/locations',
-  passport.authenticate('jwt', { session: false }),
-  (req, res) => {
-    if (!req.user.admin) {
-      return res.status(401).send('Unauthorized');
-    } else {
-      Location.find().then(locations => res.json(locations));
-    }
-  }
-);
-
 // @route   GET api/admin/bookings
 // @desc    Get all bookings
-// @access  Public
+// @access  Admin
 router.get(
   '/bookings',
   passport.authenticate('jwt', { session: false }),
@@ -64,7 +49,7 @@ router.get(
 
 // @route   GET api/admin/users
 // @desc    Get all users
-// @access  Public
+// @access  Admin
 router.get(
   '/users',
   passport.authenticate('jwt', { session: false }),
@@ -91,6 +76,57 @@ router.get(
         .select('-password')
         .then(users => res.json(users))
         .catch(err => res.status(404).json({ users: 'No users found' }));
+    }
+  }
+);
+
+// @route   GET api/admin/locations
+// @desc    Get all locations
+// @access  Admin
+router.get(
+  '/locations',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    if (!req.user.admin) {
+      return res.status(401).send('Unauthorized');
+    } else {
+      Location.find()
+        .sort({ name: 1 })
+        .then(locations => res.json(locations));
+    }
+  }
+);
+
+// @route   GET api/admin/location
+// @desc    Get single location info
+// @access  Admin
+router.get(
+  '/location/:id',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    if (!req.user.admin) {
+      return res.status(401).send('Unauthorized');
+    } else {
+      Location.findById(req.params.id).then(location => res.json(location));
+    }
+  }
+);
+
+// @route   GET api/admin/location
+// @desc    Get single location info
+// @access  Admin
+router.post(
+  '/location/:id',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    if (!req.user.admin) {
+      return res.status(401).send('Unauthorized');
+    } else {
+      Location.findByIdAndUpdate(req.params.id, req.body, { new: true }).then(
+        location => {
+          res.json(location);
+        }
+      );
     }
   }
 );

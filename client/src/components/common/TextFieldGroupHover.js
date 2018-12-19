@@ -9,6 +9,7 @@ const TextFieldGroupHover = ({
   info,
   type,
   onChange,
+  number,
   customClass,
   disabled,
   required
@@ -21,7 +22,7 @@ const TextFieldGroupHover = ({
         value={value}
         type={type}
         className={classnames(
-          `${value && value.length > 0 ? 'full ' : ''}${
+          `${value && value.toString().length > 0 ? 'full ' : ''}${
             customClass ? customClass + ' ' : ''
           }`,
           {
@@ -29,6 +30,7 @@ const TextFieldGroupHover = ({
           }
         )}
         onChange={onChange}
+        number={number}
         disabled={disabled}
       />
       <label htmlFor={name}>{label}</label>

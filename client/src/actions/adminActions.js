@@ -5,9 +5,11 @@ import isEmpty from '../validation/is-empty';
 import {
   ADMIN_GET_LOCATIONS,
   ADMIN_GET_BOOKINGS,
-  ADMIN_GET_USERS
+  ADMIN_GET_USERS,
+  ADMIN_GET_LOCATION
 } from './types';
 
+// get locations
 export const adminGetLocations = () => dispatch => {
   axios.get('/api/admin/locations').then(res => {
     dispatch({
@@ -17,6 +19,26 @@ export const adminGetLocations = () => dispatch => {
   });
 };
 
+// get single location
+export const adminGetLocation = id => dispatch => {
+  axios.get(`/api/admin/location/${id}`).then(res => {
+    dispatch({
+      type: ADMIN_GET_LOCATION,
+      payload: res.data
+    });
+  });
+};
+
+export const adminEditLocation = (id, locationData) => dispatch => {
+  axios.post(`/api/admin/location/${id}`, locationData).then(res => {
+    dispatch({
+      type: ADMIN_GET_LOCATION,
+      payload: res.data
+    });
+  });
+};
+
+// get bookings
 export const adminGetBookings = queries => dispatch => {
   axios
     .get(
@@ -38,6 +60,7 @@ export const adminGetBookings = queries => dispatch => {
     );
 };
 
+// get users
 export const adminGetUsers = queries => dispatch => {
   if (isEmpty(queries)) {
     axios

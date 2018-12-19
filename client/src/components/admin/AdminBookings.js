@@ -61,7 +61,7 @@ class AdminBookings extends Component {
           <div className="bookings-box">
             <div className="main-content">
               <div className="header d-block">
-                <h1>Bookings</h1>
+                <h1 className="heading">Manage Bookings</h1>
 
                 <div className="filters">
                   <div className="form-group">

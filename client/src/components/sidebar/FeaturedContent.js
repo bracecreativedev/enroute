@@ -153,20 +153,24 @@ class FeaturedContent extends Component {
             >
               <div className="carousel-inner">
                 {featuredLocation.images.map((image, index) => {
-                  return (
-                    <div
-                      className={
-                        index === 0 ? 'carousel-item active' : 'carousel-item'
-                      }
-                      key={image.imageURL}
-                    >
-                      <img
-                        className="d-block w-100"
-                        src={image.imageURL}
-                        alt="First slide"
-                      />
-                    </div>
-                  );
+                  if (!isEmpty(image.imageURL)) {
+                    return (
+                      <div
+                        className={
+                          index === 0 ? 'carousel-item active' : 'carousel-item'
+                        }
+                        key={image.imageURL}
+                      >
+                        <img
+                          className="d-block w-100"
+                          src={image.imageURL}
+                          alt="First slide"
+                        />
+                      </div>
+                    );
+                  } else {
+                    return null;
+                  }
                 })}
               </div>
               <a
