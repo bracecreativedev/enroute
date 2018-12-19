@@ -243,7 +243,7 @@ class FeaturedContent extends Component {
               >
                 BOOK NOW
               </Link>
-              <p className="mt-3 mb-0 text-lef">
+              <p className="mt-3 mb-0 text-left">
                 Greyed out dates are unavailable for a number of reasons;
                 they're fully booked, you have a booking on that day or they're
                 unable to take bookings for those dates.
