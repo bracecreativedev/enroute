@@ -31,6 +31,8 @@ class Map extends Component {
   componentDidMount() {
     const { isAuthenticated } = this.props.auth;
 
+    console.log({ key: 'process.env.REACT_APP_GOOGLE_KEY' });
+
     this.props.getLocations();
     this.props.setFeaturedLocation();
 
