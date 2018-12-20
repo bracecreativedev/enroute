@@ -56,8 +56,14 @@ router.post(
 // @desc    Get a location by ID
 // @access  Public
 router.get('/:id', (req, res) => {
-  Location.findById(req.params.id)
-    .then(location => res.json(location))
+  Location.findOne({ _id: req.params.id, active: true })
+    .then(location => {
+      if (!location) {
+        return res.status(404).json({ location: 'No location found' });
+      }
+
+      res.json(location);
+    })
     .catch(err => res.status(404).json({ location: 'No location found' }));
 });
 
@@ -65,7 +71,7 @@ router.get('/:id', (req, res) => {
 // @desc    Returns all locations
 // @access  Public
 router.get('/', (req, res) => {
-  Location.find()
+  Location.find({ active: true })
     .sort({ date: -1 })
     .then(locations => res.json(locations));
 });

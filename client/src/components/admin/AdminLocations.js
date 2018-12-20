@@ -26,6 +26,7 @@ class AdminLocations extends Component {
                     <th>Postcode</th>
                     <th>Price</th>
                     <th>Spaces</th>
+                    <th>Active</th>
                     <th>Modify</th>
                   </tr>
                   {locations.map(location => {
@@ -36,6 +37,7 @@ class AdminLocations extends Component {
                         <td>{location.location.postcode}</td>
                         <td>£{(location.price / 100).toFixed(2)}</td>
                         <td>{location.spaces}</td>
+                        <td>{location.active ? 'True' : 'False'}</td>
                         <td>
                           <Link
                             to={{

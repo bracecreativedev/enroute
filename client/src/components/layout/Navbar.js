@@ -5,14 +5,18 @@ import { clearCurrentProfile } from '../../actions/profileActions';
 import { logoutUser } from '../../actions/authActions';
 import { setFeaturedLocation } from '../../actions/locationActions';
 import Logo from './logo.png';
+import '../../css/hamburgers.min.css';
 
 class Navbar extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      show: false
+      show: false,
+      isActive: false
     };
+
+    this.hamburgerClick = this.hamburgerClick.bind(this);
   }
 
   onLogoutClick(e) {
@@ -23,10 +27,28 @@ class Navbar extends Component {
     this.props.setFeaturedLocation();
   }
 
+  hamburgerClick(e) {
+    const { isActive } = this.state;
+
+    if (isActive) {
+      return this.setState({ isActive: false });
+    } else {
+      return this.setState({ isActive: true });
+    }
+  }
+
   render() {
     const { isAuthenticated, user } = this.props.auth;
     const { admin } = this.props.auth.user;
-    const { show } = this.state;
+    const { isActive } = this.state;
+
+    let hamburgerClass;
+
+    if (isActive) {
+      hamburgerClass = 'navbar-toggler hamburger hamburger--spring is-active';
+    } else {
+      hamburgerClass = 'navbar-toggler hamburger hamburger--spring';
+    }
 
     const authLinks = (
       <ul className="navbar-nav ml-auto">
@@ -117,26 +139,23 @@ class Navbar extends Component {
           <Link className="navbar-brand" to="/">
             <img src={Logo} alt="En Route Logo" />
           </Link>
+
           <button
-            className="navbar-toggler"
+            className={hamburgerClass}
             type="button"
             data-toggle="collapse"
             data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent"
             aria-expanded="false"
             aria-label="Toggle navigation"
+            onClick={this.hamburgerClick}
           >
-            <span className="navbar-toggler-icon" />
+            <span className="hamburger-box">
+              <span className="hamburger-inner" />
+            </span>
           </button>
 
-          <div
-            className={
-              show
-                ? 'collapse navbar-collapse show'
-                : 'collapse navbar-collapse'
-            }
-            id="navbarSupportedContent"
-          >
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
             {isAuthenticated ? authLinks : guestLinks}
           </div>
         </nav>

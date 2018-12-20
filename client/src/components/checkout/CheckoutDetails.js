@@ -18,7 +18,8 @@ class BookingDetails extends Component {
 
     this.state = {
       selectedDates: [],
-      parkingLocation: {}
+      parkingLocation: {},
+      locationError: false
     };
   }
 
@@ -58,11 +59,14 @@ class BookingDetails extends Component {
         this.props.setFeaturedLocation(data.data, isAuthenticated);
         this.setState({ parkingLocation: data.data });
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        this.setState({ locationError: true });
+      });
   }
 
   render() {
     const { parkingLocation, selectedDates } = this.state;
+    const { locationError } = this.state;
     const { isAuthenticated } = this.props.auth;
     const { profile, loading } = this.props.profile;
     const {
@@ -71,54 +75,55 @@ class BookingDetails extends Component {
     } = this.props.locations.featuredLocation;
 
     let checkoutContent;
+    let unavailableDates = [];
 
     // if any of the dates for checkout have already been booked then return error
     if (!isEmpty(alreadyBooked)) {
       // combine alreadyBooked and disabledDays
-      let unavailableDates = alreadyBooked.concat(disabledDays);
+      unavailableDates = alreadyBooked.concat(disabledDays);
+    }
 
-      // check to see if this array meets the orders parameters
-      let found = selectedDates.some(date => unavailableDates.includes(date));
-      let pastDaysPresent = false;
+    // check to see if this array meets the orders parameters
+    let found = selectedDates.some(date => unavailableDates.includes(date));
+    let pastDaysPresent = false;
 
-      // get today's date in ISO date form
-      let today = new Date();
-      today.setHours(0, 0, 0, 0);
+    // get today's date in ISO date form
+    let today = new Date();
+    today.setHours(0, 0, 0, 0);
 
-      selectedDates.map(date => {
-        if (today.toISOString() > date) {
-          return (pastDaysPresent = true);
-        } else {
-          return (pastDaysPresent = false);
-        }
-      });
+    selectedDates.map(date => {
+      if (today.toISOString() > date) {
+        return (pastDaysPresent = true);
+      } else {
+        return null;
+      }
+    });
 
-      if (found || pastDaysPresent || isEmpty(selectedDates)) {
-        return (checkoutContent = (
-          <div className="page-container">
-            <div className="container">
-              <div className="generic-box">
-                <div className="main-content">
-                  <div className="header">
-                    <h1 className="heading">Whoops, there's an issue here.</h1>
-                    <p className="subheading">
-                      One of the dates you've selected is not possible to book.
-                      You may already have a booking on this day, the parking
-                      location may be full or one of the days is in the past.
-                    </p>
-                  </div>
+    if (found || pastDaysPresent || isEmpty(selectedDates) || locationError) {
+      return (checkoutContent = (
+        <div className="page-container">
+          <div className="container">
+            <div className="generic-box">
+              <div className="main-content">
+                <div className="header">
+                  <h1 className="heading">Whoops, there's an issue here.</h1>
+                  <p className="subheading">
+                    One of the dates you've selected is not possible to book.
+                    You may already have a booking on this day, the parking
+                    location may be full or one of the days is in the past.
+                  </p>
+                </div>
 
-                  <div className="footer">
-                    <Link to="/" className="btn btn-green">
-                      &larr; Home
-                    </Link>
-                  </div>
+                <div className="footer">
+                  <Link to="/" className="btn btn-green">
+                    &larr; Home
+                  </Link>
                 </div>
               </div>
             </div>
           </div>
-        ));
-      }
+        </div>
+      ));
     }
 
     if (isAuthenticated) {

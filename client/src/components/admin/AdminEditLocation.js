@@ -26,6 +26,8 @@ class AdminEditLocation extends Component {
       image2: '',
       image3: '',
       image4: '',
+      active: '',
+      updated: false,
       errors: {}
     };
 
@@ -86,6 +88,7 @@ class AdminEditLocation extends Component {
         postcode: location.postcode,
         lat: location.lat,
         lng: location.lng,
+        active: location.active,
         images: location.images
       });
     }
@@ -118,10 +121,13 @@ class AdminEditLocation extends Component {
         lat: this.state.lat,
         lng: this.state.lng
       },
-      images: images
+      images: images,
+      active: this.state.active
     };
 
     this.props.adminEditLocation(this.props.match.params.id, locationData);
+
+    this.setState({ updated: true });
   }
 
   render() {
@@ -131,6 +137,21 @@ class AdminEditLocation extends Component {
     return (
       <div className="page-container">
         <div className="container">
+          {this.state.updated ? (
+            <div
+              className="update-alert"
+              style={{
+                margin: '30px 0',
+                padding: '30px',
+                borderTop: '10px solid #96c236',
+                boxShadow: '0 0 10px rgba(0,0,0,.15)'
+              }}
+            >
+              <p style={{ marginBottom: '0' }}>
+                Location information has been updated.
+              </p>
+            </div>
+          ) : null}
           <div className="profile-box">
             <div className="content">
               <div className="header">
@@ -208,6 +229,29 @@ class AdminEditLocation extends Component {
                               onChange={this.onChange}
                               error={errors.accessTimes}
                             />
+                          </div>
+
+                          <div className="col-md-6">
+                            <small
+                              className="mb-0"
+                              style={{
+                                color: '#96c236',
+                                fontWeight: 500,
+                                fontSize: '12px'
+                              }}
+                            >
+                              Active?
+                            </small>
+                            <select
+                              className="form-control"
+                              name="active"
+                              onChange={this.onChange}
+                              id="exampleFormControlSelect1"
+                              value={this.state.active}
+                            >
+                              <option value={true}>true</option>
+                              <option value={false}>false</option>
+                            </select>
                           </div>
                         </div>
                       </form>
@@ -350,10 +394,7 @@ class AdminEditLocation extends Component {
                   onClick={this.onSubmit}
                   className="btn btn-green"
                 >
-                  <span className="d-md-none">Update</span>
-                  <span className="d-none d-md-inline-block">
-                    Update and Return Home
-                  </span>
+                  Update
                 </a>
               </div>
             </div>
