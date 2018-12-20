@@ -51,3 +51,13 @@ header {
     }
   }
 }
+
+@media (max-width: 568px) {
+  header {
+    .navbar {
+      .navbar-nav {
+        margin-bottom: 20px;
+      }
+    }
+  }
+}

@@ -7,6 +7,14 @@ import { setFeaturedLocation } from '../../actions/locationActions';
 import Logo from './logo.png';
 
 class Navbar extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      show: false
+    };
+  }
+
   onLogoutClick(e) {
     e.preventDefault();
 
@@ -18,6 +26,7 @@ class Navbar extends Component {
   render() {
     const { isAuthenticated, user } = this.props.auth;
     const { admin } = this.props.auth.user;
+    const { show } = this.state;
 
     const authLinks = (
       <ul className="navbar-nav ml-auto">
@@ -120,7 +129,14 @@ class Navbar extends Component {
             <span className="navbar-toggler-icon" />
           </button>
 
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <div
+            className={
+              show
+                ? 'collapse navbar-collapse show'
+                : 'collapse navbar-collapse'
+            }
+            id="navbarSupportedContent"
+          >
             {isAuthenticated ? authLinks : guestLinks}
           </div>
         </nav>
