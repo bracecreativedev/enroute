@@ -20,13 +20,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // redirect to https
-app.configure('production', () => {
+if (process.env.NODE_ENV === 'production') {
   app.use((req, res, next) => {
     if (req.header('x-forwarded-proto') !== 'https')
       res.redirect(`https://${req.header('host')}${req.url}`);
     else next();
   });
-});
+}
 
 // DB config
 const db = require('./config/keys').MongoURI;
