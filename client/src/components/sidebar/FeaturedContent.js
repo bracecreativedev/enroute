@@ -82,7 +82,7 @@ class FeaturedContent extends Component {
     // formatted dates ready for putting into day picker
 
     // block out dates before today
-    formattedDates.push({ before: today });
+    formattedDates.push({ before: today, after: today });
 
     // disabled days after 'disabledAfter' date
     if (!isEmpty(featuredLocation.disabledAfter)) {

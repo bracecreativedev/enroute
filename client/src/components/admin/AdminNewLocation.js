@@ -1,20 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {
-  adminGetLocation,
-  adminEditLocation
-} from '../../actions/adminActions';
+import { withRouter } from 'react-router-dom';
+import { adminNewLocation } from '../../actions/adminActions';
 import TextFieldGroupHover from '../common/TextFieldGroupHover';
-import isEmpty from '../../validation/is-empty';
+import axios from 'axios';
 
-class AdminEditLocation extends Component {
+class AdminNewLocation extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       name: '',
-      price: 0,
-      spaces: 0,
+      price: '',
+      spaces: '',
       roads: '',
       accessTimes: '',
       street: '',
@@ -26,8 +24,7 @@ class AdminEditLocation extends Component {
       image2: '',
       image3: '',
       image4: '',
-      active: '',
-      updated: false,
+      active: true,
       errors: {}
     };
 
@@ -35,66 +32,9 @@ class AdminEditLocation extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  componentDidMount() {
-    this.props.adminGetLocation(this.props.match.params.id);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
-    }
-
-    if (nextProps.admin.location) {
-      const { location } = nextProps.admin;
-
-      location.name = !isEmpty(location.name) ? location.name : '';
-      location.price = !isEmpty(location.price) ? location.price : 0;
-      location.spaces = !isEmpty(location.spaces) ? location.spaces : 0;
-      location.roads = !isEmpty(location.roads) ? location.roads : '';
-      location.accessTimes = !isEmpty(location.accessTimes)
-        ? location.accessTimes
-        : '';
-
-      // location
-      location.street = !isEmpty(location.location.street)
-        ? location.location.street
-        : '';
-      location.postcode = !isEmpty(location.location.postcode)
-        ? location.location.postcode
-        : '';
-      location.lat = !isEmpty(location.location.lat)
-        ? location.location.lat
-        : '';
-      location.lng = !isEmpty(location.location.lng)
-        ? location.location.lng
-        : '';
-
-      location.images.map((image, index) => {
-        const state = 'image' + index;
-
-        return this.setState({
-          [state]: image.imageURL
-        });
-      });
-
-      // set state
-      this.setState({
-        name: location.name,
-        price: location.price,
-        spaces: location.spaces,
-        roads: location.roads,
-        accessTimes: location.accessTimes,
-        street: location.street,
-        postcode: location.postcode,
-        lat: location.lat,
-        lng: location.lng,
-        active: location.active,
-        images: location.images
-      });
-    }
-  }
-
   onChange(e) {
+    e.preventDefault();
+
     this.setState({ [e.target.name]: e.target.value });
   }
 
@@ -125,14 +65,13 @@ class AdminEditLocation extends Component {
       active: this.state.active
     };
 
-    this.props.adminEditLocation(this.props.match.params.id, locationData);
-
-    this.setState({ updated: true });
+    axios.post('/api/admin/new-location', locationData).then(newLocation => {
+      this.props.history.push(`/admin-panel/location/${newLocation.data._id}`);
+    });
   }
 
   render() {
     const { errors } = this.state;
-    const { location } = this.props.admin;
 
     return (
       <div className="page-container">
@@ -155,7 +94,7 @@ class AdminEditLocation extends Component {
           <div className="profile-box">
             <div className="content">
               <div className="header">
-                <h1 className="heading">Edit {location.name}</h1>
+                <h1 className="heading">New Location</h1>
                 {/* <p>
                   Fill out your En Route profile! We promise to never hand out
                   your info to any other companies, it's used solely to provide
@@ -394,7 +333,7 @@ class AdminEditLocation extends Component {
                   onClick={this.onSubmit}
                   className="btn btn-green"
                 >
-                  Update
+                  Create New Location
                 </a>
               </div>
             </div>
@@ -409,7 +348,9 @@ const mapStateToProps = state => ({
   admin: state.admin
 });
 
-export default connect(
-  mapStateToProps,
-  { adminGetLocation, adminEditLocation }
-)(AdminEditLocation);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    { adminNewLocation }
+  )(AdminNewLocation)
+);

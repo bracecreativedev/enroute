@@ -7,6 +7,7 @@ const isEmpty = require('../../validation/is-empty');
 const Booking = require('../../models/Booking');
 const Location = require('../../models/Location');
 const User = require('../../models/User');
+const Payment = require('../../models/Payment');
 
 // @route   GET api/admin/bookings
 // @desc    Get all bookings
@@ -97,8 +98,8 @@ router.get(
   }
 );
 
-// @route   GET api/admin/location
-// @desc    Get single location info
+// @route   GET api/admin/location/:id
+// @desc    Get location by ID
 // @access  Admin
 router.get(
   '/location/:id',
@@ -112,8 +113,8 @@ router.get(
   }
 );
 
-// @route   GET api/admin/location
-// @desc    Get single location info
+// @route   POST api/admin/location
+// @desc    Edit location
 // @access  Admin
 router.post(
   '/location/:id',
@@ -127,6 +128,55 @@ router.post(
           res.json(location);
         }
       );
+    }
+  }
+);
+
+// @route   POST api/admin/new-location
+// @desc    Create a new location
+// @access  Admin
+router.post(
+  '/new-location',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    if (!req.user.admin) {
+      return res.status(401).send('Unauthorized');
+    } else {
+      const newLocation = new Location({
+        name: req.body.name,
+        price: req.body.price,
+        spaces: req.body.spaces,
+        roads: req.body.roads,
+        accessTimes: req.body.accessTimes,
+        location: {
+          street: req.body.location.street,
+          postcode: req.body.location.postcode,
+          lat: req.body.location.lat,
+          lng: req.body.location.lng
+        },
+        images: req.body.images,
+        active: req.body.active
+      });
+
+      newLocation.save().then(location => res.json(location));
+    }
+  }
+);
+
+// @route   GET api/admin/payments
+// @desc    Get all payments
+// @access  Admin
+router.get(
+  '/payments',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    if (!req.user.admin) {
+      return res.status(401).send('Unauthorized');
+    } else {
+      Payment.find()
+        .populate('user', ['name', 'email'])
+        .populate('location', ['name'])
+        .then(payments => res.json(payments));
     }
   }
 );

@@ -14,8 +14,11 @@ class AdminLocations extends Component {
         <div className="container">
           <div className="bookings-box">
             <div className="main-content">
-              <div className="header d-block">
+              <div className="header">
                 <h1 className="heading">Manage Parking Locations</h1>
+                <Link to="/admin-panel/new-location" className="btn btn-green">
+                  Add Location
+                </Link>
               </div>
 
               <table>

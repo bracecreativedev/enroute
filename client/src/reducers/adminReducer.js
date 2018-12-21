@@ -2,11 +2,13 @@ import {
   ADMIN_GET_LOCATIONS,
   ADMIN_GET_LOCATION,
   ADMIN_GET_BOOKINGS,
-  ADMIN_GET_USERS
+  ADMIN_GET_USERS,
+  ADMIN_GET_PAYMENTS
 } from '../actions/types';
 
 const initialState = {
   bookings: [],
+  payments: [],
   locations: [],
   location: {},
   users: []
@@ -28,6 +30,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         bookings: action.payload
+      };
+    case ADMIN_GET_PAYMENTS:
+      return {
+        ...state,
+        payments: action.payload
       };
     case ADMIN_GET_USERS:
       return {

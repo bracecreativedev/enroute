@@ -24,20 +24,20 @@ router.get('/test', (req, res) => res.json({ msg: 'Auth Route Works' }));
 // @route   POST api/auth/test
 // @desc    Sends a test email
 // @access  Public
-router.post('/email-test', (req, res) => {
-  // async email
-  transporter
-    .sendMail({
-      to: req.body.email,
-      subject: 'Test Email',
-      html: `Test Email`
-    })
-    .then(email => res.json(email))
-    .catch(err => {
-      res.status(400).json({ error: 'There was an error sending the email.' });
-      console.log(err);
-    });
-});
+// router.post('/email-test', (req, res) => {
+//   // async email
+//   transporter
+//     .sendMail({
+//       to: req.body.email,
+//       subject: 'Test Email',
+//       html: `Test Email`
+//     })
+//     .then(email => res.json(email))
+//     .catch(err => {
+//       res.status(400).json({ error: 'There was an error sending the email.' });
+//       console.log(err);
+//     });
+// });
 
 // @route   POST api/auth/register
 // @desc    Register a user

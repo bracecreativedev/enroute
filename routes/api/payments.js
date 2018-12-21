@@ -101,15 +101,266 @@ router.post(
                       }).save();
                     });
 
+                    transporter.sendMail({
+                      to: 'info@enrouteparking.com',
+                      subject: `New Booking - #${payment._id}`,
+                      html: `
+                      <p>New payment on En Route</p>
+                      <p><a href="https://app.enrouteparking.com/confirmation/${
+                        payment._id
+                      }">View Payment Online</a></p>
+                      `
+                    });
+
                     // step 6: send confirmation email
                     User.findById(req.user.id).then(user => {
                       transporter
                         .sendMail({
                           to: user.email,
-                          subject: 'Payment Confirmation',
-                          html: `This is a email to confirm your payment to En Route Parking. <a href="https://shielded-mesa-88850.herokuapp.com/confirmation/${
-                            payment._id
-                          }">View your booking online.</a>`
+                          subject: 'Payment Confirmation - En Route Parking',
+                          html: `
+                          <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+                            <html xmlns="http://www.w3.org/1999/xhtml">
+                              <head>
+                                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+                              </head>
+                              <body
+                                style="width: 100% !important; -webkit-text-size-adjust: none; margin: 0; padding: 0;"
+                              >
+                                <center>
+                                  <table
+                                    id="backgroundTable"
+                                    style="border-spacing: 0; border-collapse: collapse; font-family: proxima-nova, 'helvetica neue', helvetica, arial, geneva, sans-serif; height: 100% !important; width: 100% !important; color: #4c4c4c; font-size: 15px; line-height: 150%; background: #ffffff; margin: 0; padding: 0; border: 0;"
+                                  >
+                                    <tr style="vertical-align: top; padding: 0;">
+                                      <td
+                                        align="center"
+                                        valign="top"
+                                        style="vertical-align: top; padding: 0;"
+                                      >
+                                        <table
+                                          id="templateContainer"
+                                          style="border-spacing: 0; border-collapse: collapse; font-family: proxima-nova, 'helvetica neue', helvetica, arial, geneva, sans-serif; height: 100%; width: 600px; color: #4c4c4c; font-size: 15px; line-height: 150%; background: #ffffff; margin: 40px 0; padding: 0; border: 0;"
+                                        >
+                                          <tr style="vertical-align: top; padding: 0;">
+                                            <td
+                                              class="templateContainerPadding"
+                                              align="center"
+                                              valign="top"
+                                              style="vertical-align: top; padding: 0 40px;"
+                                            >
+                                              <table
+                                                id="templateContent"
+                                                style="border-spacing: 0; border-collapse: collapse; font-family: proxima-nova, 'helvetica neue', helvetica, arial, geneva, sans-serif; height: 100%; width: 100%; background: #ffffff; margin: 0; padding: 0; border: 0;"
+                                              >
+                                                <tr style="vertical-align: top; padding: 0;">
+                                                  <td
+                                                    style="vertical-align: top; text-align: left; padding: 0;"
+                                                    align="left"
+                                                    valign="top"
+                                                  >
+                                                    <h1
+                                                      id="logo"
+                                                      style="color: #96c236; display: block; font-family: hybrea, proxima-nova, 'helvetica neue', helvetica, arial, geneva, sans-serif; font-size: 32px; font-weight: 200; text-align: left; margin: 0 0 10px;"
+                                                      align="left"
+                                                    >
+                                                      <img
+                                                        src="https://app.enrouteparking.com/static/media/logo.35b7ffcd.png"
+                                                        alt="En Route Parking"
+                                                        width="164"
+                                                        height="80"
+                                                        style="outline: none; text-decoration: none; border: 0;"
+                                                      />
+                                                    </h1>
+
+                                                    <p style="margin-bottom: 20px; margin-top: 0px;">
+                                                      Thanks for using En Route Parking! Your booking has
+                                                      been successful. Please click this link to view your
+                                                      booking and payment details…
+                                                    </p>
+                                                  </td>
+                                                </tr>
+
+                                                <tr>
+                                                  <td>
+                                                    <table class="pricing-table" style="width: 100%;">
+                                                      <tr>
+                                                        <th style="color: #96c236;">LOCATION</th>
+                                                        <th style="color: #96c236;"># OF DATES</th>
+                                                        <th style="color: #96c236;">VEHICLE REG</th>
+                                                        <th style="color: #96c236;">TOTAL COST</th>
+                                                      </tr>
+                                                      <tr>
+                                                        <td style="text-align: center; width: 25%;">
+                                                          ${location.name}
+                                                        </td>
+                                                        <td style="text-align: center; width: 25%;">
+                                                          ${
+                                                            payment.bookingDates
+                                                              .length
+                                                          }
+                                                        </td>
+                                                        <td style="text-align: center; width: 25%;">
+                                                          ${payment.vehicle.reg}
+                                                        </td>
+                                                        <td style="text-align: center; width: 25%;">
+                                                          £${(
+                                                            payment.price / 100
+                                                          ).toFixed(2)}
+                                                        </td>
+                                                      </tr>
+                                                    </table>
+                                                  </td>
+                                                </tr>
+
+                                                <tr>
+                                                  <td>
+                                                    <p style="margin: 20px 0;">
+                                                      <a
+                                                        href="https://app.enrouteparking.com/confirmation/${
+                                                          payment._id
+                                                        }"
+                                                        style="color: #96c236;"
+                                                      >
+                                                        View your payment confirmation online</a
+                                                      >
+                                                    </p>
+                                                    <p style="margin: 20px 0;">Thanks,</p>
+
+                                                    <p style="margin: 20px 0;">
+                                                      En Route Parking<br />
+                                                      <a
+                                                        href="https://enrouteparking.com"
+                                                        style="color: #96c236;"
+                                                        >www.enrouteparking.com</a
+                                                      >
+                                                    </p>
+                                                  </td>
+                                                </tr>
+                                              </table>
+                                            </td>
+                                          </tr>
+                                          <tr style="vertical-align: top; padding: 0;">
+                                            <td
+                                              class="templateContainerPadding"
+                                              align="center"
+                                              valign="top"
+                                              style="vertical-align: top; padding: 0 40px;"
+                                            >
+                                              <table
+                                                id="footerContent"
+                                                style="border-spacing: 0; border-collapse: collapse; font-family: proxima-nova, 'helvetica neue', helvetica, arial, geneva, sans-serif; height: 100%; width: 100%; border-top-style: solid; border-top-color: #ebeaef; color: #999999; font-size: 12px; background: #ffffff; margin: 0; padding: 0; border-width: 1px 0 0;"
+                                              >
+                                                <tr style="vertical-align: top; padding: 0;">
+                                                  <td
+                                                    valign="top"
+                                                    style="vertical-align: top; text-align: left; padding: 0;"
+                                                    align="left"
+                                                  >
+                                                    <p style="margin: 20px 0;">
+                                                      <a
+                                                        href="https://www.facebook.com/enrouteparking/"
+                                                        style="text-decoration: none;"
+                                                      >
+                                                        <img
+                                                          src="https://www.enrouteparking.com/wp-content/uploads/2018/12/facebook-letter-logo.png"
+                                                          alt="Facebook Logo"
+                                                          style="width: 30px; height: 30px; text-decoration: none; margin-right: 10px;"
+                                                        />
+                                                      </a>
+
+                                                      <a
+                                                        href="https://twitter.com/RouteParking"
+                                                        style="text-decoration: none;"
+                                                      >
+                                                        <img
+                                                          src="https://www.enrouteparking.com/wp-content/uploads/2018/12/twitter-logo-silhouette.png"
+                                                          alt="Twitter Logo"
+                                                          style="width: 30px; height: 30px; text-decoration: none; margin-right: 10px;"
+                                                        />
+                                                      </a>
+
+                                                      <a
+                                                        href="https://www.linkedin.com/company/enrouteparking/"
+                                                        style="text-decoration: none;"
+                                                      >
+                                                        <img
+                                                          src="https://www.enrouteparking.com/wp-content/uploads/2018/12/linked-in-logo.png"
+                                                          alt="LinkedIn Logo"
+                                                          style="width: 30px; height: 30px; text-decoration: none; margin-right: 10px;"
+                                                        />
+                                                      </a>
+                                                    </p>
+                                                  </td>
+                                                </tr>
+                                              </table>
+                                            </td>
+                                          </tr>
+                                        </table>
+                                      </td>
+                                    </tr>
+                                  </table>
+                                </center>
+
+                                <style type="text/css">
+                                  body {
+                                    width: 100% !important;
+                                  }
+                                  .ReadMsgBody {
+                                    width: 100%;
+                                  }
+                                  .ExternalClass {
+                                    width: 100%;
+                                  }
+                                  body {
+                                    -webkit-text-size-adjust: none;
+                                  }
+                                  body {
+                                    margin: 0;
+                                    padding: 0;
+                                  }
+                                  img {
+                                    border: 0;
+                                    outline: none;
+                                    text-decoration: none;
+                                  }
+                                  #backgroundTable {
+                                    height: 100% !important;
+                                    margin: 0;
+                                    padding: 0;
+                                    width: 100% !important;
+                                  }
+                                  #backgroundTable {
+                                    color: #4c4c4c;
+                                    background-color: #ffffff;
+                                    font-family: proxima-nova, 'helvetica neue', helvetica, arial, geneva,
+                                      sans-serif;
+                                    font-size: 15px;
+                                    line-height: 150%;
+                                  }
+
+                                  .pricing-table {
+                                    border-collapse: collapse;
+                                  }
+
+                                  .pricing-table,
+                                  .pricing-table th,
+                                  .pricing-table td {
+                                    border: 1px solid #8f8f8f;
+                                  }
+
+                                  @media (max-width: 540px) {
+                                    #templateContainer {
+                                      width: 100% !important;
+                                    }
+                                    #templateContainer .templateContainerPadding {
+                                      padding: 0 5% !important;
+                                    }
+                                  }
+                                </style>
+                              </body>
+                            </html>
+                          `
                         })
                         .then(email => console.log('Payment Email sent'))
                         .catch(err => {
