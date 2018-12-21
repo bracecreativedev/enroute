@@ -41,7 +41,7 @@ router.get(
       Booking.find(queryOptions)
         .sort({ date: -1 })
         .populate('location', ['name'])
-        .populate('user', ['name'])
+        .populate('user', ['name', 'email'])
         .then(bookings => res.json(bookings))
         .catch(err => res.status(404).json({ bookings: 'No bookings found' }));
     }

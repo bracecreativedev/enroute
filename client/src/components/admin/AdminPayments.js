@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import TextFieldGroupHover from '../common/TextFieldGroupHover';
+// import TextFieldGroupHover from '../common/TextFieldGroupHover';
 import { adminGetPayments } from '../../actions/adminActions';
 import Moment from 'react-moment';
 
@@ -19,7 +19,7 @@ class AdminPayments extends Component {
   }
 
   render() {
-    const { errors } = this.state;
+    // const { errors } = this.state;
     const { payments } = this.props.admin;
 
     return (

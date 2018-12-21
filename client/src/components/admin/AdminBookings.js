@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { CSVLink } from 'react-csv';
 import { connect } from 'react-redux';
 import {
   adminGetLocations,
@@ -27,6 +28,14 @@ class AdminBookings extends Component {
 
   componentDidMount() {
     this.props.adminGetLocations();
+
+    let queries = {
+      location: this.state.selectedLocation,
+      bookingDates: this.state.bookingDates,
+      user: this.state.user
+    };
+
+    this.props.adminGetBookings(queries);
   }
 
   locationChange(e) {
@@ -54,6 +63,24 @@ class AdminBookings extends Component {
   render() {
     const { locations, bookings } = this.props.admin;
     const { errors } = this.state;
+
+    console.log(bookings);
+
+    const csvHeaders = [
+      { label: 'Booking ID', key: '_id' },
+      { label: 'Booking Date', key: 'bookingDate' },
+      { label: 'Payment Date', key: 'date' },
+      { label: 'Payment ID', key: 'paymentRef' },
+      { label: 'Location', key: 'location.name' },
+      { label: 'User ID', key: 'user._id' },
+      { label: 'User Name', key: 'user.name' },
+      { label: 'User Email', key: 'user.email' },
+      { label: 'Price', key: 'price' },
+      { label: 'Vehicle Reg', key: 'vehicle.reg' },
+      { label: 'Vehicle Make', key: 'vehicle.make' },
+      { label: 'Vehicle Model', key: 'vehicle.model' },
+      { label: 'Vehicle Colour', key: 'vehicle.colour' }
+    ];
 
     return (
       <div className="page-container">
@@ -83,7 +110,6 @@ class AdminBookings extends Component {
                       })}
                     </select>
                   </div>
-
                   <div className="form-group">
                     <label htmlFor="exampleFormControlSelect1">
                       Booking Dates
@@ -98,7 +124,6 @@ class AdminBookings extends Component {
                       <option value="past">Past</option>
                     </select>
                   </div>
-
                   <form
                     style={{ marginBottom: '20px' }}
                     className="form-label form-css-label"
@@ -113,7 +138,6 @@ class AdminBookings extends Component {
                       error={errors.user}
                     />
                   </form>
-
                   <button className="btn btn-green" onClick={this.getBookings}>
                     Search
                   </button>
@@ -161,6 +185,17 @@ class AdminBookings extends Component {
                   ))}
                 </tbody>
               </table>
+
+              <div className="footer">
+                <CSVLink
+                  data={bookings}
+                  headers={csvHeaders}
+                  className="btn btn-green"
+                  filename={'bookings-en-route-booking.csv'}
+                >
+                  Download CSV
+                </CSVLink>
+              </div>
             </div>
           </div>
         </div>
