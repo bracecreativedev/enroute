@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const path = require('path');
+const cors = require('cors');
+const RateLimit = require('express-rate-limit');
 
 // Bring in API Routes
 const auth = require('./routes/api/auth');
@@ -15,9 +17,23 @@ const admin = require('./routes/api/admin');
 // Initiate express app
 const app = express();
 
+// cors middleware
+app.use(cors());
+
 // Body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+// Limit api requests
+var searchLimiter = new RateLimit({
+  windowMs: 10 * 1000, // 10 second window
+  delayMs: 0, // slow down subsequent responses by 3 seconds per request
+  max: 30, // start blocking after 5 requests
+  message: 'Too many requests made',
+  headers: true
+});
+
+app.use('/api/', searchLimiter);
 
 // redirect to https
 if (process.env.NODE_ENV === 'production') {

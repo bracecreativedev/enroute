@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import TextFieldGroupHover from '../common/TextFieldGroupHover';
 import { adminGetPayments } from '../../actions/adminActions';
 import Moment from 'react-moment';
@@ -19,6 +20,7 @@ class AdminPayments extends Component {
 
   render() {
     const { errors } = this.state;
+    const { payments } = this.props.admin;
 
     return (
       <div className="page-container">
@@ -28,7 +30,7 @@ class AdminPayments extends Component {
               <div className="header d-block">
                 <h1 className="heading">Manage Payments</h1>
 
-                <div className="filters">
+                {/* <div className="filters">
                   <div className="form-group">
                     <label htmlFor="exampleFormControlSelect1">
                       Booking Dates
@@ -62,19 +64,48 @@ class AdminPayments extends Component {
                   <button className="btn btn-green" onClick={this.getBookings}>
                     Search
                   </button>
-                </div>
+                </div> */}
               </div>
 
               <table>
                 <tbody>
                   <tr className="table-header">
                     <th>Location</th>
+                    <th>Payment ID</th>
                     <th>User</th>
-                    <th>Booking Date</th>
-                    <th>Purchase Date</th>
-                    <th>Reg</th>
-                    <th>Payment Ref</th>
+                    <th>Dates</th>
+                    <th>Date</th>
+                    <th>Price</th>
+                    <th>View</th>
                   </tr>
+                  {payments.map(payment => {
+                    return (
+                      <tr key={payment._id}>
+                        <td>{payment.location.name}</td>
+                        <td>{payment._id}</td>
+                        <td>{payment.user.name}</td>
+                        <td>{payment.bookingDates.length}</td>
+                        <td>
+                          <Moment format="DD-MM-YYYY">{payment.date}</Moment>
+                        </td>
+                        <td>£{(payment.price / 100).toFixed(2)}</td>
+                        <td>
+                          <Link
+                            to={{
+                              pathname: `/confirmation/${payment._id}`
+                            }}
+                          >
+                            <span className="badge badge-green">
+                              View{' '}
+                              <span className="d-none d-md-inline-block">
+                                Payment
+                              </span>
+                            </span>
+                          </Link>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
