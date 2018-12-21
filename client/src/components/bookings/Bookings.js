@@ -17,6 +17,8 @@ class Bookings extends Component {
   }
 
   componentDidMount() {
+    document.title = 'Upcoming Bookings - En Route Parking';
+
     this.props.getUpcomingBookings(this.state.page);
   }
 

@@ -22,7 +22,9 @@ class FeaturedContent extends Component {
 
   componentDidMount() {
     document.body.classList.add('noscroll');
-    const { featuredLocation } = this.props.locations;
+    const featuredLocation = this.props.locations.featuredLocation.location;
+
+    document.title = `${featuredLocation.name} - En Route Parking`;
 
     this.props.setBookingData({
       location: featuredLocation,
@@ -32,6 +34,7 @@ class FeaturedContent extends Component {
 
   componentWillUnmount() {
     document.body.classList.remove('noscroll');
+    document.title = 'Home - En Route Parking';
   }
 
   handleDayClick(day, modifiers = {}) {
@@ -59,6 +62,7 @@ class FeaturedContent extends Component {
 
   render() {
     const featuredLocation = this.props.locations.featuredLocation.location;
+    document.title = `${featuredLocation.name} - En Route Parking`;
     const {
       disabledDays,
       alreadyBooked

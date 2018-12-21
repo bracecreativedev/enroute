@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 export default function AdminPanel() {
+  document.title = 'Admin Panel - En Route Parking';
+
   return (
     <div className="page-container">
       <div className="container">

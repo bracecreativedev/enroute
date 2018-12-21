@@ -19,6 +19,10 @@ class Login extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  componentDidMount() {
+    document.title = 'Login - En Route Parking';
+  }
+
   onSubmit(e) {
     e.preventDefault();
 

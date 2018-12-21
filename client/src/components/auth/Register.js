@@ -24,6 +24,8 @@ class Register extends Component {
   }
 
   componentDidMount() {
+    document.title = 'Register - En Route Parking';
+
     if (this.props.auth.isAuthenticated) {
       // if logged in, redirect
       this.props.history.push('/login');

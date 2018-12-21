@@ -9,6 +9,8 @@ import PaymentCard from './PaymentCard';
 class Payments extends Component {
   componentDidMount() {
     this.props.getAllPayments();
+
+    document.title = 'Payments - En Route Parking';
   }
 
   render() {

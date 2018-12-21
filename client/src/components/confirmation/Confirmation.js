@@ -8,6 +8,8 @@ import Moment from 'react-moment';
 
 class Confirmation extends Component {
   componentDidMount() {
+    document.title = 'Payment Confirmation - En Route Parking';
+
     this.props.getPayment(this.props.match.params.id);
   }
 

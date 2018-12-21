@@ -26,6 +26,8 @@ class BookingDetails extends Component {
   componentDidMount() {
     const { isAuthenticated } = this.props.auth;
 
+    document.title = `Checkout - En Route Parking`;
+
     // grab parameters
     const dates = queryString.parse(this.props.location.search).dates;
 

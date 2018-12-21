@@ -17,6 +17,8 @@ class PastBookings extends Component {
   }
 
   componentDidMount() {
+    document.title = 'Past Bookings - En Route Parking';
+
     this.props.getPastBookings(this.state.page);
   }
 

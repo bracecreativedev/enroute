@@ -31,6 +31,8 @@ class EditAccount extends Component {
   componentDidMount() {
     const { user } = this.props.auth;
 
+    document.title = 'Edit Account - En Route Parking';
+
     // empties all errors etc.
     this.props.resetAccountUpdate();
 

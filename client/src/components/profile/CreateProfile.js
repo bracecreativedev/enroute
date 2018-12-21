@@ -32,6 +32,8 @@ class CreateProfile extends Component {
 
   componentDidMount() {
     this.props.getCurrentProfile();
+
+    document.title = 'Create Profile - En Route Parking';
   }
 
   componentWillReceiveProps(nextProps) {

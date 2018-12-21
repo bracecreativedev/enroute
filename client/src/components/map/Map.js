@@ -29,6 +29,7 @@ class Map extends Component {
   }
 
   componentDidMount() {
+    document.title = 'Home - En Route Parking';
     const { isAuthenticated } = this.props.auth;
 
     this.props.getLocations();
