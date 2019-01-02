@@ -9,5 +9,6 @@ module.exports = {
   EMAIL_PORT: process.env.EMAIL_PORT,
   EMAIL_USER: process.env.EMAIL_USER,
   EMAIL_PASS: process.env.EMAIL_PASS,
-  EMAIL_SECRET: process.env.EMAIL_SECRET
+  EMAIL_SECRET: process.env.EMAIL_SECRET,
+  MAILCHIMP: process.env.MAILCHIMP
 };

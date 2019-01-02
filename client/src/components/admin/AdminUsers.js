@@ -116,7 +116,6 @@ class AdminUsers extends Component {
                     <th>User ID</th>
                     <th>Confirmed</th>
                     <th>Registered Date</th>
-                    <th>Edit</th>
                   </tr>
                   {users.map(user => (
                     <tr key={user._id}>
@@ -126,9 +125,6 @@ class AdminUsers extends Component {
                       <td>{user.confirmed ? 'True' : 'False'}</td>
                       <td>
                         <Moment format="Do MMM YYYY">{user.date}</Moment>
-                      </td>
-                      <td>
-                        <i>Coming Soon...</i>
                       </td>
                     </tr>
                   ))}
