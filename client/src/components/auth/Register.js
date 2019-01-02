@@ -16,11 +16,13 @@ class Register extends Component {
       password: '',
       password2: '',
       name: '',
+      mailchimp: true,
       errors: {}
     };
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.checkboxChange = this.checkboxChange.bind(this);
   }
 
   componentDidMount() {
@@ -42,6 +44,16 @@ class Register extends Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
+  checkboxChange(event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
   onSubmit(e) {
     e.preventDefault();
 
@@ -49,7 +61,8 @@ class Register extends Component {
       name: this.state.name,
       email: this.state.email,
       password: this.state.password,
-      password2: this.state.password2
+      password2: this.state.password2,
+      mailchimp: this.state.mailchimp
     };
 
     this.props.registerUser(newUser);
@@ -70,11 +83,7 @@ class Register extends Component {
               <p>Join the parking revolution today!</p>
             </div>
 
-            <form
-              className="form-label form-css-label"
-              noValidate
-              onSubmit={this.onSubmit}
-            >
+            <form className="form-label form-css-label" noValidate>
               <TextFieldGroupHover
                 label="Your full name"
                 name="name"
@@ -110,17 +119,35 @@ class Register extends Component {
                 onChange={this.onChange}
                 error={errors.password2}
               />
-
-              <p className="terms">
-                By registering account on En Route Parking, you're hereby
-                agreeing to our{' '}
-                <Link to="/terms-and-conditions">Terms and Conditions</Link>.
-              </p>
-
-              <button type="submit" className="btn btn-green w-100">
-                Register
-              </button>
             </form>
+
+            <div className="form-check text-left mb-3">
+              <input
+                type="checkbox"
+                name="mailchimp"
+                className="form-check-input"
+                id="mailchimp"
+                checked={this.state.mailchimp}
+                onChange={this.checkboxChange}
+              />
+              <label className="form-check-label" htmlFor="mailchimp">
+                Add me to your mailing list.
+              </label>
+            </div>
+
+            <p className="terms">
+              By registering account on En Route Parking, you're hereby agreeing
+              to our{' '}
+              <Link to="/terms-and-conditions">Terms and Conditions</Link>.
+            </p>
+
+            <button
+              type="submit"
+              onClick={this.onSubmit}
+              className="btn btn-green w-100"
+            >
+              Register
+            </button>
           </div>
 
           <div className="footer">

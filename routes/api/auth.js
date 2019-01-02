@@ -8,6 +8,10 @@ const nodemailer = require('nodemailer');
 const transporter = require('../../config/nodemailer');
 const passport = require('passport');
 const isEmpty = require('../../validation/is-empty');
+const Mailchimp = require('mailchimp-api-v3');
+
+// Initialise mailchimp
+const mailchimp = new Mailchimp(keys.MAILCHIMP);
 
 // Input Validation
 const validateRegisterInput = require('../../validation/register');
@@ -20,6 +24,34 @@ const User = require('../../models/User');
 // @desc    Tests auth route
 // @access  Public
 router.get('/test', (req, res) => res.json({ msg: 'Auth Route Works' }));
+
+// @route   GET api/auth/test
+// @desc    Tests auth route
+// @access  Public
+router.post('/mailchimp-test', (req, res) => {
+  mailchimp
+    .post('/lists/a6c3b00266/members/', {
+      email_address: 'matt.dobson@brace.co.uk',
+      status: 'subscribed',
+      merge_fields: {
+        FNAME: 'Matt'
+      }
+    })
+    .then(success => {
+      res.json({ mailchimp: 'User added to mailchimp.' });
+    });
+
+  // mailchimp
+  //   .get({
+  //     path: '/lists/a6c3b00266'
+  //   })
+  //   .then(function(result) {
+  //     res.json(result);
+  //   })
+  //   .catch(function(err) {
+  //     res.json(err);
+  //   });
+});
 
 // @route   POST api/auth/test
 // @desc    Sends a test email
@@ -79,6 +111,21 @@ router.post('/register', (req, res) => {
           newUser
             .save()
             .then(user => {
+              const firstName = user.name.substr(0, user.name.indexOf(' ')); // "72"
+              const lastNames = user.name.substr(user.name.indexOf(' ') + 1); // "tocirah sneab"
+
+              // subscribe to mail list
+              if (req.body.mailchimp) {
+                mailchimp.post('/lists/a6c3b00266/members/', {
+                  email_address: user.email,
+                  status: 'subscribed',
+                  merge_fields: {
+                    FNAME: isEmpty(firstName) ? lastNames : firstName,
+                    LNAME: isEmpty(firstName) ? '' : lastNames
+                  }
+                });
+              }
+
               // send confirmation email
               jwt.sign(
                 {
