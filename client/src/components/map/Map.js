@@ -100,7 +100,7 @@ class Map extends Component {
               {/* // Important! Always set the container height explicitly */}
               <div className="map-container">
                 <GoogleMap
-                  bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_KEY }}
+                  bootstrapURLKeys={{ key: process.env.xcvbn }}
                   center={center}
                   zoom={zoom}
                   options={MapStyles}

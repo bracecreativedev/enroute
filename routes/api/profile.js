@@ -141,6 +141,8 @@ router.post(
           }&key=${keys.geocode}`
         )
         .then(office => {
+          console.log(office.data);
+          console.log(req.body.companyPostcode);
           // if empty, set profile fields to nothing
           if (isEmpty(office.data.results)) {
             profileFields.company.lat = '';

@@ -25,34 +25,6 @@ const User = require('../../models/User');
 // @access  Public
 router.get('/test', (req, res) => res.json({ msg: 'Auth Route Works' }));
 
-// @route   GET api/auth/test
-// @desc    Tests auth route
-// @access  Public
-router.post('/mailchimp-test', (req, res) => {
-  mailchimp
-    .post('/lists/a6c3b00266/members/', {
-      email_address: 'matt.dobson@brace.co.uk',
-      status: 'subscribed',
-      merge_fields: {
-        FNAME: 'Matt'
-      }
-    })
-    .then(success => {
-      res.json({ mailchimp: 'User added to mailchimp.' });
-    });
-
-  // mailchimp
-  //   .get({
-  //     path: '/lists/a6c3b00266'
-  //   })
-  //   .then(function(result) {
-  //     res.json(result);
-  //   })
-  //   .catch(function(err) {
-  //     res.json(err);
-  //   });
-});
-
 // @route   POST api/auth/test
 // @desc    Sends a test email
 // @access  Public
