@@ -55,6 +55,7 @@ class Confirmation extends Component {
                 <h2>Payment Reference</h2>
                 <p>{payment._id}</p>
               </div>
+
               <div className="meta-section">
                 <h2>Parking Location</h2>
                 <p className="mb-0">
@@ -63,6 +64,22 @@ class Confirmation extends Component {
                 <p>
                   {payment.location.location.street},{' '}
                   {payment.location.location.postcode}
+                </p>
+              </div>
+
+              <div className="meta-section">
+                <h2>Your Info</h2>
+                <p className="mb-0">
+                  <strong>{payment.user.name}</strong>
+                </p>
+                <p>{payment.user.email}</p>
+                <p className="mb-0">
+                  {payment.vehicle.make ? payment.vehicle.make + ' ' : null}
+                  {payment.vehicle.model ? payment.vehicle.model + ' ' : null}
+                  <strong>{payment.vehicle.reg} </strong>
+                  {payment.vehicle.model
+                    ? '(' + payment.vehicle.colour + ')'
+                    : null}
                 </p>
               </div>
 
@@ -85,6 +102,13 @@ class Confirmation extends Component {
                   ))}
                 </ul>
               </div>
+
+              {payment.location.instructions ? (
+                <div className="meta-section">
+                  <h2>Parking Instructions</h2>
+                  <p>{payment.location.instructions}</p>
+                </div>
+              ) : null}
 
               <div className="meta-section">
                 <h2>Total Paid</h2>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { CSVLink } from 'react-csv';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 // import TextFieldGroupHover from '../common/TextFieldGroupHover';
@@ -21,6 +22,22 @@ class AdminPayments extends Component {
   render() {
     // const { errors } = this.state;
     const { payments } = this.props.admin;
+
+    const csvHeaders = [
+      { label: 'Payment ID', key: '_id' },
+      { label: 'Payment Date', key: 'date' },
+      { label: 'User ID', key: 'user._id' },
+      { label: 'User Name', key: 'user.name' },
+      { label: 'User Email', key: 'user.email' },
+      { label: 'Location ID', key: 'location._id' },
+      { label: 'Location Name', key: 'location.name' },
+      { label: 'Booking Dates', key: 'bookingDates' },
+      { label: 'Total Price', key: 'price' },
+      { label: 'Vehicle Reg', key: 'vehicle.reg' },
+      { label: 'Vehicle Make', key: 'vehicle.make' },
+      { label: 'Vehicle Model', key: 'vehicle.model' },
+      { label: 'Vehicle Colour', key: 'vehicle.colour' }
+    ];
 
     return (
       <div className="page-container">
@@ -108,6 +125,17 @@ class AdminPayments extends Component {
                   })}
                 </tbody>
               </table>
+
+              <div className="footer">
+                <CSVLink
+                  data={payments}
+                  headers={csvHeaders}
+                  className="btn btn-green"
+                  filename={'payments-en-route-booking.csv'}
+                >
+                  Download CSV
+                </CSVLink>
+              </div>
             </div>
           </div>
         </div>

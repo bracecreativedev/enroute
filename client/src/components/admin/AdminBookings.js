@@ -64,8 +64,6 @@ class AdminBookings extends Component {
     const { locations, bookings } = this.props.admin;
     const { errors } = this.state;
 
-    console.log(bookings);
-
     const csvHeaders = [
       { label: 'Booking ID', key: '_id' },
       { label: 'Booking Date', key: 'bookingDate' },

@@ -72,6 +72,9 @@ const LocationSchema = new Schema({
   active: {
     type: Boolean,
     default: true
+  },
+  instructions: {
+    type: String
   }
   // enrouteRoads: {
   //   type: String

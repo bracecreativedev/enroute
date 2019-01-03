@@ -216,6 +216,11 @@ router.post(
                                                 <tr>
                                                   <td>
                                                     <p style="margin: 20px 0;">
+                                                      <strong>Parking Instructions</strong><br/>
+                                                      ${location.instructions}
+                                                    </p>
+
+                                                    <p style="margin: 20px 0;">
                                                       <a
                                                         href="https://app.enrouteparking.com/confirmation/${
                                                           payment._id
@@ -399,7 +404,7 @@ router.get(
   (req, res) => {
     Payment.findById(req.params.id)
       .populate('user', ['name', 'email'])
-      .populate('location', ['name', 'location'])
+      .populate('location', ['name', 'location', 'instructions'])
       .then(payment => {
         // check that logged in user is owner of payment
         if (payment.user._id == req.user.id || req.user.admin) {

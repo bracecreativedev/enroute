@@ -5,6 +5,7 @@ import {
   adminEditLocation
 } from '../../actions/adminActions';
 import TextFieldGroupHover from '../common/TextFieldGroupHover';
+import TextAreaFieldGroupHover from '../common/TextAreaFieldGroupHover';
 import isEmpty from '../../validation/is-empty';
 
 class AdminEditLocation extends Component {
@@ -27,6 +28,7 @@ class AdminEditLocation extends Component {
       image3: '',
       image4: '',
       active: '',
+      instructions: '',
       updated: false,
       errors: {}
     };
@@ -89,7 +91,8 @@ class AdminEditLocation extends Component {
         lat: location.lat,
         lng: location.lng,
         active: location.active,
-        images: location.images
+        images: location.images,
+        instructions: location.instructions
       });
     }
   }
@@ -122,6 +125,7 @@ class AdminEditLocation extends Component {
         lng: this.state.lng
       },
       images: images,
+      instructions: this.state.instructions,
       active: this.state.active
     };
 
@@ -379,6 +383,35 @@ class AdminEditLocation extends Component {
                               value={this.state.image4}
                               onChange={this.onChange}
                               error={errors.image4}
+                            />
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="profile-section">
+                <div className="row">
+                  <div className="col-md-4">
+                    <div className="section-header">
+                      <h2 className="heading">Instructions</h2>
+                    </div>
+                  </div>
+
+                  <div className="col-md-8">
+                    <div className="section-forms">
+                      <form className="form-label form-css-label">
+                        <div className="row">
+                          <div className="col-md-12">
+                            <TextAreaFieldGroupHover
+                              label="Parking Instructions"
+                              name="instructions"
+                              type="text"
+                              value={this.state.instructions}
+                              onChange={this.onChange}
+                              error={errors.instructions}
                             />
                           </div>
                         </div>
