@@ -138,7 +138,10 @@ class Register extends Component {
             <p className="terms">
               By registering account on En Route Parking, you're hereby agreeing
               to our{' '}
-              <Link to="/terms-and-conditions">Terms and Conditions</Link>.
+              <a href="https://www.enrouteparking.com/terms/" target="_blank">
+                Terms and Conditions
+              </a>
+              .
             </p>
 
             <button
